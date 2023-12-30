@@ -1,0 +1,25 @@
+.my-settings form.settings-form {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.my-settings form.settings-form .form-group {
+	flex: 0 0 49%;
+}
+.my-settings form.settings-form .form-group:last-child {
+	flex: 0 0 100%;
+}
+.my-settings form.settings-form .form-group.col-md-12{
+	flex: 0 0 100% !important;
+}
+.form-group.form-file-group {
+    flex: 0 0 100% !important;
+}
+@media screen and (max-width: 768px) {
+	.my-settings form.settings-form .form-group {
+		flex: 0 0 100%;
+	}
+	form.settings-form {
+		padding: 0 !important;
+	}
+}

@@ -1,0 +1,17 @@
+.field-loader {
+	width: auto;
+	height: 20.8px;
+	border-radius: 5px;
+	background: gainsboro;
+	margin: 5px 0;
+}
+.field-action-loader {
+	width: 20px;
+	height: 20px;
+	margin: auto;
+	border-radius: 50%;
+	background: gainsboro;
+}
+li.field-li {
+	width: 30px;
+}

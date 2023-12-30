@@ -1,0 +1,558 @@
+.card-section {
+	background: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	box-shadow: 0 1px 4px rgba(36, 99, 117, .10)
+}
+
+.profile-section-main {
+	background: #f4f5f7;
+	min-height: 100vh;
+}
+
+.profile-img-wrap {
+	position: relative;
+}
+
+button.edit-cover-profile-btn.edit-profile-btn {
+	bottom: 10px;
+	right: 5px;
+}
+
+.profile-wrap svg, .profile-wrap img {
+	width: 65px;
+	height: 65px;
+	border-radius: 50%;
+	object-fit: cover;
+	object-position: center;
+}
+.d-modal-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.d-modal-button-div {
+	margin: 0 0 0 auto !important;
+}
+.user-detail .list-heading {
+	margin-bottom: 0
+}
+
+.user-detail {
+	flex: 1;
+	margin-left: 20px
+}
+
+.profile-wrap {
+	background: #fff;
+	margin-bottom: 30px;
+	border-radius: 10px
+}
+
+.profile-info {
+	display: flex;
+	align-items: flex-start;
+	padding: 20px
+}
+
+img.profile-img {
+	width: 100%;
+	height: 300px;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 10px 10px 0 0
+}
+
+.img-wrap a {
+	display: block;
+	font-size: 12px;
+	letter-spacing: .01em;
+	color: #8897a3;
+	text-align: center;
+	margin-top: 10px
+}
+
+.point-card img {
+	width: 30px !important;
+	height: 30px !important;
+	object-fit: contain;
+	margin-right: 10px
+}
+
+.user-wrap {
+	display: flex;
+	align-items: center;
+}
+
+
+.points-wrap {
+	flex: 1;
+	display: flex;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+}
+
+.point-card {
+	background: #fff;
+	box-shadow: 0 1px 4px rgba(36, 99, 117, .10);
+	border-radius: 10px;
+	display: flex;
+	align-items: flex-start;
+	padding: 10px 15px;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.profile-main-card {
+	margin-top: 30px;
+}
+
+.profile-main-card hr {
+	background: no-repeat;
+	border: none;
+	border-bottom: 1px solid gainsboro;
+}
+
+.project-wrap, .settings-wrap, .noti-wrap {
+	margin-top: 30px;
+}
+
+.noti-wrap ul.x-actions {
+	display: flex;
+	list-style: none;
+	padding: 0;
+}
+
+.noti-wrap a.x-btn svg {
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+}
+
+.project-wrap .project-card {
+	box-shadow: none !important;
+	border: 1px solid #ededed;
+}
+
+.point-info h1 {
+	font-size: 14px;
+	text-align: right;
+	letter-spacing: .01em;
+	color: #495057;
+	margin-bottom: 5px;
+}
+
+h1.avg-rating i.no-star {
+	color: #dbdbdb;
+}
+
+.point-info p {
+	font-weight: 500;
+	text-align: right;
+	color: gray;
+	margin-bottom: 0;
+}
+
+.profile-tabs {
+	width: 100%;
+	flex: 0 0 100%;
+	padding: 0 20px;
+	margin-top: 20px;
+	padding-bottom: 5px;
+}
+
+.point-info h1.avg-rating {
+	font-size: 12px;
+	text-align: right;
+	display: block;
+	letter-spacing: .01em;
+	color: var(--danger);
+	margin-bottom: 0;
+}
+
+.point-card:last-child {
+	margin-right: 0;
+}
+
+.point-info h1.avg-rating ~ p {
+	font-size: 14px !important;
+	max-width: 130px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+h1.avg-rating i {
+	color: #fcca46;
+	margin-left: 2px;
+}
+
+.user-profile-main-div {
+	padding: 5px 20px;
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between
+}
+
+.point-card > i {
+	font-size: 30px;
+}
+
+.social-wrap {
+	display: flex;
+	align-items: center
+}
+
+.social-wrap p {
+	font-weight: 700;
+	font-size: 14px;
+	color: #344563;
+	margin-bottom: 0;
+	margin-right: 10px
+}
+
+.social-icon-wrap a img {
+	width: 15px;
+	height: 15px;
+	object-fit: contain
+}
+
+.user-profile-main-div {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.social-icon-wrap a {
+	border: 2px solid;
+	box-sizing: border-box;
+	border-radius: 50px;
+	margin-right: 10px;
+	padding: 3px;
+	width: 35px;
+	height: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center
+}
+
+.profile-tabs a.nav-link i {
+	font-size: 23px;
+	margin-right: 7px;
+}
+
+.social-icon-wrap a.youtube {
+	border-color: red;
+	color: red
+}
+
+.social-icon-wrap a i {
+	font-size: 20px;
+	color: white;
+}
+
+.social-icon-wrap a.linkedin {
+	border-color: #0077b7;
+	color: #0077b7
+}
+
+.social-icon-wrap a.instagram {
+	border-color: #f3013c;
+	color: #f3013c
+}
+
+.social-icon-wrap a.facebook {
+	border-color: #475993;
+	color: #475993;
+	margin-right: 0 !important
+}
+
+.social-icon-wrap {
+	display: flex;
+	align-items: center
+}
+
+
+a.edit-profile {
+	display: block;
+	font-size: 12px;
+	letter-spacing: .01em;
+	color: #8897a3;
+	text-align: left;
+	margin-top: 5px;
+	width: 100%;
+	flex: 0 0 100%
+}
+
+.follow-user-div button {
+	margin-right: 10px;
+	font-size: 14px;
+	padding: 10px 20px;
+}
+
+
+.list-heading {
+	font-weight: 600;
+	line-height: 120%;
+	color: #2d363d;
+	margin-bottom: 5px
+}
+
+.img-wrap {
+	position: relative;
+}
+
+button.edit-profile-btn svg {
+	width: 23px;
+	height: 23px;
+}
+
+button.edit-profile-btn {
+	position: absolute;
+	bottom: -3px;
+	right: -15px;
+	border: none;
+	background: no-repeat;
+}
+
+p.joined {
+	font-size: 14px;
+	color: var(--primary-color);
+	margin-bottom: 5px;
+	font-weight: 600;
+	margin-top: 2px;
+}
+
+.profile-main-card .row {
+	margin: 0 -10px;
+}
+
+.mb-show {
+	display: none
+}
+
+
+section.discussion-section {
+	padding: 50px 0
+}
+
+.list-subheading {
+	font-size: 13px;
+	letter-spacing: .01em;
+	font-weight: 500;
+	color: #8897a3;
+	margin-bottom: 0
+}
+
+.user-detail h1.list-heading {
+	margin-bottom: 0;
+	display: flex;
+	align-items: center
+}
+
+.profile-tabs ul.nav-tabs {
+	margin-bottom: 0 !important;
+	align-items: stretch !important;
+	flex-wrap: nowrap;
+	overflow-x: auto;
+	border-bottom: none !important;
+}
+
+.profile-tabs a.nav-link.active:before {
+	content: "";
+	position: absolute;
+	bottom: 3px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 50%;
+	height: 3px;
+	background: var(--primary);
+	border-radius: 27px;
+}
+
+.profile-tabs li.nav-item {
+	margin: 0 !important;
+	margin-right: 10px !important;
+}
+
+.profile-tabs a.nav-link[href="#my-notifications"] i {
+	margin-right: 0 !important;
+}
+
+.profile-tabs a.nav-link {
+	height: 100%;
+	border: none;
+	white-space: nowrap;
+	box-shadow: none;
+	display: flex;
+	align-items: center;
+	color: #344563;
+	font-weight: 600;
+	font-size: 15px;
+	padding: 12px 16px !important;
+	position: relative;
+	border-radius: 12px !important;
+	padding-bottom: 15px !important;
+}
+
+.tab-content.profile-tab-content {
+	background: white;
+	border-radius: 10px;
+}
+
+.profile-tabs a.nav-link.active {
+	background: #f4f5f7 !important;
+	border: none;
+	color: var(--primary-color) !important;
+
+}
+
+@media screen and (max-width: 992px) {
+	img.profile-img{
+		height: 200px;
+	}
+	.project-wrap .project-card {
+		margin-bottom: 20px;
+	}
+
+	.point-card {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.points-wrap {
+		flex-wrap: wrap;
+		padding-left: 20px;
+		justify-content: flex-start !important
+	}
+
+	.point-card {
+		flex: 1 0 30%;
+		margin-bottom: 10px
+	}
+
+	.point-info h1.avg-rating {
+		font-size: 11px;
+		margin-top: 5px
+	}
+}
+
+@media screen and  (max-width: 768px) {
+
+	.profile-info {
+		flex-wrap: wrap;
+	}
+
+	.points-wrap {
+		flex: 0 0 100%;
+		padding: 0;
+		margin-top: 15px;
+	}
+
+	.social-wrap {
+		flex: 0 0 100%;
+		margin-top: 20px;
+	}
+
+	.profile-tabs a.nav-link span {
+		display: none;
+	}
+
+	.profile-tabs li.nav-item {
+		flex: 1;
+		text-align: center;
+	}
+
+	.profile-tabs a.nav-link {
+		justify-content: center;
+	}
+
+	.follow-user-div {
+		flex: 0 0 100%;
+	}
+
+	.user-profile-main-div {
+		flex-wrap: wrap;
+		margin-top: 0;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	img.profile-img {
+		height: 130px;
+	}
+	.social-wrap {
+		justify-content: flex-start !important;
+	}
+	.tab-content.profile-tab-content {
+		padding: 10px 5px;
+	}
+
+	.profile-main-card {
+		margin-top: 20px;
+	}
+
+	.profile-info {
+		position: relative;
+	}
+
+	.img-wrap {
+		position: absolute;
+		top: -37px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.user-wrap {
+		flex: 0 0 100%;
+		width: 100%;
+		text-align: center !IMPORTANT;
+		margin-top: 25px;
+	}
+
+	.user-detail h1.list-heading {
+		justify-content: center;
+	}
+
+	.point-card {
+		justify-content: flex-start;
+	}
+
+	.point-info {
+		flex: 1;
+	}
+
+	.social-wrap p {
+		display: none;
+	}
+
+	.profile-tabs {
+		padding: 0 10px;
+		margin-top: 20px;
+		padding-bottom: 5px;
+	}
+
+	.profile-tabs a.nav-link {
+		padding: 10px !important;
+		padding-bottom: 15px !important;
+		text-align: center;
+	}
+
+	.profile-tabs a.nav-link i {
+		font-size: 20px;
+		margin-right: 0;
+	}
+
+	.noti-wrap th, .noti-wrap td {
+		font-size: 13px;
+	}
+
+	.point-card > i {
+		font-size: 23px;
+	}
+
+	section.discussion-section {
+		padding: 30px 0;
+	}
+}

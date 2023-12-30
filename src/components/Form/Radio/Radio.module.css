@@ -1,0 +1,27 @@
+.customLabel{
+	width: 16px;
+	height: 16px;
+	display: inline-flex !important;
+	padding: 0;
+	align-items: center;
+	margin: 0 !important;
+}
+.customCheckbox{
+	padding: 0 !important;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	margin-right: 65px !important;
+}
+
+.customLabel::before{
+	left: 0 !important;
+}
+
+.customLabel::after {
+	left: 50% !important;
+	transform: translate(-50%,-50%) rotate(-45deg);
+}
+.label{
+	padding-left: 20px;
+}

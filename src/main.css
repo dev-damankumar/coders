@@ -1,0 +1,90 @@
+.gap-2 {
+  gap: 0.5rem;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex {
+  display: flex;
+}
+.z-50 {
+  z-index: 50;
+}
+.right-2 {
+  right: 0.5rem;
+}
+.bottom-2 {
+  bottom: 0.5rem;
+}
+.fixed {
+  position: fixed;
+}
+
+.c-toast-body {
+  animation: fromRight 0.5s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: white;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  gap: 10px;
+}
+
+.sr-only {
+  display: none;
+}
+
+.c-toast-body svg {
+  width: 20px;
+  height: 20px;
+}
+button.c-toast-close-btn {
+  border: none;
+  background: none;
+  width: 30px;
+  height: 30px;
+  padding: 8px;
+}
+button.c-toast-close-btn svg path {
+  stroke: #555555;
+}
+button.c-toast-close-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+.c-icon-wrapper {
+  display: flex;
+}
+
+.c-toast-icon-error {
+  background: #ffe2e2;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.c-toast-icon-error svg {
+  fill: red;
+}
+
+.c-toast-icon-success {
+  background: #def4de;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.c-toast-icon-success svg {
+  fill: green;
+}
+
+.c-toast-icon-warning {
+  background: #fef1db;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.c-toast-icon-warning svg {
+  fill: orange;
+}

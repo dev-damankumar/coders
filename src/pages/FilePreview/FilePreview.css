@@ -1,0 +1,265 @@
+.file-preview-page :not(pre) > code[class*="language-"], pre[class*="language-"] {
+    background: inherit;
+    padding: 0;
+}
+.file-preview-page pre.code-format-div {
+	padding: 0 !important;
+	background: white !important;
+}
+.file-preview-page .x-search-wrap input {
+	font-size: 13px;
+}
+.file-preview-page span.file-name-para {
+	max-width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 16px !important;
+	font-family: 'Nunito SemiBold' !important;
+}
+.file-preview-page .x-search-wrap {
+	width: 110px;
+	margin-right: 10px;
+}
+.file-preview-page section.x-div {
+	margin-top: 0;
+}
+img.x-file-img {
+	width: auto;
+	height: 20px;
+}
+iframe.pdf-preview {
+	border: none;
+	width: 100%;
+	height: calc(100vh - 285px);
+}
+button.gobackBtn {
+	border: none;
+	background: #f7816b;
+	font-size: 24px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	color: white;
+	margin-right: 10px;
+}
+.code-preview-body img {
+	width: 100%;
+	height: calc(100vh - 250px);
+	object-fit: contain;
+	background: black;
+}
+pre.code-output * {
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace !important;
+}
+.file-preview-page code *, .file-preview-page code {
+    font-size: 13px !important;
+}
+.line-numbers > span:before {
+	content: counter(linenumber);
+	color: #999;
+	display: block;
+	text-align: left;
+	line-height: 19.5px;
+}
+.line-numbers > span {
+	display: block;
+	counter-increment: linenumber;
+	font-size: 13px;
+	line-height: 19.5px;
+}
+code[class*="language-"].line-numbers {
+	position: relative;
+	padding-left: 0px;
+	counter-reset: linenumber;
+}
+.file-preview-page .code-preview-body {
+	display: flex;
+	align-items: flex-start;
+	padding-top: 5px !important;
+}
+
+.code-preview-body {
+	position: relative;
+}
+.code-edit-container {
+	padding-left: 20px;
+}
+.file-preview-page .tag {
+    font-size: 12px;
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+    padding: 0;
+    margin: 0;
+    background: none;
+    font-weight: 500;
+}
+
+.file-preview-page pre {
+    display: flex;
+    margin-top: 0px;
+}
+
+.file-preview-page .code-preview-header {
+    background: #f6f8fa;
+    padding: 8px 16px !important;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid;
+    border-color: #e1e4e8;
+}
+
+.file-preview-page .code-preview {
+    box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.10);
+    border-radius: 10px;
+}
+
+.file-preview-page .code-preview-header h3 {
+    font-size: 16px;
+    font-family: 'Nunito SemiBold';
+    margin-bottom: 0;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+}
+
+.file-preview-page .code-preview-body {
+    padding: 0 10px;
+}
+
+.file-preview-page pre.line-numbers {
+    overflow: visible;
+}
+
+.file-preview-page .code-format-div {
+    display: flex;
+
+}
+
+.file-preview-page .code-preview-body {
+    max-height: calc(100vh - 240px);
+    overflow: auto;
+    min-height: 400px;
+}
+
+.file-preview-page .code-preview-footer {
+    margin-top: 0px;
+    background: #f6f8fa;
+    padding: 8px 16px !important;
+    border-radius: 0 0 10px 10px;
+    border-top: 1px solid;
+    border-color: #e1e4e8;
+}
+
+.file-preview-page .code-button-div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.file-preview-page .code-button-div a {
+    margin-left: 10px;
+}
+
+.file-preview-page .code-preview-header span {
+    font-size: 13px;
+    font-family: 'Nunito SemiBold';
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+}
+.file-preview-page .code-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.file-preview-page .action-code-div {
+    display: flex;
+    align-items: center;
+}
+
+.file-preview-page .after-icon>img, .before-icon>img {
+    object-fit: contain !important;
+    border-radius: 0 !important;
+}
+
+.file-preview-page .select-div{
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -ms-box-shadow: none !important;
+    -o-box-shadow: none !important;
+    box-shadow: none !important;
+    margin-bottom: 0 !important;
+    width: 200px !important;
+    max-width: 200px !important;
+}
+
+@media screen and (max-width: 992px) {
+	.file-preview-page  .action-code-div {
+        flex: 0 0 100%;
+        margin-top: 10px;
+        flex-wrap: wrap;
+    }
+	.file-preview-page  .code-preview-body {
+        max-height: calc(100vh - 280px);
+    }
+	.file-preview-page  .select-div{
+        margin-right: auto;
+    }
+}
+@media screen and (max-width: 500px) {
+	.file-preview-page  section.section.form-creation-wrap {
+        padding-bottom: 0 !important;
+    }
+	iframe.pdf-preview {
+		border: none;
+		width: 100%;
+		height: calc(100vh - 312px);
+	}
+	.file-preview-page .code-preview-header {
+		padding: 8px 10px !important;
+	}
+	button.gobackBtn {
+		font-size: 20px;
+		margin-right: 8px;
+	}
+	.file-preview-page .code-preview-body {
+        max-height: calc(100vh - 305px);
+    }
+	.file-preview-page .code-preview-header h3 {
+		font-size: 14px;
+	}
+	.file-preview-page .select-div {
+		padding: 7px 8px !important;
+		margin-bottom: 10px !important;
+	}
+	.file-preview-page .select-div .before-icon {
+		margin-right: 3px !important;
+	}
+	.file-preview-page .code-preview {
+		margin-bottom: 20px;
+	}
+}
+@media screen and (max-width: 430px) {
+	.file-preview-page .select-div {
+        width: 150px !important;
+        max-width: 150px !important;
+    }
+	.file-preview-page  .select-div {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 10px !IMPORTANT;
+    }
+	.file-preview-page .code-preview-header h3{
+		flex-wrap: wrap;
+	}
+	.file-preview-page   .code-action-btn {
+        margin-right: 10px;
+        margin-left: 0;
+    }
+	.file-preview-page .code-preview-body {
+        max-height: calc(100vh - 290px);
+        min-height: 300px;
+    }
+}
