@@ -11,10 +11,16 @@ import ProfileIcon from "../../assets/icons/ProfileIcon";
 import UndoIcon from "../../assets/icons/UndoIcon";
 import { useAuth } from "../../providers/Auth";
 import { env } from "../../utils";
+import { TypeList } from "../DropDown/DropDown";
+import { useStudio } from "../../providers/StudioProvider";
 const DropDown = React.lazy(() => import("../DropDown/DropDown"));
-const XStudioSidebar = ({ openSidebar, setShowSearchFeild }) => {
-  let auth = useAuth();
-  let profileMenu = [
+type XStudioSidebarProps = {
+  search: React.ReactNode;
+};
+const XStudioSidebar = ({ search }: XStudioSidebarProps) => {
+  const studio = useStudio();
+  const auth = useAuth();
+  const profileMenu: TypeList[] = [
     {
       name: "My Profile",
       icon: auth?.user?.image ? (
@@ -36,6 +42,7 @@ const XStudioSidebar = ({ openSidebar, setShowSearchFeild }) => {
       onClick: auth.logout,
     },
   ];
+
   return (
     <div className="x-studio-sidebar">
       <a
@@ -48,7 +55,10 @@ const XStudioSidebar = ({ openSidebar, setShowSearchFeild }) => {
       <div className="dropdown-divider"></div>
       <a
         href="#"
-        onClick={openSidebar}
+        onClick={(e) => {
+          e.preventDefault();
+          studio.sidebar.toggle();
+        }}
         className="side-icon sidebar-open-icon"
         data-table-tooltip="true"
       >
@@ -60,39 +70,38 @@ const XStudioSidebar = ({ openSidebar, setShowSearchFeild }) => {
         data-table-tooltip="true"
       >
         <AddIcon />
-        <div className="x-tooltip x-tooltip-dark x-tooltip-right x-tooltip-up-right-sm">
+        <span className="x-tooltip x-tooltip-dark x-tooltip-right x-tooltip-up-right-sm">
           Add Project
-        </div>
+        </span>
       </NavLink>
       <a
         href="#"
         onClick={(e) => {
           e.preventDefault();
-          setShowSearchFeild(true);
         }}
         className="side-icon"
         data-table-tooltip="true"
       >
-        <div className="x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm">
+        <span className="x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm">
           Search
-        </div>
-        <SearchIconWhite />
+        </span>
+        {search}
       </a>
       <NavLink
         to="/admin/manage-project"
         className="side-icon"
         data-table-tooltip="true"
       >
-        <div className="x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm">
+        <span className="x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm">
           Manage Projects
-        </div>
+        </span>
         <ImportIcon />
       </NavLink>
-      <a href="#action" className="side-icon" data-table-tooltip="true">
+      <a href="#" className="side-icon" data-table-tooltip="true">
         <ThemeIcon />
-        <div className="x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm">
+        <span className="x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm">
           Customize
-        </div>
+        </span>
       </a>
       <div className="dropdown-divider"></div>
       <NavLink
@@ -101,9 +110,9 @@ const XStudioSidebar = ({ openSidebar, setShowSearchFeild }) => {
         data-table-tooltip="true"
       >
         <SettingsIcon />
-        <div className="x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm">
+        <span className="x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm">
           Settings
-        </div>
+        </span>
       </NavLink>
       <Suspense fallback={""}>
         <DropDown

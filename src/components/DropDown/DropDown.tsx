@@ -6,7 +6,7 @@ export type TypeList =
       link?: string;
       target?: "_blank" | "_self" | "_parent" | "_top";
       name: string;
-      onClick: () => void;
+      onClick?: () => void;
       icon?: React.ReactNode;
     }
   | "divider";
@@ -45,10 +45,10 @@ const DropDown = ({
         if (v.link) {
           return !v?.target ? (
             <NavLink key={i} className="dropdown-item" to={v.link}>
-              <div className="action-div">
+              <span className="action-div">
                 {v.icon || ""}
                 <span>{v.name || ""}</span>
-              </div>
+              </span>
             </NavLink>
           ) : (
             <a
@@ -57,20 +57,20 @@ const DropDown = ({
               className="dropdown-item"
               href={v.link}
             >
-              <div className="action-div">
+              <span className="action-div">
                 {v.icon || ""}
                 <span>{v.name || ""}</span>
-              </div>
+              </span>
             </a>
           );
         }
 
         return (
           <a key={i} className="dropdown-item" onClick={v.onClick || click}>
-            <div className="action-div">
+            <span className="action-div">
               {v.icon || ""}
               <span>{v.name || ""}</span>
-            </div>
+            </span>
           </a>
         );
       }

@@ -1,7 +1,9 @@
 import sign from "jwt-encode";
 import { env } from "../utils";
 import { net } from "../helpers";
-import { isAxiosError } from "axios";
+import { AxiosResponse, isAxiosError } from "axios";
+import { ProjectDetailType } from "../pages/ProjectDetail/ProjectDetail";
+import { FailedResponse } from "./auth";
 
 export const fetchAllFile = async (
   name: string,
@@ -30,28 +32,40 @@ export const fetchAllFile = async (
   }
 };
 
-export const fetchFileContent = async (
+export type FileDetailsType<T> = {
+  data: T;
+  lastModified: string;
+  mimeType: "folder" | "file" | "image";
+  prevPath: string;
+  projectDetail: ProjectDetailType;
+  title: string;
+  type: "success";
+  name: string;
+  extension: string;
+  size: string;
+};
+export const fetchFileContent = async <T>(
   name: string,
   projectId: string,
   prevPath: string
-) => {
+): Promise<FileDetailsType<T> | FailedResponse> => {
   const payload = { name, prevPath };
-  console.log("payload", payload);
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   try {
-    const response = await net.post(
-      "/api/fetch-files-details",
-      {
-        id: projectId,
-        payload: jwt,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
+    const response: AxiosResponse<FileDetailsType<T> | FailedResponse> =
+      await net.post(
+        "/api/fetch-files-details",
+        {
+          id: projectId,
+          payload: jwt,
         },
-      }
-    );
-    return response.data;
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    return response.data as FileDetailsType<T>;
   } catch (error) {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };

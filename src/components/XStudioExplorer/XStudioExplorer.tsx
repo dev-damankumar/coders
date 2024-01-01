@@ -8,7 +8,6 @@ import CopyIcon from "../../assets/icons/CopyIcon";
 import pasteIcon from "../../assets/images/paste.png";
 import EditRowIcon from "../../assets/icons/EditRowIcon";
 import DeleteRowIcon from "../../assets/icons/DeleteRowIcon";
-import Toast from "../../utils/toast";
 import Loader from "../../utils/loader";
 import extensions from "../../utils/extension";
 import If from "../If/If";
@@ -18,44 +17,80 @@ import {
   deleteSingleFile,
   renameFile,
 } from "../../services/files";
+import { useAuth } from "../../providers/Auth";
+import { useParams } from "react-router-dom";
+import { ProjectDetailType } from "../../pages/ProjectDetail/ProjectDetail";
+import { FileType } from "../../pages/Xcode/Xcode";
+import { useNotification } from "../../providers/Notification";
+import { useStudio } from "../../providers/StudioProvider";
 
-let toast = Toast();
-let loader = Loader();
+const loader = Loader();
 const Modal = React.lazy(() => import("../Modal/Modal"));
 const ContextMenu = React.lazy(() => import("../ContextMenu/ContextMenu"));
 
+export type XstudionFileType =
+  | FileType & { isOpened?: boolean; data?: XstudionFileType[] };
+
+type XStudioExplorerProps = {
+  prevPath: string;
+  projectDetail: ProjectDetailType;
+  files: XstudionFileType[] | null;
+  fetchFileContentHandler: (
+    name: string,
+    prevPath?: string,
+    isFolder?: boolean
+  ) => Promise<void>;
+  setFiles: React.Dispatch<React.SetStateAction<FileType[] | null>>;
+};
 const XStudioExplorer = ({
-  id,
   prevPath,
-  openSide,
   projectDetail,
   files,
   fetchFileContentHandler,
   setFiles,
-  context,
-}) => {
-  let [currentData, setCurrentData] = useState({});
-  let [filename, setfilename] = useState("");
-  let [rename, setrename] = useState("");
-  let [fileExtention, setfileExtention] = useState("txt");
-  let [createFolder, setcreateFolder] = useState(false);
-  let [openCreateFile, setopenCreateFile] = useState(false);
-  let [openRenameFile, setopenRenameFile] = useState(false);
-  let [currentActionFile, setCurrentActionFile] = useState(null);
-  let closeContextMenu = () => {
-    if (projectDetail?.user_id === context?.user._id) {
-      let menu = document.querySelector("#x-studio-context-menu");
-      menu.style.top = "0";
-      menu.style.left = "0";
-      menu.style.transform = "scale(0)";
+}: XStudioExplorerProps) => {
+  const auth = useAuth();
+  const params = useParams();
+  const studio = useStudio();
+  console.log("studio", studio);
+  const notification = useNotification();
+  const id = params.id;
+  const [currentData, setCurrentData] = useState<{
+    name: string;
+    prevPath: string;
+    type: string;
+  } | null>(null);
+  const [filename, setfilename] = useState("");
+  const [rename, setrename] = useState("");
+  const [fileExtention, setfileExtention] = useState("txt");
+  const [createFolder, setcreateFolder] = useState(false);
+  const [openCreateFile, setopenCreateFile] = useState(false);
+  const [openRenameFile, setopenRenameFile] = useState(false);
+  const [currentActionFile, setCurrentActionFile] = useState<{
+    type: "folder" | "file";
+    method: string;
+  } | null>(null);
+
+  const closeContextMenu = () => {
+    if (projectDetail?.user_id === auth.user?._id) {
+      const menu = document.querySelector<HTMLDivElement>(
+        "#x-studio-context-menu"
+      );
+      if (menu) {
+        menu.style.top = "0";
+        menu.style.left = "0";
+        menu.style.transform = "scale(0)";
+      }
     }
   };
-  let deleteFile = async () => {
-    if (projectDetail?.user_id === context?.user._id) {
+
+  const deleteFile = async () => {
+    if (!files || !currentData) return;
+    if (projectDetail?.user_id === auth.user?._id) {
       closeContextMenu();
-      let fileArray = [...files];
-      let { name, prevPath } = currentData;
-      let temp = [...prevPath];
+      const fileArray = [...files];
+      const { name, prevPath } = currentData;
+      const temp = [...prevPath];
       let tempFile = [...fileArray];
       temp.forEach((v) => {
         if (v !== "") {
@@ -65,24 +100,24 @@ const XStudioExplorer = ({
         }
       });
 
-      let currentItem = tempFile.findIndex((file) => {
-        let previousPath = [""];
+      const currentItem = tempFile.findIndex((file) => {
+        let previousPath = "/";
         if (prevPath) {
           previousPath = prevPath;
         }
-        let path = [...previousPath, name].join("/");
+        const path = [...previousPath, name].join("/");
         if (file.path === path) {
           return true;
         }
       });
 
       tempFile.splice(currentItem, 1);
-      let currentDelItem = fileArray.findIndex((file) => {
-        let previousPath = [""];
+      const currentDelItem = fileArray.findIndex((file) => {
+        let previousPath = "/";
         if (prevPath) {
           previousPath = prevPath;
         }
-        let path = [...previousPath, name].join("/");
+        const path = [...previousPath, name].join("/");
         if (file.path === path) {
           return true;
         }
@@ -90,20 +125,21 @@ const XStudioExplorer = ({
       fileArray.splice(currentDelItem, 1);
       setFiles(fileArray);
       loader.show();
-      let details = await deleteSingleFile(name, id, prevPath);
+      const details = await deleteSingleFile(name, id, prevPath);
       if (details.type === "error") {
-        return toast.error(details.message, "Error Occured");
+        return notification.error(details.message);
       }
 
       if (details.type === "success") {
         setFiles(fileArray);
         loader.hide();
-        toast.success(details.message, "Deleted");
+        notification.success(details.message);
       }
     }
   };
   let copyFileHandler = async (type) => {
-    if (projectDetail?.user_id === context?.user._id) {
+    if (!files || !currentData) return;
+    if (projectDetail?.user_id === auth?.user?._id) {
       closeContextMenu();
       let fileArray = [...files];
       let { name, prevPath } = currentData;
@@ -118,7 +154,7 @@ const XStudioExplorer = ({
       });
 
       let currentItem = tempFile.find((file) => {
-        let previousPath = [""];
+        let previousPath = "/";
         if (prevPath) {
           previousPath = prevPath;
         }
@@ -132,8 +168,10 @@ const XStudioExplorer = ({
       }
     }
   };
-  let pasteFile = async () => {
-    if (projectDetail?.user_id === context?.user._id) {
+
+  const pasteFile = async () => {
+    if (!files || !currentData || !currentActionFile) return;
+    if (projectDetail?.user_id === auth.user?._id) {
       closeContextMenu();
       let fileArray = [...files];
       let { name, prevPath, type } = currentData;
@@ -149,12 +187,12 @@ const XStudioExplorer = ({
         }
       });
 
-      let currentItem = tempFile.find((file) => {
-        let previousPath = [""];
+      const currentItem = tempFile.find((file) => {
+        let previousPath = "/";
         if (prevPath) {
           previousPath = prevPath;
         }
-        let path = [...previousPath, name].join("/");
+        const path = [...previousPath, name].join("/");
         if (file.path === path) {
           return true;
         }
@@ -191,6 +229,7 @@ const XStudioExplorer = ({
         loader.hide();
         return toast.error(details.message, "Error Occured");
       }
+
       if (details.type === "success") {
         if (method === "cut") {
           let temp = [...currentActionFile.prevPath];
@@ -247,7 +286,7 @@ const XStudioExplorer = ({
     }
   };
   let contextMenu =
-    projectDetail?.user_id === context?.user._id
+    projectDetail?.user_id === auth?.user?._id
       ? [
           {
             name: "New File",
@@ -306,72 +345,90 @@ const XStudioExplorer = ({
         ]
       : [];
 
-  let renderList = (v) => {
-    let extension = v.extension.trim();
+  const renderList = (file: XstudionFileType) => {
+    if (!file) return;
+    console.log("in", file);
     return (
       <>
         <li
-          key={v.name + "_" + v.prevPath}
-          className={v.isOpened ? "parent" : ""}
+          key={file.name + "_" + file.prevPath}
+          className={file.isOpened ? "parent" : ""}
           onClick={(e) => {
-            fetchFileContentHandler(e, v.name, v.prevPath);
+            e.preventDefault();
+            fetchFileContentHandler(
+              file.name,
+              file.prevPath,
+              file.extension === "folder"
+            );
           }}
           onContextMenu={(e) => {
-            contextHandler(e, v.name, v.prevPath, v.type);
+            contextHandler(e, file.name, file.prevPath, file.type);
           }}
         >
-          {v.isOpened ? (
+          {file.isOpened ? (
             <span className={`caret caret-down`}>
               <i className="bx bx-chevron-right caret-i" />
               <img
-                alt={v.name}
+                alt={file.name}
                 className="file-icon"
-                src={getImageByExtension(extension)}
+                src={getImageByExtension(file.extension)}
               />
-              {v.name}
+              {file.name}
             </span>
           ) : (
             <>
               <i className="bx bx-chevron-right caret-i" />
               <img
-                alt={v.name}
+                alt={file.name}
                 className="file-icon"
-                src={getImageByExtension(extension)}
+                src={getImageByExtension(file.extension)}
               />
-              {v.name}
+              {file.name}
             </>
           )}
 
-          <ul className={`nested ${v.isOpened ? "file-expand" : ""}`}>
-            {v.data.map((j, i) => {
-              let extension = j.extension.trim();
-              if (j.data) {
-                return renderList(j);
-              } else {
-                return (
-                  <li
-                    key={`${v}_${j}_${i}`}
-                    onClick={(e) => {
-                      fetchFileContentHandler(e, j.name, j.prevPath);
-                    }}
-                    onContextMenu={(e) => {
-                      contextHandler(e, j.name, j.prevPath, j.type);
-                    }}
-                    data-target-context="x-studio-context-menu"
-                  >
-                    {j.type === "folder" && (
-                      <i className="bx bx-chevron-right caret-i" />
-                    )}
-                    <img
-                      alt={j.name}
-                      className="file-icon"
-                      src={getImageByExtension(extension)}
-                    />
-                    {j.name}
-                  </li>
-                );
-              }
-            })}
+          <ul className={`nested ${file.isOpened ? "file-expand" : ""}`}>
+            {file.data &&
+              file.data.map((j, i) => {
+                const nestedFile = j;
+                if (!nestedFile) return;
+                if (nestedFile.type === "folder" && nestedFile.data) {
+                  return renderList(nestedFile);
+                } else {
+                  return (
+                    <li
+                      key={`${file}_${nestedFile}_${i}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        fetchFileContentHandler(
+                          nestedFile.name,
+                          nestedFile.prevPath,
+                          nestedFile.extension === "folder"
+                        );
+                      }}
+                      onContextMenu={(e) => {
+                        contextHandler(
+                          e,
+                          nestedFile.name,
+                          nestedFile.prevPath,
+                          nestedFile.type
+                        );
+                      }}
+                      data-target-context="x-studio-context-menu"
+                    >
+                      {nestedFile.type === "folder" && (
+                        <i className="bx bx-chevron-right caret-i" />
+                      )}
+                      <img
+                        alt={nestedFile.name}
+                        className="file-icon"
+                        src={getImageByExtension(nestedFile.extension)}
+                      />
+                      {nestedFile.name}
+                    </li>
+                  );
+                }
+              })}
           </ul>
         </li>
       </>
@@ -379,7 +436,7 @@ const XStudioExplorer = ({
   };
 
   let createFileHandler = async () => {
-    if (projectDetail?.user_id === context?.user._id) {
+    if (projectDetail?.user_id === auth?.user._id) {
       closeContextMenu();
       let file = createFolder ? filename : `${filename}.${fileExtention}`;
       loader.show();
@@ -426,14 +483,14 @@ const XStudioExplorer = ({
   };
 
   let contextHandler = async (e, name, prePath, type) => {
-    if (projectDetail?.user_id === context?.user._id) {
+    if (projectDetail?.user_id === auth?.user._id) {
       e.stopPropagation();
       e.preventDefault();
       var el = e.target;
       if (e.target.closest(`[data-target-context]`)) {
         el = e.target.closest(`[data-target-context]`);
       }
-      setCurrentData({ ...currentData, name: name, prevPath: prePath, type });
+      setCurrentData({ ...currentData, name, prevPath: prePath, type });
       let target = document.querySelector(`#${el.dataset.targetContext}`);
       target.style.transform = `scale(1)`;
       let innerWidth = window.innerWidth - target.clientWidth;
@@ -451,7 +508,7 @@ const XStudioExplorer = ({
   };
 
   let renameFileHandler = async () => {
-    if (projectDetail?.user_id === context?.user._id) {
+    if (projectDetail?.user_id === auth?.user._id) {
       loader.show();
       let fileArray = [...files];
       let { name, prevPath, type } = currentData;
@@ -490,9 +547,10 @@ const XStudioExplorer = ({
       }
     }
   };
+
   return (
     <>
-      <If cond={projectDetail?.user_id === context?.user._id}>
+      <If cond={projectDetail?.user_id === auth.user?._id}>
         {openCreateFile ? (
           <Suspense fallback={""}>
             <Modal
@@ -645,62 +703,75 @@ const XStudioExplorer = ({
         </div>
       </If>
 
-      <div className={`x-file-view-div ${openSide ? "x-file-view-open" : ""}`}>
-        {projectDetail?.title && files.length > 0 ? (
-          <ul id="file-explorer" className="file-expand">
-            <li
-              className="parent"
-              data-target-context="x-studio-context-menu"
-              onContextMenu={(e) => {
-                contextHandler(e, "", [""], "folder");
-              }}
-            >
-              <span className="caret caret-down">
-                <i className="bx bx-chevron-right" />
-                {projectDetail?.title}
-              </span>
-              <ul className="nested file-expand">
-                {files.map((v, i) => {
-                  let date = new Date(`2021-06-04T07:59:54.690Z`);
-                  let extension = v.extension.trim();
-                  if (v.prevPath.length <= 1) {
-                    if (v.data) {
-                      return renderList(v);
-                    } else {
-                      return (
-                        <li
-                          key={i}
-                          onClick={(e) => {
-                            fetchFileContentHandler(e, v.name, v.prevPath);
-                          }}
-                          onContextMenu={(e) => {
-                            contextHandler(e, v.name, v.prevPath, v.type);
-                          }}
-                          name={v.name}
-                          data-target-context="x-studio-context-menu"
-                        >
-                          {v.type === "folder" ? (
-                            <i className="bx bx-chevron-right caret-i" />
-                          ) : (
-                            ""
-                          )}
-                          <img
-                            alt={v.name}
-                            className="file-icon"
-                            src={getImageByExtension(extension)}
-                          />
-                          {v.name}
-                        </li>
-                      );
-                    }
-                  }
-                })}
-              </ul>
-            </li>
-          </ul>
-        ) : (
-          <FileLoader dark={true} />
-        )}
+      <div
+        className={`x-file-view-div ${
+          studio.sidebar.isOpen ? "x-file-view-open" : ""
+        }`}
+      >
+        <If cond={!!id}>
+          {projectDetail?.title && files ? (
+            <ul id="file-explorer" className="file-expand">
+              <li
+                className="parent"
+                data-target-context="x-studio-context-menu"
+                onContextMenu={(e) => {
+                  contextHandler(e, "", [""], "folder");
+                }}
+              >
+                <span className="caret caret-down">
+                  <i className="bx bx-chevron-right" />
+                  {projectDetail?.title}
+                </span>
+                <ul className="nested file-expand">
+                  {files &&
+                    files.map((file, i) => {
+                      if (file.type === "folder" && file.data) {
+                        console.log("file", file);
+                        return renderList(file);
+                      } else {
+                        return (
+                          <li
+                            key={i}
+                            onClick={(e) => {
+                              fetchFileContentHandler(
+                                file.name,
+                                file.prevPath,
+                                file.extension === "folder"
+                              );
+                            }}
+                            onContextMenu={(e) => {
+                              contextHandler(
+                                e,
+                                file.name,
+                                file.prevPath,
+                                file.type
+                              );
+                            }}
+                            id={file.name}
+                            data-target-context="x-studio-context-menu"
+                          >
+                            {file.type === "folder" ? (
+                              <i className="bx bx-chevron-right caret-i" />
+                            ) : (
+                              ""
+                            )}
+                            <img
+                              alt={file.name}
+                              className="file-icon"
+                              src={getImageByExtension(file.extension)}
+                            />
+                            {file.name}
+                          </li>
+                        );
+                      }
+                    })}
+                </ul>
+              </li>
+            </ul>
+          ) : (
+            <FileLoader dark={true} />
+          )}
+        </If>
       </div>
     </>
   );

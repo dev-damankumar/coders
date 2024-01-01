@@ -3,65 +3,75 @@ import {
   Navigate,
   useParams,
   useLocation,
-  useNavigation,
   useNavigate,
 } from "react-router-dom";
 import "./XStudio.css";
 import ThemeIcon from "../../assets/icons/ThemeIcon";
 import SettingsIcon from "../../assets/icons/SettingsIcon";
 import DeleteRowIcon from "../../assets/icons/DeleteRowIcon";
-import Toast from "../../utils/toast";
 import Loader from "../../utils/loader";
 import Image from "../../components/Image/Image";
 import ImgIcon from "../../assets/icons/ImgIcon";
-import Editor from "../../components/Editor/Editor";
+import Editor, { Mode } from "../../components/Editor/Editor";
 import SaveRowIcon from "../../assets/icons/SaveRowIcon";
 import XStudioSidebar from "../../components/XStudioSidebar/XStudioSidebar";
-import XStudioExplorer from "../../components/XStudioExplorer/XStudioExplorer";
+import XStudioExplorer, {
+  XstudionFileType,
+} from "../../components/XStudioExplorer/XStudioExplorer";
 import XStudioTabs from "../../components/XStudioTabs/XStudioTabs";
 import LinkIcon from "../../assets/icons/LinkIcon";
 import IfPrimiumUser from "../../components/IfPrimiumUser";
 import If from "../../components/If/If";
 import { env, joinURL } from "../../utils";
 import { useAuth } from "../../providers/Auth";
-import { fetchFileContent, saveFile } from "../../services/files";
+import {
+  FileDetailsType,
+  fetchFileContent,
+  saveFile,
+} from "../../services/files";
 import { fetchProjectList } from "../../services/project";
 import { FileType } from "../Xcode/Xcode";
+import { ProjectDetailType } from "../ProjectDetail/ProjectDetail";
+import { useNotification } from "../../providers/Notification";
+import { useStudio } from "../../providers/StudioProvider";
+import SearchIconWhite from "../../assets/icons/SearchIconWhite";
 
 const SearchFile = React.lazy(
   () => import("../../components/SearchFile/SearchFile")
 );
 const DropDown = React.lazy(() => import("../../components/DropDown/DropDown"));
-let toast = Toast();
-let loader = Loader();
+const loader = Loader();
 
-function XStudio(props) {
-  const { id } = useParams();
+type ProjectListType = {
+  name: string;
+  icon: React.ReactNode;
+  link: string;
+  id: string;
+  selected?: boolean;
+};
+function XStudio() {
   const location = useLocation();
   const params = useParams();
+  const studio = useStudio();
   const navigate = useNavigate();
   const auth = useAuth();
-  const [selectedProject, setselectedProject] = useState({});
-  const [projectList, setProjectList] = useState([]);
-  const [prevPath, setPrevPath] = useState("/");
-  const [openSide, setopenSide] = useState(false);
-  const [tabs, setTabs] = useState([]);
-  const [activeTab, setActiveTab] = useState("");
-  const [filesData, setFilesData] = useState({});
-  const [fileData, setfileData] = useState({ data: "", extension: "" });
-  const [files, setFiles] = useState<FileType[] | null>(null);
-  const [sideView, setsideView] = useState(
-    localStorage.getItem("sideView") || "left"
-  );
+  const notification = useNotification();
   const projectId = params.id! || "";
-  const [showMode, setshowMode] = useState({
-    show: false,
-    heading: "No File Opened",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum, laudantium!",
-  });
-  const [tempdata, setTempData] = useState({ [props.name]: fileData?.data });
-  const [projectDetail, setprojectDetail] = useState({});
+
+  const [projectList, setProjectList] = useState<ProjectListType[]>([]);
+  const [selectedProject, setselectedProject] =
+    useState<ProjectListType | null>(null);
+
+  const [filepath, setfilepath] = useState("/");
+  const [tabs, setTabs] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState("");
+  const [fileData, setfileData] = useState<FileDetailsType<string> | null>(
+    null
+  );
+  const [files, setFiles] = useState<XstudionFileType[] | null>(null);
+
+  const [tempdata, setTempData] = useState({ data: fileData?.data || "" });
+  const [projectDetail, setprojectDetail] = useState<ProjectDetailType>(null);
   const [showSearchField, setShowSearchFeild] = useState(false);
 
   useEffect(() => {
@@ -70,22 +80,22 @@ function XStudio(props) {
     const fetchProjectListArray = async () => {
       const projectList = await fetchProjectList();
       if ("error" in projectList) {
-        return toast.error(projectList.message, "Error Occured");
+        return notification.error(projectList.message);
       }
       if (projectList.data) {
         const arr = projectList.data;
-        const list = arr.map((v) => {
-          if (v._id === id) {
-            setselectedProject({
-              title: v.title,
-              image: <Image src={v.image} />,
-            });
-          }
-          return {
-            name: v.title,
-            icon: <Image src={v.image} />,
-            link: `/x-studio/${v._id}`,
+        const list = arr.map((item) => {
+          const data: ProjectListType = {
+            name: item.title,
+            id: item._id,
+            icon: <Image src={item.image} />,
+            link: `/x-studio/${item._id}`,
           };
+          if (item._id === params.id) {
+            data.selected = true;
+            setselectedProject(data);
+          }
+          return data;
         });
         setProjectList(list);
       }
@@ -97,36 +107,33 @@ function XStudio(props) {
     resetEditor();
     setFiles(null);
     const fetchProjects = async () => {
-      if (id) {
-        const project = await fetchFileContentHandler("", prevPath, true);
-        if (project.type === "error") {
-          return toast.error(project.message, "Error Occured");
+      if (params.id) {
+        const project = await fetchFileContent<FileType[]>(
+          "",
+          projectId,
+          filepath
+        );
+        if ("error" in project) {
+          return notification.error(project.message);
         }
         if (project.data) {
-          const first = [];
-          project.data.forEach((v) => {
-            if (v.type === "folder") {
-              first.unshift(v);
-            } else {
-              first.push(v);
-            }
-          });
-          console.log("first", first);
-          setPrevPath(project.prevPath);
-          setFiles(first);
+          project.data.sort((a) => (a.type === "folder" ? -1 : 1));
+          setfilepath(project.prevPath);
+          setFiles(project.data);
           setprojectDetail(project.projectDetail);
+          const selected = projectList.find((v) => v.id === projectId);
+          if (selected) setselectedProject(selected);
         }
       }
     };
     fetchProjects();
-  }, [id]);
+  }, [params.id]);
 
   useEffect(() => {
     const fetchFile = async () => {
       if (files) return;
       if (!(location?.state?.filename && location?.state?.path)) return;
-      console.log("prevPath", prevPath);
-      await fetchFileContentHandler("", prevPath, true);
+      await fetchFileContentHandler("", filepath, true);
       navigate(`/x-studio/${id}`);
     };
     fetchFile();
@@ -134,21 +141,14 @@ function XStudio(props) {
 
   const resetEditor = () => {
     setTabs([]);
-    setPrevPath("/");
+    setfilepath("/");
     setActiveTab("");
-    setFilesData({});
-    setTempData({ [props.name]: fileData?.data });
-    setfileData({ data: "", extension: "" });
-    setshowMode({
-      show: false,
-      heading: "No File Opened",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum, laudantium!",
-    });
+    setTempData({ data: fileData?.data || "" });
+    setfileData(null);
   };
 
-  const setContent = (value) => {
-    const content = { ...tempdata, [props.name]: value };
+  const setContent = (value: string) => {
+    const content = { ...tempdata, data: value };
     setTempData(content);
   };
 
@@ -157,125 +157,70 @@ function XStudio(props) {
     prevPath?: string,
     isFolder?: boolean
   ) => {
-    if (files?.length === 0) return;
-    if (!isFolder) {
-      // return openFile(name, prevPath || filepath);
-    }
+    if (!files) return;
     loader.show();
-    let details = await fetchFileContent(
-      name,
-      projectId || "",
-      prevPath || "/"
-    );
-    setshowMode({ ...showMode, show: true });
-    if (!filesData[name]) {
-      e?.preventDefault();
-      let tempFiles = [...files];
-      let currentItem = tempFiles.find((file) => {
-        let previousPath = [""];
-        if (prePath) {
-          previousPath = prePath;
-        }
-        let path = [...previousPath, name].join("/");
+    try {
+      const tempFile = [...files];
+      const currentItem = tempFile.find((file) => {
+        const path = [prevPath, name].join("/");
         if (file.path === path) {
-          setPrevPath(file.prevPath);
+          setfilepath(file.prevPath!);
           return true;
         }
-      });
-      if (!currentItem?.data) {
-        loader.show();
-        let prevPath = currentItem?.prevPath || [""];
-        let details = await fetchFileContent(
-          name,
-          id,
-          prePath ? prePath : prevPath
-        );
-        if (details.type === "error") {
-          return toast.error(details.message, "Error Occured");
-        }
-
-        if (details.type === "success") {
-          if (details.mimeType === "binary") {
-            setshowMode({
-              ...showMode,
-              show: false,
-              heading: "Binary File Can't be preview",
-            });
-            loader.hide();
-          } else {
-            if (details.mimeType !== "folder") {
-              let filesDataTemp = { ...filesData };
-              filesDataTemp[name] = details;
-              setFilesData(filesDataTemp);
-              setfileData({ ...details, name, extension: name.split(".")[1] });
-              setTempData({
-                [props.name]: details.data,
-              });
-              setActiveTab(name);
-              setPrevPath(details.prevPath);
-              let tempTabs = [...tabs];
-              if (!tempTabs.includes(name)) {
-                tempTabs.push(name);
-                setTabs(tempTabs);
-              }
-              setShowSearchFeild(false);
-            } else {
-              setPrevPath(details.prevPath);
-              if (currentItem) {
-                currentItem.isOpened = true;
-                currentItem.data = details.data;
-              }
-              setFiles([...tempFiles, ...details.data]);
-            }
-            loader.hide();
+      })!;
+      currentItem.isOpened = !currentItem.isOpened;
+      if (currentItem.data) {
+        setFiles(tempFile);
+        return;
+      }
+      const details = await fetchFileContent<FileType[] | string>(
+        name,
+        projectId,
+        prevPath || filepath
+      );
+      if ("error" in details) {
+        return notification.error(details.message);
+      }
+      if (!isFolder) {
+        if (typeof (details as FileDetailsType<string>).data === "string") {
+          setfileData(details as FileDetailsType<string>);
+          setActiveTab(name);
+          let tempTabs = [...tabs];
+          if (!tempTabs.includes(name)) {
+            tempTabs.push(name);
+            setTabs(tempTabs);
           }
         }
-      } else {
-        currentItem.isOpened = !currentItem.isOpened;
-        setFiles([...tempFiles]);
+        return;
       }
-    } else {
-      if (
-        filesData[name].mimeType !== "folder" &&
-        filesData[name].mimeType !== "binary"
-      ) {
-        setfileData({
-          ...filesData[name],
-          name,
-          extension: name.split(".")[1],
-        });
-        setActiveTab(name);
-        let tempTabs = [...tabs];
-        if (!tempTabs.includes(name)) {
-          tempTabs.push(name);
-          setTabs(tempTabs);
-        }
-      }
+
+      const newFiles = details.data as FileType[];
+      currentItem.isOpened = true;
+      currentItem.data = newFiles;
+      setfilepath(details.prevPath);
+      setFiles(tempFile);
+    } catch (error) {
+      if (error instanceof Error) return notification.error(error.message);
+    } finally {
       loader.hide();
     }
   };
-  let openSidebar = (e) => {
+
+  const saveFileHandler = async (e: React.MouseEvent) => {
     e.preventDefault();
-    setopenSide(!openSide);
-  };
-  let saveFileHandler = async (e) => {
-    e.preventDefault();
-    let file = activeTab;
+    if (!id) return;
+    const file = activeTab;
     if (!file) return;
     loader.show();
-    let data = tempdata[props.name];
-    let details = await saveFile(file, id, prevPath, data);
+    const data = tempdata.data;
+    const details = await saveFile(file, id, filepath, data);
     loader.hide();
-    if (details.type === "error")
-      return toast.error(details.message, "Error while saving file");
-    toast.success(details.message, "File Saved Successfully");
+    if (details.type === "error") return notification.error(details.message);
+    notification.success(details.message);
   };
-  let changeView = (e, name) => {
-    localStorage.setItem("sideView", name);
-    setsideView(name);
-  };
-  let moreMenu = [
-    Object.keys(projectDetail).length > 0
+
+  const moreMenu = [
+    Object.keys(projectDetail || {}).length > 0
       ? {
           name: "Live Preview",
           icon: <LinkIcon />,
@@ -298,7 +243,7 @@ function XStudio(props) {
       link: "/my-settings",
     },
     "divider",
-    projectDetail?.user_id === auth?.user._id
+    projectDetail?.user_id === auth.user?._id
       ? {
           name: "Save",
           icon: <SaveRowIcon />,
@@ -313,44 +258,38 @@ function XStudio(props) {
     },
   ];
 
-  let closeTab = (e, name) => {
-    e.stopPropagation();
-    let tempTabs = [...tabs];
-    let index = tabs.findIndex((v) => v === name);
+  const closeTab = (name: string) => {
+    const tempTabs = [...tabs];
+    const index = tabs.findIndex((v) => v === name);
     tempTabs.splice(index, 1);
     setTabs(tempTabs);
     if (name === activeTab) {
       if (tempTabs.length >= 1) {
-        fetchFileContentHandler(e, tempTabs[0]);
+        fetchFileContentHandler(tempTabs[0]);
         setActiveTab(tempTabs[0]);
       } else {
-        setshowMode({ ...showMode, show: false });
       }
     }
-  };
-
-  let closeSearch = (e) => {
-    if (e.target.className.includes("search-overlay"))
-      setShowSearchFeild(false);
   };
 
   return (
     <IfPrimiumUser else={<Navigate to={"/"} />}>
       <div className="x-studio-page">
-        <Suspense fallback={""}>
-          <SearchFile
-            prevPath={prevPath}
-            files={files}
-            setFiles={setFiles}
-            if={showSearchField}
-            fetchFileContentHandler={fetchFileContentHandler}
-          />
-        </Suspense>
         <div className="x-studio-editor x-studio-dark-theme">
           <div className="x-studio-wrapper">
             <XStudioSidebar
-              openSidebar={openSidebar}
-              setShowSearchFeild={setShowSearchFeild}
+              search={
+                <Suspense fallback="">
+                  <SearchFile
+                    input={<SearchIconWhite />}
+                    prevPath={filepath}
+                    files={files}
+                    setFiles={setFiles}
+                    if={showSearchField}
+                    fetchFileContentHandler={fetchFileContentHandler}
+                  />
+                </Suspense>
+              }
             />
             <div className="x-studio-content">
               <div className="x-studio-editor-header">
@@ -360,15 +299,15 @@ function XStudio(props) {
                       list={projectList}
                       linkClass="userMenu"
                       icon={
-                        selectedProject?.image ? (
-                          selectedProject?.image
+                        selectedProject?.icon ? (
+                          selectedProject?.icon
                         ) : (
                           <ImgIcon />
                         )
                       }
                       name={
-                        selectedProject?.title
-                          ? selectedProject?.title
+                        selectedProject?.name
+                          ? selectedProject?.name
                           : "Select Project"
                       }
                       menuClass="dark-x-studio-menu x-studio-dropdown-menu"
@@ -380,14 +319,16 @@ function XStudio(props) {
                     <a
                       className="header-btn"
                       onClick={(e) => {
-                        changeView(e, "left");
+                        e.preventDefault();
+                        studio.sidebar.changeView("left");
                       }}
                     >
                       <i className="bx bx-dock-left" />
                     </a>
                     <a
                       onClick={(e) => {
-                        changeView(e, "right");
+                        e.preventDefault();
+                        studio.sidebar.changeView("right");
                       }}
                       className="header-btn"
                     >
@@ -409,16 +350,13 @@ function XStudio(props) {
 
               <div
                 className={`x-studio-body ${
-                  sideView === "right" ? "x-studio-right-view" : ""
+                  studio.sidebar.view === "right" ? "x-studio-right-view" : ""
                 }`}
               >
                 <XStudioExplorer
-                  auth={auth}
-                  prevPath={prevPath}
-                  id={id}
+                  prevPath={filepath}
                   setFiles={setFiles}
                   fetchFileContentHandler={fetchFileContentHandler}
-                  openSide={openSide}
                   projectDetail={projectDetail}
                   files={files}
                 />
@@ -430,25 +368,20 @@ function XStudio(props) {
                     fetchFileContentHandler={fetchFileContentHandler}
                   />
                   <Editor
-                    disabled={projectDetail?.user_id !== auth?.user._id}
-                    showMode={showMode}
+                    // disabled={projectDetail?.user_id !== auth.user?._id}
                     fileData={fileData}
                     tabs={tabs}
-                    mode={fileData?.extension}
-                    name="x-studio"
                     theme="eclipse"
-                    setReadOnly={false}
                     style={{ height: "100%", width: "100%" }}
-                    onChange={(value) => {
+                    onChange={(value: string) => {
                       setContent(value);
                     }}
-                    value={tempdata[props.name]}
                   />
                   <div
                     className="x-breadcrumb"
                     style={{ justifyContent: "flex-end" }}
                   >
-                    <If cond={Object.keys(projectDetail).length > 0}>
+                    <If cond={!!projectDetail}>
                       <a
                         target="_blank"
                         href={joinURL(
@@ -460,7 +393,7 @@ function XStudio(props) {
                       >
                         <i className="bx bx-link-external" /> Preview
                       </a>
-                      <If cond={projectDetail?.user_id === auth?.user._id}>
+                      <If cond={projectDetail?.user_id === auth.user?._id}>
                         <a
                           onClick={saveFileHandler}
                           className="console-x-breadcrumb"

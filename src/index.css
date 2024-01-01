@@ -1,3 +1,13 @@
+:root {
+  --dark-background-1: #181a22bf;
+  --dark-1: #14151b;
+  --dark-1-border: #2a2d43;
+  --dark-2: #181a22;
+  --dark-2-text: rgb(163 180 212);
+  --dark-3: #1c1e31;
+  --dark-3-text: rgb(197 197 228);
+}
+
 .ReactTags__tags {
   position: relative;
 }

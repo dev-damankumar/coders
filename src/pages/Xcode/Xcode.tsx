@@ -57,10 +57,11 @@ export type FileType = {
   lastModified: string;
   name: string;
   path?: string;
-  filepath?: string[];
+  // filepath?: string[];
   size: string;
   type: "file" | "folder";
   prevPath?: string;
+  // data?: string;
 };
 const Xcode = memo(() => {
   const params = useParams();
@@ -99,8 +100,12 @@ const Xcode = memo(() => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const project = await fetchFileContent("", projectId, filepath);
-      if (project.type === "error") {
+      const project = await fetchFileContent<FileType[]>(
+        "",
+        projectId,
+        filepath
+      );
+      if ("error" in project) {
         notification.add({
           type: "error",
           message: project.message,

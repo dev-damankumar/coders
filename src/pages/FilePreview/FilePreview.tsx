@@ -14,7 +14,7 @@ import IfPrimiumUser from "../../components/IfPrimiumUser";
 import { toast, loader, env } from "../../utils";
 import If from "../../components/If/If";
 import { useAuth } from "../../providers/Auth";
-import { fetchFileContent } from "../../services/files";
+import { FileDetailsType, fetchFileContent } from "../../services/files";
 import { copyToClipboard } from "../../helpers";
 import { useNotification } from "../../providers/Notification";
 const SearchFile = React.lazy(
@@ -35,13 +35,9 @@ const FilePreview = React.memo(() => {
   const filename = decodeURIComponent(query.get("filename") || "");
   const filepath = decodeURIComponent(query.get("filepath") || "");
   const isStandardAndAbove = auth.user?.type === 1 || auth.user?.type === 2;
-  const [fileData, setfileData] = useState<{
-    data: string;
-    size: string;
-    name: string;
-    extension: string;
-    mimeType: string;
-  } | null>(null);
+  const [fileData, setfileData] = useState<FileDetailsType<string> | null>(
+    null
+  );
   const name = filename || "index.html";
   const [prevPath, setPrevPath] = useState(filepath || "/");
   const [files, setFiles] = useState(location.state?.files || []);
@@ -63,7 +59,11 @@ const FilePreview = React.memo(() => {
       navigate("/");
       return;
     }
-    const details = await fetchFileContent(name, projectId, prevPath || "");
+    const details = await fetchFileContent<string>(
+      name,
+      projectId,
+      prevPath || ""
+    );
     if ("error" in details) {
       return notification.add({
         type: "error",

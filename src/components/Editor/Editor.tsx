@@ -6,40 +6,50 @@ import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-jsx";
 import "ace-builds/src-noconflict/mode-json";
-import React from "react";
 import { env } from "../../utils";
+import React from "react";
+import { FileDetailsType } from "../../services/files";
+
+const modeArray = {
+  html: "html",
+  htm: "html",
+  js: "javascript",
+  javascript: "javascript",
+  tsx: "tsx",
+  jsx: "jxs",
+  css: "css",
+  sass: "sass",
+  ts: "typescript",
+  typescript: "typescript",
+  py: "python",
+  mysql: "mysql",
+  json: "json",
+  scss: "css",
+} as const;
+
+export type Mode = keyof typeof modeArray;
+
+type EditorProps = {
+  theme: string;
+  style: React.CSSProperties;
+  onChange: (value: string) => void;
+  fileData: FileDetailsType<string> | null;
+  tabs: string[];
+  disabled?: boolean;
+};
 
 function Editor({
-  mode,
   theme,
   style,
   onChange,
-  value,
-  showMode,
   fileData,
   tabs,
   disabled,
-}) {
-  let modeArray = {
-    html: "html",
-    htm: "html",
-    js: "javascript",
-    javascript: "javascript",
-    tsx: "tsx",
-    jsx: "jxs",
-    css: "css",
-    sass: "sass",
-    ts: "typescript",
-    typescript: "typescript",
-    py: "python",
-    mysql: "mysql",
-    json: "json",
-    scss: "css",
-  };
-
+}: EditorProps) {
+  console.log("fileData", fileData);
   return (
     <div className="editor dark-preview" id="editor">
-      {showMode.show && tabs.length >= 1 ? (
+      {fileData ? (
         <>
           {fileData.mimeType === "image" ? (
             <img
@@ -54,11 +64,11 @@ function Editor({
           ) : tabs.length > 0 ? (
             <AceEditor
               readOnly={disabled}
-              mode={modeArray[mode] || "html"}
+              mode={modeArray[fileData.extension as Mode] || "html"}
               theme={theme || "eclipse"}
               onChange={onChange}
               name="UNIQUE_ID_OF_DIV"
-              value={value || ""}
+              value={fileData.data || ""}
               style={style || {}}
               editorProps={{
                 $blockScrolling: true,
@@ -74,12 +84,14 @@ function Editor({
         </>
       ) : (
         <div className="no-file-preview">
-          <h1>{showMode.heading}</h1>
-          <p>{showMode.description}</p>
+          <h1>No File Opened</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio,
+            amet.
+          </p>
         </div>
       )}
     </div>
   );
 }
-
-export default Editor;
+export default React.memo(Editor);

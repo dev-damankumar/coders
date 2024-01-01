@@ -8,6 +8,7 @@ import { goBackPaths } from "../../helpers";
 import { useNavigate, useParams } from "react-router-dom";
 
 type SearchFileType = {
+  input?: React.ReactNode;
   dark?: boolean;
   if?: boolean;
   files: FileType[] | null;
@@ -20,9 +21,7 @@ type SearchFileType = {
   ) => Promise<any>;
 };
 const SearchFile = (props: SearchFileType) => {
-  const params = useParams();
   const navigate = useNavigate();
-  const projectId = params.id!;
   const [searchTerm, setSearchTerm] = useState("");
   const [openSearchModel, setOpenSearchModel] = useState(false);
   const files = props.files || [];
@@ -50,17 +49,29 @@ const SearchFile = (props: SearchFileType) => {
     const paths = goBackPaths(props.prevPath);
     props.fetchFileContentHandler(paths.name, paths.prevPath, true);
   };
+
   return (
     <>
-      <input
-        spellCheck={false}
-        type="text"
-        placeholder="Search Files..."
-        className="form-input"
-        onFocus={() => {
-          setOpenSearchModel(true);
-        }}
-      />
+      {props.input ? (
+        <span
+          onClick={() => {
+            setOpenSearchModel(true);
+          }}
+        >
+          {props.input}
+        </span>
+      ) : (
+        <input
+          spellCheck={false}
+          type="text"
+          placeholder="Search Files..."
+          className="form-input"
+          onFocus={() => {
+            setOpenSearchModel(true);
+          }}
+        />
+      )}
+
       {openSearchModel && (
         <div
           onClick={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -111,8 +122,7 @@ const SearchFile = (props: SearchFileType) => {
                   const extension = v.extension.trim();
                   return (
                     <div key={i} className={classes["file-list"]}>
-                      <a
-                        href="#"
+                      <div
                         onClick={async (e) => {
                           e.preventDefault();
                           await props.fetchFileContentHandler(
@@ -124,11 +134,11 @@ const SearchFile = (props: SearchFileType) => {
                           setSearchArray(props.files);
                           if (extension !== "folder") {
                             setOpenSearchModel(false);
-                            navigate(
-                              `/file-preview/${projectId}?filename=${encodeURIComponent(
+                            navigate({
+                              search: `?filename=${encodeURIComponent(
                                 v.name
-                              )}&filepath=${encodeURIComponent(v.prevPath!)}`
-                            );
+                              )}&filepath=${encodeURIComponent(v.prevPath!)}`,
+                            });
                           }
                         }}
                         data-file-type={extension}
@@ -149,7 +159,7 @@ const SearchFile = (props: SearchFileType) => {
                             elit. Atque, laborum!
                           </p>
                         </div>
-                      </a>
+                      </div>
                     </div>
                   );
                 })

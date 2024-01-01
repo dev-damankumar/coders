@@ -13,6 +13,9 @@ export type Notification = {
 type CustomNotification = {
   list: Notification[];
   add: (props: AddMessageToNotification) => void;
+  success: (message: string, hold?: boolean) => void;
+  error: (message: string, hold?: boolean) => void;
+  warning: (message: string, hold?: boolean) => void;
   remove: (id: string) => void;
 };
 const NotificationContext = createContext({});
@@ -77,6 +80,16 @@ export const NotificationProvider = React.memo(
       }
     };
 
+    const success = (message: string, hold = false) => {
+      addMessageToNotification({ message, hold, type: "success" });
+    };
+    const error = (message: string, hold = false) => {
+      addMessageToNotification({ message, hold, type: "error" });
+    };
+    const warning = (message: string, hold = false) => {
+      addMessageToNotification({ message, hold, type: "warning" });
+    };
+
     const removeMessageToNotification = (id: string) => {
       dispatch({
         type: "REMOVE",
@@ -87,6 +100,9 @@ export const NotificationProvider = React.memo(
       list: state,
       add: addMessageToNotification,
       remove: removeMessageToNotification,
+      success,
+      error,
+      warning,
     };
     return (
       <NotificationContext.Provider value={context}>

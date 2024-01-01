@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./main.css";
@@ -8,13 +7,16 @@ import { AuthProvider } from "./providers/Auth.tsx";
 import ErrorBoundry from "./providers/ErrorBoundry.tsx";
 import router from "./routers/index.tsx";
 import { NotificationProvider } from "./providers/Notification.tsx";
+import { StudioProvider } from "./providers/StudioProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
   <ErrorBoundry>
     <NotificationProvider>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <StudioProvider>
+          <RouterProvider router={router} />
+        </StudioProvider>
       </AuthProvider>
     </NotificationProvider>
   </ErrorBoundry>

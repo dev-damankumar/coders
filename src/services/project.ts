@@ -5,8 +5,9 @@ import { env } from "../utils";
 import { Project } from "../components/Projects/Projects";
 import { net } from "../helpers";
 import { AxiosResponse, isAxiosError } from "axios";
-import { FailedResponse, SuccessResponse } from "./auth";
 import { XcodeReducerActionType } from "../reducers/xcodeReducer";
+import { FailedResponse, SuccessResponse } from "../types";
+import { ProjectDetailType } from "../pages/ProjectDetail/ProjectDetail";
 
 const token = localStorage.getItem("token");
 
@@ -67,8 +68,12 @@ export const downloadProject = (
     })
     .catch((error) => {
       if (error instanceof Error)
-        return { error: true, message: error.message };
-      return { error: true, message: "Unexpected error occured" };
+        return { type: "error", error: true, message: error.message };
+      return {
+        type: "error",
+        error: true,
+        message: "Unexpected error occured",
+      };
     });
 };
 
@@ -98,9 +103,13 @@ export const cloneProject = async (
     }
   } catch (error) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { type: "error", error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return {
+      type: "error",
+      error: true,
+      message: "Unexpected error has been occured",
+    };
   }
 };
 
@@ -130,29 +139,52 @@ export const deleteProject = async (
     }
   } catch (error) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { type: "error", error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return {
+      type: "error",
+      error: true,
+      message: "Unexpected error has been occured",
+    };
   }
 };
 
-export const fetchProjectList = async () => {
+export type ProjectListData = {
+  image: string;
+  title: string;
+  _id: string;
+};
+export const fetchProjectList = async (): Promise<
+  SuccessResponse<ProjectListData[]> | FailedResponse
+> => {
   try {
-    const response = await net.get("/api/project-list");
-    return response.data;
-  } catch (error) {
+    const response: AxiosResponse<
+      SuccessResponse<ProjectListData[]> | FailedResponse
+    > = await net.get("/api/project-list");
+    return response.data as SuccessResponse<ProjectListData[]>;
+  } catch (error: unknown) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return {
+        error: true,
+        ...(error?.response?.data || {
+          message: "Unable to get projects list",
+        }),
+      };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return {
+      type: "error",
+      error: true,
+      message: "Unexpected error has been occured",
+    };
   }
 };
 
 export const getProject = async (id: string) => {
   try {
-    const response: AxiosResponse<SuccessResponse | FailedResponse> =
-      await net.get(`/api/project/${id}`);
-    return response.data as SuccessResponse;
+    const response: AxiosResponse<
+      SuccessResponse<ProjectDetailType> | FailedResponse
+    > = await net.get(`/api/project/${id}`);
+    return response.data as SuccessResponse<ProjectDetailType>;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       return {
@@ -162,6 +194,10 @@ export const getProject = async (id: string) => {
         }),
       };
     }
-    return { error: true, message: "registration failed" };
+    return {
+      type: "error",
+      error: true,
+      message: "Unable to get project details",
+    };
   }
 };

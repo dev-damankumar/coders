@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import img from "../../assets/images/placeholder.png";
 import { env } from "../../utils";
-import { net } from "../../helpers";
 
 type ImageType = {
   defaultImg?: string;
@@ -13,17 +12,19 @@ type ImageType = {
 const Image = ({ src, defaultImg, ...rest }: ImageType) => {
   const imgSrc = env["REACT_APP_BASE_URL"];
   const defaultImgSrc = defaultImg || img;
-  const [source, setSource] = useState(
-    src ? [imgSrc, src].join("/") : defaultImgSrc
-  );
-  useEffect(() => {
-    setSource(src ? [imgSrc, src].join("/") : defaultImgSrc);
-    try {
-      net.get([imgSrc, src].join("/"));
-    } catch (e) {
-      setSource(defaultImgSrc);
-    }
-  }, [src]);
+  const source = src ? [imgSrc, src].join("/") : defaultImgSrc;
+  // useEffect(() => {
+  //   (async () => {
+  //     setSource(src ? [imgSrc, src].join("/") : defaultImgSrc);
+  //     try {
+  //       await net.get([imgSrc, src].join("/"), {
+  //         mode: "no-cors",
+  //       });
+  //     } catch (e) {
+  //       setSource(defaultImgSrc);
+  //     }
+  //   })();
+  // }, [src]);
   return <img loading="lazy" src={source} {...rest} />;
 };
 

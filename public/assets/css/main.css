@@ -169,7 +169,7 @@ div#manage-project .table {
 
 a.menu-link.userMenu {
   align-items: center;
-  background: #283b5d;
+  background: var(--dark-3);
 }
 
 a.menu-link.userMenu span {
