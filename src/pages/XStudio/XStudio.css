@@ -378,7 +378,8 @@ a.side-icon.logo-x-studio-link svg {
 
 .x-studio-page .editor * {
   font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace !important;
-  font-size: 12px !important;
+  font-size: 13px !important;
+  transition: none !important;
 }
 
 .x-studio-page p.x-file-name {
@@ -406,7 +407,8 @@ a.side-icon.logo-x-studio-link svg {
 .x-studio-page .x-breadcrumb {
   position: absolute;
   width: 100%;
-  bottom: 0;
+  bottom: 0px;
+  z-index: 9;
 }
 .x-studio-page .x-file-view-div {
   width: 260px;
@@ -438,15 +440,11 @@ a.side-icon.logo-x-studio-link svg {
 
 .x-studio-page .editor {
   position: relative;
-  min-height: 300px;
   transition: none !important;
-  height: calc(100% - 92px);
+  height: calc(100% - 86px);
 }
 .x-studio-editor.x-studio-dark-theme .x-breadcrumb {
   background: var(--dark);
-}
-.x-studio-page .editor * {
-  transition: none !important;
 }
 
 .x-studio-page .x-studio-code-place {
@@ -848,7 +846,7 @@ button.x-tab-close {
   color: var(--dark-2-text);
 }
 .x-studio-dark-theme .x-file-view-div {
-  background: var(--dark-1);
+  background: var(--dark-secondary);
 }
 .x-studio-dark-theme ul.file-expand:not(#file-explorer) li:before,
 .x-studio-dark-theme ul.file-expand:not(#file-explorer) li::after {
@@ -890,7 +888,7 @@ button.x-tab-close {
   color: #dddddd;
 }
 .dropdown-menu.dark-x-studio-menu .dropdown-divider {
-  border-top: 1px solid #33425c;
+  border-top: 1px solid var(--dark-1-border);
 }
 .dropdown-menu.dark-x-studio-menu:before {
   border-color: transparent !important;
@@ -1080,7 +1078,7 @@ button.x-tab-close {
     right: 0px;
     max-width: 100%;
     bottom: 45px;
-    height: calc(100% - 94px);
+    height: calc(100% - 91px);
     border-radius: 10px;
     overflow: auto;
     opacity: 0;
@@ -1175,7 +1173,7 @@ button.x-tab-close {
     bottom: 40px;
   }
   .x-studio-page .x-breadcrumb {
-    bottom: -5px;
+    bottom: -9px;
   }
   .x-tabs li {
     padding: 5px 8px 5px 5px;

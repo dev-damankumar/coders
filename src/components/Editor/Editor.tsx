@@ -85,10 +85,6 @@ function Editor({
       ) : (
         <div className="no-file-preview">
           <h1>No File Opened</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio,
-            amet.
-          </p>
         </div>
       )}
     </div>

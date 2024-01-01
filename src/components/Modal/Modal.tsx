@@ -30,7 +30,8 @@ const Modal = ({
 }: ModalTypes) => {
   let [showModal, setShowModal] = useState(show);
   let close = () => {
-    onClose();
+    onClose?.();
+
     if (!onClose) {
       setShowModal(false);
     }
@@ -40,7 +41,7 @@ const Modal = ({
     setShowModal(show);
   }, [show]);
   let successModal = () => {
-    onSuccess();
+    onSuccess?.();
     close();
   };
 
