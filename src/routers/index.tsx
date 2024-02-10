@@ -64,6 +64,30 @@ const router = createBrowserRouter(
           }
         />
         <Route
+          path="register"
+          element={
+            <Suspense fallback={<Loading />}>
+              <Register />
+            </Suspense>
+          }
+        />
+        <Route
+          path="forgot-password"
+          element={
+            <Suspense fallback={<Loading />}>
+              <ForgotPassword />
+            </Suspense>
+          }
+        />
+        <Route
+          path="reset-password/:id"
+          element={
+            <Suspense fallback={<Loading />}>
+              <ResetPassword />
+            </Suspense>
+          }
+        />
+        <Route
           path="profile/:id"
           element={
             <Suspense fallback={<Loading />}>
@@ -133,31 +157,6 @@ const router = createBrowserRouter(
           element={
             <Suspense fallback={<Loading />}>
               <FilePreview />
-            </Suspense>
-          }
-        />
-
-        <Route
-          path="register"
-          element={
-            <Suspense fallback={<Loading />}>
-              <Register />
-            </Suspense>
-          }
-        />
-        <Route
-          path="forgot-password"
-          element={
-            <Suspense fallback={<Loading />}>
-              <ForgotPassword />
-            </Suspense>
-          }
-        />
-        <Route
-          path="reset-password/:id"
-          element={
-            <Suspense fallback={<Loading />}>
-              <ResetPassword />
             </Suspense>
           }
         />

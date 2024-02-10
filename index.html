@@ -267,7 +267,7 @@
       .x-tooltip:before {
         border-color: transparent white transparent transparent;
         top: 50%;
-        left: -14px;
+        left: -13px;
         transform: translateY(-50%);
       }
       .x-tooltip.x-tooltip-up.x-tooltip-dark:before {
@@ -806,7 +806,7 @@
       }
 
       .dropdown-menu.dropdown-menu-right:before {
-        top: -14px;
+        top: -13px;
         right: 13px;
         left: unset;
       }
@@ -2123,7 +2123,10 @@
       }
 
       .navbar-dark {
-        background: hsl(219deg 36% 18%);
+        background: var(--dark-3);
+      }
+      .menu.sticky-menu a.menu-link.userMenu {
+        background: var(--dark-4);
       }
 
       .navbar-dark .navbar-brand {
@@ -2409,10 +2412,11 @@
 
       a.navbar-brand p {
         margin-bottom: 0;
-        margin-left: 10px;
+        margin-left: 5px;
         text-transform: uppercase;
         font-size: 17px;
         font-family: "Montserrat SemiBold";
+        letter-spacing: 0.4px;
       }
 
       a.navbar-brand p span {

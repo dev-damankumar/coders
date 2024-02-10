@@ -7,6 +7,7 @@
   --dark-2-text: rgb(163 180 212);
   --dark-3: #1c1e31;
   --dark-3-text: rgb(197 197 228);
+  --dark-4: #252d3f;
 }
 
 .ReactTags__tags {
@@ -642,6 +643,7 @@ button.go-back-search-btn {
   color: gray;
   text-transform: uppercase;
   font-size: 13px;
+  letter-spacing: 0.4px;
 }
 
 .main-heading-section .sub-title {

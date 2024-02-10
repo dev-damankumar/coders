@@ -81,9 +81,7 @@ function Login(props?: { type?: 1 | 2 | 3 }) {
               <div className="col-md-6 leftsidecolumn">
                 <div className="leftLoginSide">
                   <div className="loginLogo">
-                    <NavLink to="/">
-                      <SiteLogo />
-                    </NavLink>
+                    <SiteLogo />
                   </div>
                   <div className="welcomeback">
                     {props.type === 3

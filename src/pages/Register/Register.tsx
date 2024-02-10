@@ -485,9 +485,7 @@ function Register() {
                     alignItems: "center",
                   }}
                 >
-                  <NavLink to="/">
-                    <SiteLogo />
-                  </NavLink>
+                  <SiteLogo />
                   <div
                     className="welcomeback"
                     style={{ marginBottom: "0", marginLeft: "20px" }}

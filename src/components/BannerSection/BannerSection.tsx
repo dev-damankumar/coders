@@ -12,7 +12,7 @@ const BannerSection = () => {
           <div className="col-md-7 col-lg-6">
             <div className="main-heading-section">
               <h6>developer data and customized platform</h6>
-              <Heading style={{ fontSize: "36px" }}>
+              <Heading style={{ fontSize: "35px" }}>
                 Grow Your Project Easily With ProjectX
               </Heading>
               <p className="sub-title">

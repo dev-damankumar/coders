@@ -87,9 +87,7 @@ function ResetPassword(props) {
             <div className="col-md-6 leftsidecolumn">
               <div className="leftLoginSide">
                 <div className="loginLogo">
-                  <NavLink to="/">
-                    <SiteLogo />
-                  </NavLink>
+                  <SiteLogo />
                   <div className="welcomeback" style={{ marginTop: "20px" }}>
                     <div style={{ marginBottom: "0" }} className="welcomeback">
                       Reset Password

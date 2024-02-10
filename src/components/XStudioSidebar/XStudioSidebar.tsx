@@ -45,13 +45,7 @@ const XStudioSidebar = ({ search }: XStudioSidebarProps) => {
 
   return (
     <div className="x-studio-sidebar">
-      <a
-        href="/"
-        className="side-icon logo-x-studio-link"
-        data-table-tooltip="true"
-      >
-        <SiteLogo />
-      </a>
+      <SiteLogo compact={true} className="side-icon logo-x-studio-link" />
       <div className="dropdown-divider"></div>
       <a
         href="#"

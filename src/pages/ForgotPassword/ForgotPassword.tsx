@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../Login/Login.css";
 import { NavLink } from "react-router-dom";
 import SiteLogo from "../../assets/icons/SiteLogo";
 import Form, { onChangeHandler } from "../../components/Form/Form";
 import forgotPasswordForm from "../../models/onboard/forgotPasswordFormModel";
-import { forgotPassword } from "../../utils/services";
 import SaveRowIcon from "../../assets/icons/SaveRowIcon";
 import loginImg from "../../assets/images/3d-people-1.png";
 import { toast, loader } from "../../utils";
 import If from "../../components/If/If";
+import { forgotPassword } from "../../services/auth";
 
 function ForgotPassword() {
   let [success, setSuccess] = useState(false);
@@ -17,7 +17,7 @@ function ForgotPassword() {
     JSON.parse(JSON.stringify(forgotPasswordForm))
   );
 
-  function validateEmail(email) {
+  function validateEmail(email: string) {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
@@ -86,9 +86,7 @@ function ForgotPassword() {
             <div className="col-md-6 leftsidecolumn">
               <div className="leftLoginSide">
                 <div className="loginLogo">
-                  <NavLink to="/">
-                    <SiteLogo />
-                  </NavLink>
+                  <SiteLogo />
                   <div className="welcomeback" style={{ marginTop: "20px" }}>
                     <div style={{ marginBottom: "0" }} className="welcomeback">
                       Forgot Password ??

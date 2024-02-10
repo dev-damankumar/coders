@@ -11,7 +11,7 @@ const Heading = <E extends React.ElementType = "div">({
   children,
   ...rest
 }: TypeHeadingProps<E>) => {
-  const Component = as || "div";
+  const Component = as || "h2";
   const array = children!.toString().split(" ");
   const half = Math.ceil(array?.length / 2);
   const firstHalf = array?.slice(0, half);

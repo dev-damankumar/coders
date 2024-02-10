@@ -61,12 +61,7 @@ const Menu = () => {
             <div className="col-md-12">
               <div className="menu sticky-menu">
                 <nav className="navbar navbar-dark">
-                  <NavLink className="navbar-brand" to="/">
-                    <SiteLogo />
-                    <p>
-                      Project <span>X</span>
-                    </p>
-                  </NavLink>
+                  <SiteLogo />
                   <div className="menu-wrap" data-menu>
                     <ul
                       className="menu-ul"
