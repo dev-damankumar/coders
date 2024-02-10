@@ -26,7 +26,7 @@ type LoginSuccessResponse = {
 };
 
 export type FailedResponse = {
-  type?: 'error';
+  type: 'error';
   error: true;
   status?: string;
   message: string;

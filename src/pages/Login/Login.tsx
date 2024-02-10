@@ -1,4 +1,4 @@
-import React, { useState, Suspense, useEffect } from 'react';
+import React, { useState, Suspense } from 'react';
 import './Login.css';
 import loginImg from '../../assets/images/3d-people-1.png';
 import { NavLink, Navigate, useNavigate } from 'react-router-dom';

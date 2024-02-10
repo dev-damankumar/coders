@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import If from '../If/If';
 
 type ModalTypes = {
   show?: boolean;
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   dark?: boolean;
   footer?: React.ReactNode;
   heading: string;
   hideCloseButton?: boolean;
+  hideFooter?: boolean;
   headerIcon?: React.ReactNode;
   onClose?: () => void;
   onSuccess?: () => void;
@@ -27,6 +29,7 @@ const Modal = ({
   body,
   cancelButtonText,
   successButtonText,
+  hideFooter = false,
 }: ModalTypes) => {
   let [showModal, setShowModal] = useState(show);
   let close = () => {
@@ -46,52 +49,54 @@ const Modal = ({
   };
 
   return showModal ? (
-    <div className={`dModal dModal-show ${dark ? "dModalDark" : ""}`}>
+    <div className={`dModal dModal-show ${dark ? 'dModalDark' : ''}`}>
       <div
-        className={`dModal-content ${size ? `dModal-${size}-content` : ""}`}
-        data-modal-content="sm"
+        className={`dModal-content ${size ? `dModal-${size}-content` : ''}`}
+        data-modal-content='sm'
       >
-        <div className="dModal-header">
+        <div className='dModal-header'>
           <h3>
             {headerIcon} {heading}
           </h3>
           {!hideCloseButton && (
             <span
               onClick={close}
-              className="dModal-close"
-              data-modal-destroy=""
+              className='dModal-close'
+              data-modal-destroy=''
             >
               &times;
             </span>
           )}
         </div>
-        <div className="dModal-body">{body}</div>
-        {footer ? (
-          footer
-        ) : (
-          <div className="dModal-footer">
-            <div className="d-modal-button-div">
-              <button
-                type="button"
-                onClick={successModal}
-                className="btn btn-small btn-primary"
-              >
-                {successButtonText ? successButtonText : "Submit"}
-              </button>
-              <button
-                className="btn btn-small btn-dark"
-                type="reset"
-                onClick={close}
-              >
-                {cancelButtonText ? cancelButtonText : "Cancel"}
-              </button>
+        <div className='dModal-body'>{body}</div>
+        <If cond={!hideFooter}>
+          {footer ? (
+            footer
+          ) : (
+            <div className='dModal-footer'>
+              <div className='d-modal-button-div'>
+                <button
+                  type='button'
+                  onClick={successModal}
+                  className='btn btn-small btn-primary'
+                >
+                  {successButtonText ? successButtonText : 'Submit'}
+                </button>
+                <button
+                  className='btn btn-small btn-dark'
+                  type='reset'
+                  onClick={close}
+                >
+                  {cancelButtonText ? cancelButtonText : 'Cancel'}
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </If>
       </div>
     </div>
   ) : (
-    ""
+    ''
   );
 };
 

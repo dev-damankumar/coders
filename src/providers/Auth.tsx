@@ -5,9 +5,9 @@ import {
   useContext,
   useEffect,
   useReducer,
-} from "react";
-import { useJwt } from "react-jwt";
-import { LogoutOptionsType } from "../services/auth";
+} from 'react';
+import { useJwt } from 'react-jwt';
+import { LogoutOptionsType } from '../services/auth';
 export type Social = {
   facebook: string;
   github: string;
@@ -32,8 +32,19 @@ export type User = {
   cover: string;
   mobile: number;
   profileCompletion: number;
-  social: Social;
+  socials: Social;
   errorStep?: number;
+};
+
+export type PublicUser = {
+  username: string;
+  firstname: string;
+  lastname: string;
+  address: string;
+  city: string;
+  country: string;
+  mobile: number;
+  socials: Social;
 };
 
 export type UserStateType = User | null;
@@ -43,25 +54,43 @@ type TypeAuth = {
   user: UserStateType;
   login: ({ user, token }: { user: User; token: string }) => void;
   logout: (options?: LogoutOptionsType) => void;
+  setSocials: (_: Social) => void;
+  setUser: (_: PublicUser) => void;
 };
 
 type UserPayload = {
-  type: "LOGIN" | "REGISTER";
+  type: 'LOGIN' | 'REGISTER';
   payload: { user: User; token: string };
 };
 
+type SetUserPayload = {
+  type: 'SET_USER';
+  payload: PublicUser;
+};
+
+type SetUsersSocialLinkPayload = {
+  type: 'SET_SOCIAL';
+  payload: Social;
+};
+
 type LogoutPayload = {
-  type: "LOGOUT";
+  type: 'LOGOUT';
 };
 let initialState: TypeAuth = {
   user: null,
   token: null,
   login: () => {},
   logout: () => {},
+  setSocials: (_: Social) => {},
+  setUser: (_: PublicUser) => {},
 };
 
-type ActionType = UserPayload | LogoutPayload;
-const localUser = localStorage.getItem("user");
+type ActionType =
+  | UserPayload
+  | LogoutPayload
+  | SetUserPayload
+  | SetUsersSocialLinkPayload;
+const localUser = localStorage.getItem('user');
 if (localUser) {
   initialState = {
     ...initialState,
@@ -81,19 +110,41 @@ const reducer = (
   action: ActionType
 ): TypeAuth => {
   switch (action.type) {
-    case "LOGIN": {
+    case 'LOGIN': {
       return {
         ...state,
         ...action.payload,
       };
     }
-    case "REGISTER": {
+    case 'SET_SOCIAL': {
+      if (state.user)
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            socials: action.payload,
+          },
+        };
+      return state;
+    }
+    case 'SET_USER': {
+      if (state.user)
+        return {
+          ...state,
+          user: {
+            ...state.user,
+            ...action.payload,
+          },
+        };
+      return state;
+    }
+    case 'REGISTER': {
       return {
         ...state,
         ...action.payload,
       };
     }
-    case "LOGOUT": {
+    case 'LOGOUT': {
       return {
         ...state,
         user: null,
@@ -106,22 +157,22 @@ const reducer = (
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { decodedToken, isExpired } = useJwt(token || "");
+  const { decodedToken, isExpired } = useJwt(token || '');
   const logout = useCallback(() => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    dispatch({ type: "LOGOUT" });
-    location.href = "/";
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    dispatch({ type: 'LOGOUT' });
+    location.href = '/';
   }, []);
 
   const login = useCallback(
     ({ user, token }: { user: User; token: string }) => {
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
       dispatch({
-        type: "LOGIN",
+        type: 'LOGIN',
         payload: {
           user,
           token,
@@ -130,6 +181,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     },
     []
   );
+  const setSocials = useCallback((socials: Social) => {
+    const user = structuredClone(state.user);
+    if (user) {
+      user.socials = {
+        ...user?.socials,
+        ...socials,
+      };
+      localStorage.setItem('user', JSON.stringify(user));
+      dispatch({
+        type: 'SET_USER',
+        payload: user,
+      });
+    }
+  }, []);
+
+  const setUser = useCallback((profile: PublicUser) => {
+    const user = {
+      ...structuredClone(state.user),
+      ...profile,
+    };
+    localStorage.setItem('user', JSON.stringify(user));
+    dispatch({
+      type: 'SET_USER',
+      payload: user,
+    });
+  }, []);
 
   useEffect(() => {
     if (decodedToken && isExpired) {
@@ -140,7 +217,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     ...state,
     login,
     logout,
+    setSocials,
     dispatch,
+    setUser,
   };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

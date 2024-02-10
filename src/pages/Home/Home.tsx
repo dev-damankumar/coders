@@ -8,7 +8,6 @@ import BannerSection from '../../components/BannerSection/BannerSection';
 import SubscribeSection from '../../components/SubscribeSection/SubscribeSection';
 import Heading from '../../components/Heading/Heading';
 import If from '../../components/If/If';
-import { net } from '../../helpers';
 const Roadmap = lazy(() => import('../../components/RoadMap/Roadmap'));
 const WhyChoose = lazy(() => import('../../components/WhyChoose/WhyChoose'));
 const Projects = lazy(() => import('../../components/Projects/Projects'));

@@ -1,46 +1,46 @@
-import React, { Suspense } from "react";
+import React, { Suspense } from 'react';
 import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
-} from "react-router-dom";
-import Layout from "../layouts/Layout";
-import Loading from "../components/Loading/Loading";
+} from 'react-router-dom';
+import Layout from '../layouts/Layout';
+import Loading from '../components/Loading/Loading';
 
-const Home = React.lazy(() => import("../pages/Home/Home"));
+const Home = React.lazy(() => import('../pages/Home/Home'));
 const ProjectDetail = React.lazy(
-  () => import("../pages/ProjectDetail/ProjectDetail")
+  () => import('../pages/ProjectDetail/ProjectDetail')
 );
-const Xcode = React.lazy(() => import("../pages/Xcode/Xcode"));
+const Xcode = React.lazy(() => import('../pages/Xcode/Xcode'));
 const FilePreview = React.lazy(
-  () => import("../pages/FilePreview/FilePreview")
+  () => import('../pages/FilePreview/FilePreview')
 );
-const Login = React.lazy(() => import("../pages/Login/Login"));
-const NotFound = React.lazy(() => import("../pages/NotFound/NotFound"));
+const Login = React.lazy(() => import('../pages/Login/Login'));
+const NotFound = React.lazy(() => import('../pages/NotFound/NotFound'));
 const Profile: React.LazyExoticComponent<
   React.NamedExoticComponent<{ tab: string }>
-> = React.lazy(() => import("../pages/Profile/Profile"));
-const Register = React.lazy(() => import("../pages/Register/Register"));
+> = React.lazy(() => import('../pages/Profile/Profile'));
+const Register = React.lazy(() => import('../pages/Register/Register'));
 const ForgotPassword = React.lazy(
-  () => import("../pages/ForgotPassword/ForgotPassword")
+  () => import('../pages/ForgotPassword/ForgotPassword')
 );
 const ResetPassword = React.lazy(
-  () => import("../pages/ResetPassword/ResetPassword")
+  () => import('../pages/ResetPassword/ResetPassword')
 );
 const PublicProfile = React.lazy(
-  () => import("../pages/PublicProfile/PublicProfile")
+  () => import('../pages/PublicProfile/PublicProfile')
 );
 const AllProjects = React.lazy(
-  () => import("../pages/AllProjects/AllProjects")
+  () => import('../pages/AllProjects/AllProjects')
 );
 
-const Xstudio = React.lazy(() => import("../pages/XStudio/XStudio"));
+const Xstudio = React.lazy(() => import('../pages/XStudio/XStudio'));
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<Layout />}>
+      <Route path='/' element={<Layout />}>
         <Route
-          path=""
+          path=''
           element={
             <Suspense fallback={<Loading />}>
               <Home />
@@ -48,7 +48,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="all-projects"
+          path='all-projects'
           element={
             <Suspense fallback={<Loading />}>
               <AllProjects />
@@ -56,7 +56,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="login"
+          path='login'
           element={
             <Suspense fallback={<Loading />}>
               <Login />
@@ -64,7 +64,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="register"
+          path='register'
           element={
             <Suspense fallback={<Loading />}>
               <Register />
@@ -72,7 +72,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="forgot-password"
+          path='forgot-password'
           element={
             <Suspense fallback={<Loading />}>
               <ForgotPassword />
@@ -80,7 +80,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="reset-password/:id"
+          path='reset-password/:id'
           element={
             <Suspense fallback={<Loading />}>
               <ResetPassword />
@@ -88,23 +88,23 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="profile/:id"
+          path='profile/:id'
           element={
             <Suspense fallback={<Loading />}>
-              <PublicProfile tab={"profile"} />
+              <PublicProfile tab={'profile'} />
             </Suspense>
           }
         />
         <Route
-          path="profile"
+          path='profile'
           element={
             <Suspense fallback={<Loading />}>
-              <Profile tab={"profile"} />
+              <Profile tab={'profile'} />
             </Suspense>
           }
         />
         <Route
-          path="x-studio"
+          path='x-studio'
           element={
             <Suspense fallback={<Loading />}>
               <Xstudio />
@@ -112,7 +112,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="x-studio/:id"
+          path='x-studio/:id'
           element={
             <Suspense fallback={<Loading />}>
               <Xstudio />
@@ -120,24 +120,24 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="my-project"
+          path='my-project'
           element={
             <Suspense fallback={<Loading />}>
-              <Profile tab={"my-project"} />
+              <Profile tab={'my-project'} />
             </Suspense>
           }
         />
         <Route
-          path="my-settings"
+          path='my-settings'
           element={
             <Suspense fallback={<Loading />}>
-              <Profile tab={"my-settings"} />
+              <Profile tab={'my-settings'} />
             </Suspense>
           }
         />
 
         <Route
-          path="project-detail/:id"
+          path='project-detail/:id'
           element={
             <Suspense fallback={<Loading />}>
               <ProjectDetail />
@@ -145,7 +145,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="xcode/:id"
+          path='xcode/:id'
           element={
             <Suspense fallback={<Loading />}>
               <Xcode />
@@ -153,7 +153,7 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="file-preview/:id"
+          path='file-preview/:id'
           element={
             <Suspense fallback={<Loading />}>
               <FilePreview />
@@ -162,7 +162,7 @@ const router = createBrowserRouter(
         />
 
         <Route
-          path="*"
+          path='*'
           element={
             <Suspense fallback={<Loading />}>
               <NotFound />

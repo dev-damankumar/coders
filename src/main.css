@@ -88,3 +88,49 @@ button.c-toast-close-btn svg {
 .c-toast-icon-warning svg {
   fill: orange;
 }
+
+.input {
+  border: 0;
+  outline: none;
+  border-bottom: 2px solid #eaeaea;
+  border-image-slice: 1;
+  text-decoration: none;
+  border-radius: 0;
+  font-size: 16px !important;
+  padding: 0.5rem 1rem;
+  display: block;
+  width: 100%;
+  font-weight: 400;
+  color: #495057;
+  background: #fff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  height: calc(1.5em + 1rem + 2px);
+  line-height: 1.5;
+  background: #f7f7f7;
+  border-radius: 8px;
+}
+
+.input:focus {
+  border-bottom: 2px solid var(--primary-color);
+  text-decoration: none;
+  box-shadow: none;
+}
+
+.hasError .input {
+  border-color: var(--danger) !important;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-body-wrap {
+  height: 325px;
+  overflow: auto;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.main-footer .social-wrap p {
+  color: white;
+}

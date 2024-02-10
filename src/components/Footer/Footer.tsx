@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import SiteLogo from '../../assets/icons/SiteLogo';
 import { excludeFromPaths } from '../../helpers';
+import SocialIcons from '../SocialIcons/SocialIcons';
 
 const Footer = () => {
   const path = useLocation().pathname;
@@ -80,32 +81,7 @@ const Footer = () => {
             <div className='col-md-6'></div>
             <div className='col-md-6'>
               <div className='social-icons'>
-                <div className='social-wrap'>
-                  <p>Follow me on</p>
-                  <div className='social-icon-wrap'>
-                    <a
-                      href='https://www.youtube.com/channel/UCtDnpqvWx-rs3h_X5ihDmbw'
-                      target='_blank'
-                      className='youtube'
-                    >
-                      <i className='bx bxl-youtube'></i>
-                    </a>
-                    <a
-                      href='https://www.linkedin.com/in/daman-kumar-022b731b9'
-                      target='_blank'
-                      className='linkedin'
-                    >
-                      <i className='bx bxl-linkedin'></i>
-                    </a>
-                    <a
-                      href='https://www.instagram.com/damankumar.pb_02/'
-                      target='_blank'
-                      className='instagram'
-                    >
-                      <i className='bx bxl-instagram'></i>
-                    </a>
-                  </div>
-                </div>
+                <SocialIcons />
               </div>
             </div>
           </div>
