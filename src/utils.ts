@@ -1,11 +1,9 @@
-import Loader from "./utils/loader";
-import Toast from "./utils/toast";
+import Loader from './utils/loader';
 
 const loader = new Loader();
-const toast = new Toast();
 const joinURL = (...args) => {
-  return args.join("/");
+  return args.join('/');
 };
 
 export const env = import.meta.env;
-export { loader, toast, joinURL };
+export { loader, joinURL };

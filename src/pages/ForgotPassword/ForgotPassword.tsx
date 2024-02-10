@@ -1,97 +1,76 @@
-import { useState } from "react";
-import "../Login/Login.css";
-import { NavLink } from "react-router-dom";
-import SiteLogo from "../../assets/icons/SiteLogo";
-import Form, { onChangeHandler } from "../../components/Form/Form";
-import forgotPasswordForm from "../../models/onboard/forgotPasswordFormModel";
-import SaveRowIcon from "../../assets/icons/SaveRowIcon";
-import loginImg from "../../assets/images/3d-people-1.png";
-import { toast, loader } from "../../utils";
-import If from "../../components/If/If";
-import { forgotPassword } from "../../services/auth";
+import { useState } from 'react';
+import '../Login/Login.css';
+import { NavLink } from 'react-router-dom';
+import SiteLogo from '../../assets/icons/SiteLogo';
+import SaveRowIcon from '../../assets/icons/SaveRowIcon';
+import loginImg from '../../assets/images/3d-people-1.png';
+import { loader } from '../../utils';
+import If from '../../components/If/If';
+import { forgotPassword } from '../../services/auth';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNotification } from '../../providers/Notification';
+import { validateEmail } from '../../helpers';
 
+type TForgotPasswordFormInputs = {
+  email: string;
+};
 function ForgotPassword() {
-  let [success, setSuccess] = useState(false);
-  let mainForgotFormStructure = JSON.parse(JSON.stringify(forgotPasswordForm));
-  let [formConfig, setFormConfig] = useState(
-    JSON.parse(JSON.stringify(forgotPasswordForm))
-  );
+  const notification = useNotification();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TForgotPasswordFormInputs>();
+  const [success, setSuccess] = useState(false);
 
-  function validateEmail(email: string) {
-    const re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
+  const resetForgotHandler = () => {};
 
-  let resetForgotHandler = () => {
-    setFormConfig({ ...mainForgotFormStructure });
-  };
-
-  let onChangeHandle = (e, fieldName, state) => {
-    let formState = onChangeHandler(e, fieldName, state);
-    setFormConfig(formState);
-  };
-  let isFormInvalid = (data) => {
-    return Object.keys(data).some((formInput) => {
-      return data[formInput].valid === false;
-    });
-  };
-
-  let onSubmitHandler = async (e) => {
-    e.preventDefault();
-    let isInvalid = isFormInvalid({ ...formConfig });
-    if (isInvalid) {
-      Object.keys(formConfig).forEach((formInput) => {
-        let newForm = { ...formConfig };
-        setFormConfig(newForm);
-      });
-    } else {
-      let form = new FormData(e.target);
-      let email = form.get("email");
-      let isEmailValid = validateEmail(email);
-      if (!isEmailValid) {
-        let temp = { ...mainForgotFormStructure };
-        temp["email"].valid = false;
-        temp["email"].touched = true;
-        temp["email"].config = {
-          ...temp["email"].config,
-          value: email,
-        };
-        setFormConfig({ ...temp });
-        toast.error("Invalid email");
-      } else {
-        loader.show();
-        let data = await forgotPassword(form.get("email"));
-        if (data.type === "success") {
-          toast.success(data.message);
-          loader.hide();
-          setSuccess(true);
-          resetForgotHandler();
-          return;
-        }
-        loader.hide();
-        toast.error(data.message);
+  const onSubmit: SubmitHandler<TForgotPasswordFormInputs> = async (user) => {
+    loader.show();
+    try {
+      const data = await forgotPassword(user.email);
+      if ('error' in data) {
+        return notification.add({
+          type: 'error',
+          message: data.message,
+          hold: true,
+        });
       }
+      notification.add({
+        type: 'success',
+        message: data.message,
+      });
+
+      setSuccess(true);
+      resetForgotHandler();
+    } catch (error) {
+      return notification.add({
+        type: 'error',
+        message: 'unexpected error on forgot password',
+        hold: true,
+      });
+    } finally {
+      loader.hide();
     }
   };
 
   return (
     <>
-      <div className="analytics-page main-content forgot-page login-page qr-wrap">
-        <div className="login_section container-fluid">
-          <div className="row">
-            <div className="col-md-12" />
+      <div className='analytics-page main-content forgot-page login-page qr-wrap'>
+        <div className='login_section container-fluid'>
+          <div className='row'>
+            <div className='col-md-12' />
           </div>
-          <div className="row">
-            <div className="col-md-6 leftsidecolumn">
-              <div className="leftLoginSide">
-                <div className="loginLogo">
+          <div className='row'>
+            <div className='col-md-6 leftsidecolumn'>
+              <div className='leftLoginSide'>
+                <div className='loginLogo'>
                   <SiteLogo />
-                  <div className="welcomeback" style={{ marginTop: "20px" }}>
-                    <div style={{ marginBottom: "0" }} className="welcomeback">
+                  <div className='welcomeback' style={{ marginTop: '20px' }}>
+                    <div style={{ marginBottom: '0' }} className='welcomeback'>
                       Forgot Password ??
                     </div>
-                    <p className="des-for">
+                    <p className='des-for'>
                       In case your forgot your password you can always reset it
                       by entering the email below
                     </p>
@@ -100,72 +79,96 @@ function ForgotPassword() {
                 <If
                   cond={!success}
                   else={
-                    <div className="success-payment">
+                    <div className='success-payment'>
                       <SaveRowIcon />
                       <h2>Mail has been sent successfully!</h2>
                       <p>Now you can open your email inbox to reset it</p>
-                      <a href="/">
-                        <button type="button" className="btn btn-success">
+                      <a href='/'>
+                        <button type='button' className='btn btn-success'>
                           Go to Home
                         </button>
                       </a>
                     </div>
                   }
                 >
-                  <div className="loginpart">
-                    <Form
-                      className="upload-img-form row"
-                      onSubmit={onSubmitHandler}
-                      config={formConfig}
-                      action={"#"}
-                      onChange={onChangeHandle}
-                      externalSubmit={
-                        <div className="row">
-                          <div className="col-md-12">
+                  <div className='loginpart'>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <div className='form-group form-signup'>
+                        <div className='valid-wrap'>
+                          <label className='inputlabel'>Email Address</label>
+                          <input
+                            {...register('email', {
+                              required: {
+                                value: true,
+                                message: 'Email is required',
+                              },
+                              validate: {
+                                emailVal: (value) => {
+                                  return (
+                                    validateEmail(value) ||
+                                    'Please enter valid email'
+                                  );
+                                },
+                              },
+                            })}
+                            placeholder='Email Address'
+                            type='text'
+                            name='email'
+                            className='form-control form-control-lg inputtext'
+                          />
+                          {errors.email && (
+                            <p className='error'>{errors.email.message}</p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className='form-group logininput'>
+                        <div className='row'>
+                          <div className='col-md-12'>
                             <button
-                              type="submit"
-                              className="btn btn-primary forgot-btn"
-                              style={{ width: "100%" }}
+                              type='submit'
+                              className='btn btn-primary forgot-btn'
+                              style={{ width: '100%' }}
                             >
                               Send Email
                             </button>
                           </div>
-                          <div className="col-md-12">
-                            <div className="or">
+                          <div className='col-md-12'>
+                            <div className='or'>
                               <span>Or</span>
                             </div>
-                            <div className="register-btn-div">
-                              <NavLink to="/login">
+                            <div className='register-btn-div'>
+                              <NavLink to='/login'>
                                 <button
-                                  type="submit"
-                                  className="btn"
+                                  type='submit'
+                                  className='btn'
                                   style={{
-                                    background: "var(--info)",
-                                    color: "white",
+                                    background: 'var(--info)',
+                                    color: 'white',
                                   }}
                                 >
                                   Login
                                 </button>
                               </NavLink>
-                              <NavLink to="/register">
-                                <button type="submit" className="btn btn-dark">
+                              <NavLink to='/register'>
+                                <button type='submit' className='btn btn-dark'>
                                   Register
                                 </button>
                               </NavLink>
                             </div>
                           </div>
                         </div>
-                      }
-                    />
+                      </div>
+                    </form>
                   </div>
                 </If>
               </div>
             </div>
             <div
-              className="col-md-6 rightsidecolumn"
-              style={{ alignItems: "center", display: "flex" }}
+              className='col-md-6 rightsidecolumn'
+              style={{ alignItems: 'center', display: 'flex' }}
             >
-              <img src={loginImg} className="login-img" alt="hdsf" />
+              <img src={loginImg} className='login-img' alt='hdsf' />
             </div>
           </div>
         </div>

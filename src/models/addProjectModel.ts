@@ -1,14 +1,14 @@
-let formStructure = {
+export const formStructure = {
   projectName: {
-    el: "input",
+    el: 'input',
     config: {
-      type: "text",
-      placeholder: "Enter Project Name",
-      name: "title",
-      id: "title",
-      value: "",
+      type: 'text',
+      placeholder: 'Enter Project Name',
+      name: 'title',
+      id: 'title',
+      value: '',
     },
-    label: "Project Name",
+    label: 'Project Name',
     validation: {
       required: true,
     },
@@ -16,15 +16,15 @@ let formStructure = {
     touched: false,
   },
   description: {
-    el: "input",
+    el: 'input',
     config: {
-      type: "text",
-      placeholder: "Enter Description",
-      name: "description",
-      id: "description",
-      value: "",
+      type: 'text',
+      placeholder: 'Enter Description',
+      name: 'description',
+      id: 'description',
+      value: '',
     },
-    label: "Description",
+    label: 'Description',
     validation: {
       required: true,
     },
@@ -32,14 +32,14 @@ let formStructure = {
     touched: false,
   },
   project: {
-    el: "input",
+    el: 'input',
     config: {
-      type: "file",
-      name: "project",
-      id: "project",
-      accept: ".zip,.rar,.7zip",
+      type: 'file',
+      name: 'project',
+      id: 'project',
+      accept: '.zip,.rar,.7zip',
     },
-    label: "Select Project",
+    label: 'Select Project',
     validation: {
       required: true,
     },
@@ -47,13 +47,13 @@ let formStructure = {
     touched: false,
   },
   image: {
-    el: "input",
+    el: 'input',
     config: {
-      type: "file",
-      name: "image",
-      id: "image",
+      type: 'file',
+      name: 'image',
+      id: 'image',
     },
-    label: "Select Image",
+    label: 'Select Image',
     validation: {
       required: true,
     },
@@ -61,86 +61,85 @@ let formStructure = {
     touched: false,
   },
   tags: {
-    el: "select",
+    el: 'select',
     config: {
-      type: "select",
-      placeholder: "Select Tags",
-      name: "tags",
-      id: "tags",
-      value: "",
+      type: 'select',
+      placeholder: 'Select Tags',
+      name: 'tags',
+      id: 'tags',
+      value: '',
       multiple: true,
     },
     options: [],
-    label: "Tags",
+    label: 'Tags',
   },
   projectImages: {
-    el: "input",
+    el: 'input',
     config: {
-      type: "file",
-      name: "imageGrid",
-      id: "imageGrid",
+      type: 'file',
+      name: 'imageGrid',
+      id: 'imageGrid',
       multiple: true,
     },
-    label: "Project Images",
+    label: 'Project Images',
   },
   setPrivacy: {
-    el: "input",
+    el: 'input',
     config: {
-      type: "radio",
+      type: 'radio',
     },
     options: [
       {
-        value: "true",
+        value: 'true',
         config: {
-          name: "visibility",
-          id: "public",
+          name: 'visibility',
+          id: 'public',
           checked: true,
         },
-        label: "Public",
+        label: 'Public',
       },
       {
-        value: "false",
+        value: 'false',
         config: {
-          name: "visibility",
-          id: "private",
+          name: 'visibility',
+          id: 'private',
         },
-        label: "Private",
+        label: 'Private',
       },
     ],
-    label: "Set Privacy",
+    label: 'Set Privacy',
   },
   submit: {
-    el: "button",
+    el: 'button',
     config: {
-      type: "submit",
-      value: "Next",
-      style: { marginLeft: "auto", display: "block" },
+      type: 'submit',
+      value: 'Next',
+      style: { marginLeft: 'auto', display: 'block' },
     },
-    label: "date",
-  },
-};
-let executableStructure = {
-  executableFile: {
-    el: "select",
-    config: {
-      type: "select",
-      placeholder: "Select Executable File",
-      name: "executableFile",
-      id: "executableFile",
-      value: "",
-    },
-    options: [],
-    label: "Select File",
-  },
-  submit: {
-    el: "button",
-    config: {
-      type: "submit",
-      value: "Finish",
-      style: { marginLeft: "auto", display: "block" },
-    },
-    label: "date",
+    label: 'date',
   },
 };
 
-export { formStructure, executableStructure };
+export const executableStructure = {
+  executableFile: {
+    el: 'select',
+    config: {
+      type: 'select',
+      placeholder: 'Select Executable File',
+      name: 'executableFile',
+      id: 'executableFile',
+      value: '',
+    },
+    options: [],
+    label: 'Select File',
+  },
+  submit: {
+    el: 'button',
+    config: {
+      type: 'submit',
+      value: 'Finish',
+      style: { marginLeft: 'auto', display: 'block' },
+    },
+    label: 'date',
+  },
+};

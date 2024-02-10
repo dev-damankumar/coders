@@ -1,23 +1,23 @@
-import React, { useState, Suspense, useEffect } from "react";
-import "./Login.css";
-import loginImg from "../../assets/images/3d-people-1.png";
-import { NavLink, Navigate, useNavigate } from "react-router-dom";
-import Loading from "../../components/Loading/Loading";
-import SiteLogo from "../../assets/icons/SiteLogo";
-import { useAuth } from "../../providers/Auth";
-import { validateEmail } from "../../helpers";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { login } from "../../services/auth";
-import { useNotification } from "../../providers/Notification";
+import React, { useState, Suspense, useEffect } from 'react';
+import './Login.css';
+import loginImg from '../../assets/images/3d-people-1.png';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
+import Loading from '../../components/Loading/Loading';
+import SiteLogo from '../../assets/icons/SiteLogo';
+import { useAuth } from '../../providers/Auth';
+import { validateEmail } from '../../helpers';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { login } from '../../services/auth';
+import { useNotification } from '../../providers/Notification';
 
-const QRCode = React.lazy(() => import("react-qr-code"));
-const Modal = React.lazy(() => import("../../components/Modal/Modal"));
+const QRCode = React.lazy(() => import('react-qr-code'));
+const Modal = React.lazy(() => import('../../components/Modal/Modal'));
 
-interface IFormInput {
+type IFormInput = {
   email: string;
   password: string;
-}
-function Login(props?: { type?: 1 | 2 | 3 }) {
+};
+function Login() {
   const notification = useNotification();
   const navigation = useNavigate();
   const {
@@ -34,9 +34,9 @@ function Login(props?: { type?: 1 | 2 | 3 }) {
 
   const onSubmit: SubmitHandler<IFormInput> = async (user) => {
     const data = await login(user.email, user.password);
-    if ("error" in data) {
+    if ('error' in data) {
       return notification.add({
-        type: "error",
+        type: 'error',
         message: data.message,
         hold: true,
       });
@@ -46,22 +46,22 @@ function Login(props?: { type?: 1 | 2 | 3 }) {
       token: data.token,
     });
     notification.add({
-      type: "success",
+      type: 'success',
       message: data.message,
     });
-    navigation("/");
+    navigation('/');
   };
 
   return (
     <>
       {auth.user ? (
-        <Navigate to="/" />
+        <Navigate to='/' />
       ) : (
-        <div className="analytics-page main-content login-page qr-wrap">
-          <Suspense fallback={""}>
+        <div className='analytics-page main-content login-page qr-wrap'>
+          <Suspense fallback={''}>
             <Modal
               heading={`Scan QR Code`}
-              headerIcon={<i className="bx bx-qr-scan"></i>}
+              headerIcon={<i className='bx bx-qr-scan'></i>}
               show={showQr}
               onClose={() => {
                 setShowQr(false);
@@ -69,140 +69,113 @@ function Login(props?: { type?: 1 | 2 | 3 }) {
               body={
                 <div className={`qrdiv`}>
                   <Suspense fallback={<Loading />}>
-                    <QRCode value="https://projectx-23927.web.app/login" />
+                    <QRCode value='https://projectx-23927.web.app/login' />
                   </Suspense>
                 </div>
               }
             />
           </Suspense>
 
-          <div className="login_section container-fluid">
-            <div className="row">
-              <div className="col-md-6 leftsidecolumn">
-                <div className="leftLoginSide">
-                  <div className="loginLogo">
+          <div className='login_section container-fluid'>
+            <div className='row'>
+              <div className='col-md-6 leftsidecolumn'>
+                <div className='leftLoginSide'>
+                  <div className='loginLogo'>
                     <SiteLogo />
                   </div>
-                  <div className="welcomeback">
-                    {props.type === 3
-                      ? "Please log into admin account"
-                      : "Please log into user account."}
+                  <div className='welcomeback'>
+                    Please log into admin account
                   </div>
                   <div
-                    className="form-group logininput loginwith"
-                    style={{ margin: "0", padding: "0" }}
-                  >
-                    {/* <GoogleOAuthProvider
-                      clientId="904156776688-of8bknffbq813fnreqoi0cb7eb4qtjpa.apps.googleusercontent.com"
-                      onSuccess={(r, i) => {
-                        auth.socialLogin(r, props.type);
-                      }}
-                      onFailure={(r) => {
-                        auth.socialLogin(r, props.type);
-                        loader.hide();
-                      }}
-                      cookiePolicy={"single_host_origin"}
-                    >
-                      <button
-                        disabled={renderProps.disabled}
-                        onClick={() => {
-                          loader.show();
-                          renderProps.onClick();
-                        }}
-                        type="submit"
-                        style={{ width: "100%" }}
-                        className="mr-4 google-btn"
-                      >
-                        <img src={googleImg} alt="google" /> Login with Google
-                      </button>
-                    </GoogleOAuthProvider> */}
-                  </div>
-                  <div className="or">
+                    className='form-group logininput loginwith'
+                    style={{ margin: '0', padding: '0' }}
+                  ></div>
+                  <div className='or'>
                     <span>Or</span>
                   </div>
-                  <div className="loginpart">
+                  <div className='loginpart'>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      <div className="form-group form-signup">
-                        <div className={"valid-wrap"}>
-                          <label className="inputlabel">Email Address</label>
+                      <div className='form-group form-signup'>
+                        <div className='valid-wrap'>
+                          <label className='inputlabel'>Email Address</label>
                           <input
-                            {...register("email", {
+                            {...register('email', {
                               required: {
                                 value: true,
-                                message: "Email is required",
+                                message: 'Email is required',
                               },
                               validate: {
                                 emailVal: (value) => {
                                   return (
                                     validateEmail(value) ||
-                                    "Please enter valid email"
+                                    'Please enter valid email'
                                   );
                                 },
                               },
                             })}
-                            placeholder="Email Address"
-                            type="text"
-                            name="email"
-                            className="form-control form-control-lg inputtext"
+                            placeholder='Email Address'
+                            type='text'
+                            name='email'
+                            className='form-control form-control-lg inputtext'
                           />
                           {errors.email && (
-                            <p className="error">{errors.email.message}</p>
+                            <p className='error'>{errors.email.message}</p>
                           )}
                         </div>
                       </div>
-                      <div className="form-group">
-                        <div className={"valid-wrap"}>
-                          <label className="inputlabel">Password</label>
+                      <div className='form-group'>
+                        <div className={'valid-wrap'}>
+                          <label className='inputlabel'>Password</label>
                           <input
-                            {...register("password", {
+                            {...register('password', {
                               required: {
                                 value: true,
-                                message: "Password is required",
+                                message: 'Password is required',
                               },
                               minLength: {
                                 value: 5,
                                 message:
-                                  "Password should be atleast 5 charactors",
+                                  'Password should be atleast 5 charactors',
                               },
                             })}
-                            placeholder="Password"
-                            type={showPassword ? "text" : "password"}
-                            name="password"
-                            className="form-control form-control-lg inputtext"
+                            placeholder='Password'
+                            type={showPassword ? 'text' : 'password'}
+                            name='password'
+                            className='form-control form-control-lg inputtext'
                           />
                           {errors.password && (
-                            <p className="error">{errors.password.message}</p>
+                            <p className='error'>{errors.password.message}</p>
                           )}
                           <button
-                            type={"button"}
+                            type={'button'}
                             onClick={togglePassword}
-                            className={"show-password"}
+                            className={'show-password'}
                           >
                             {showPassword ? (
-                              <i className="bx bxs-show"></i>
+                              <i className='bx bxs-show'></i>
                             ) : (
-                              <i className="bx bxs-hide"></i>
+                              <i className='bx bxs-hide'></i>
                             )}
                           </button>
                         </div>
                       </div>
-                      <div className="combvalue">
+                      <div className='combvalue'>
                         <NavLink
-                          className="dashboard-color"
-                          to="/forgot-password"
+                          className='dashboard-color'
+                          to='/forgot-password'
                         >
-                          <span className="forgetpassword">
+                          <span className='forgetpassword'>
                             Forgot Password
                           </span>
                         </NavLink>
                       </div>
-                      <div className="form-group logininput">
-                        <button type="submit" className="btn btn-primary">
+                      <div className='form-group logininput'>
+                        <button type='submit' className='btn btn-primary'>
                           Login
                         </button>
-                        <NavLink to="/register">
-                          <button type={"button"} className="btn-light btn">
-                            <span className="btnGradiant">Sign Up Free</span>
+                        <NavLink to='/register'>
+                          <button type={'button'} className='btn-light btn'>
+                            <span className='btnGradiant'>Sign Up Free</span>
                           </button>
                         </NavLink>
                       </div>
@@ -211,10 +184,10 @@ function Login(props?: { type?: 1 | 2 | 3 }) {
                 </div>
               </div>
               <div
-                className="col-md-6 rightsidecolumn"
-                style={{ alignItems: "center", display: "flex" }}
+                className='col-md-6 rightsidecolumn'
+                style={{ alignItems: 'center', display: 'flex' }}
               >
-                <img src={loginImg} className="login-img" alt="hdsf" />
+                <img src={loginImg} className='login-img' alt='hdsf' />
               </div>
             </div>
           </div>

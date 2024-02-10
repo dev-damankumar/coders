@@ -1,12 +1,18 @@
-import { AxiosResponse, isAxiosError } from "axios";
-import { net } from "../helpers";
-import { RegisterUserType } from "../models/onboard/registerForm";
-import { User } from "../providers/Auth";
-import { IRegisterFormInput } from "../pages/Register/Register";
+import { AxiosResponse, isAxiosError } from 'axios';
+import { net } from '../helpers';
+import { RegisterUserType } from '../models/onboard/registerForm';
+import { User } from '../providers/Auth';
+import { IRegisterFormInput } from '../pages/Register/Register';
 
 export type SuccessResponse = {
+  type: 'success';
+  status: string;
+  message: string;
+};
+
+export type RegisterSuccessResponse = SuccessResponse & {
   user: User;
-  type: "success";
+  type: 'success';
   status: string;
   message: string;
 };
@@ -14,13 +20,13 @@ export type SuccessResponse = {
 type LoginSuccessResponse = {
   token: string;
   user: User;
-  type: "success";
+  type: 'success';
   status: string;
   message: string;
 };
 
 export type FailedResponse = {
-  type?: "error";
+  type?: 'error';
   error: true;
   status?: string;
   message: string;
@@ -30,13 +36,13 @@ export const login = async (email: string, password: string) => {
   try {
     const response: AxiosResponse<LoginSuccessResponse | FailedResponse> =
       await net.post(
-        "/api/login",
+        '/api/login',
         {
           email: email.toLowerCase(),
           password: password,
         },
         {
-          headers: { "Content-Type": "application/json" },
+          headers: { 'Content-Type': 'application/json' },
         }
       );
     return response.data as LoginSuccessResponse;
@@ -44,7 +50,7 @@ export const login = async (email: string, password: string) => {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error occured" };
+    return { error: true, message: 'Unexpected error occured' };
   }
 };
 
@@ -54,10 +60,10 @@ export type LogoutOptionsType = {
 
 export const logout = async (options?: LogoutOptionsType) => {
   try {
-    localStorage.removeItem("auth");
-    localStorage.removeItem("token");
+    localStorage.removeItem('auth');
+    localStorage.removeItem('token');
     if (options?.redirect) {
-      window.location.href = "/login";
+      window.location.href = '/login';
     }
     //   loader.show();
     //   setTimeout(() => {
@@ -69,72 +75,75 @@ export const logout = async (options?: LogoutOptionsType) => {
     //   }, 1000);
   } catch (error: unknown) {
     if (error instanceof Error) return { error: true, message: error.message };
-    return { error: true, message: "Unexpected error occured" };
+    return { error: true, message: 'Unexpected error occured' };
   }
 };
 
 export const register = async (
   user: IRegisterFormInput
-): Promise<SuccessResponse | FailedResponse> => {
+): Promise<RegisterSuccessResponse | FailedResponse> => {
   try {
-    const response: AxiosResponse<SuccessResponse | FailedResponse> =
-      await net.post("/api/signup", user);
-    return response.data as SuccessResponse;
+    const response: AxiosResponse<RegisterSuccessResponse | FailedResponse> =
+      await net.post('/api/signup', user);
+    return response.data as RegisterSuccessResponse;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "registration failed" };
+    return { error: true, message: 'registration failed' };
   }
 };
 
 export const registerProfile = async (
   userProfileData: FormData
-): Promise<SuccessResponse | FailedResponse> => {
+): Promise<RegisterSuccessResponse | FailedResponse> => {
   try {
-    const response: AxiosResponse<SuccessResponse | FailedResponse> =
-      await net.post("/api/register-profile", userProfileData, {
+    const response: AxiosResponse<RegisterSuccessResponse | FailedResponse> =
+      await net.post('/api/register-profile', userProfileData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       });
 
-    return response.data as SuccessResponse;
+    return response.data as RegisterSuccessResponse;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "registration failed" };
+    return { error: true, message: 'registration failed' };
   }
 };
 
-export const forgotPassword = async (email: string) => {
+export const forgotPassword = async (
+  email: string
+): Promise<SuccessResponse | FailedResponse> => {
   try {
-    return await net.post(
-      "/api/forgot-password",
+    const response = await net.post(
+      '/api/forgot-password',
       { email },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
+    return response.data as SuccessResponse;
   } catch (error) {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
 export const resetPassword = async (password: string, token: string) => {
   try {
     return await net.post(
-      "/api/reset-password",
+      '/api/reset-password',
       { password, token },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -142,48 +151,48 @@ export const resetPassword = async (password: string, token: string) => {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
 export const socialLogin = async (user: RegisterUserType) => {
   try {
-    return await net.post("/api/social-login", user, {
+    return await net.post('/api/social-login', user, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
   } catch (error) {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
 export const socialSignUp = async (user: RegisterUserType) => {
   try {
-    return await net.post("/api/social-signup", user, {
+    return await net.post('/api/social-signup', user, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
   } catch (error) {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
 export const unsubscribe = async () => {
   try {
     return await net.post(
-      "/api/unsubscribe",
+      '/api/unsubscribe',
       {},
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -191,27 +200,30 @@ export const unsubscribe = async () => {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
-export const isValidResetToken = async (token: string) => {
+export const isValidResetToken = async (
+  token: string
+): Promise<SuccessResponse | FailedResponse> => {
   try {
-    return await net.post(
-      "/api/is-valid-reset-token",
+    const response = await net.post(
+      '/api/is-valid-reset-token',
       {
         token: token,
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
+    return response.data as SuccessResponse;
   } catch (error) {
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };

@@ -1,24 +1,24 @@
-let formStructure = {
+const formStructure = {
   image: {
-    el: "input",
+    el: 'input',
     config: {
-      type: "file",
-      name: "profileImage",
-      id: "profileImage",
-      accept: "image/*",
+      type: 'file',
+      name: 'profileImage',
+      id: 'profileImage',
+      accept: 'image/*',
     },
-    label: "Select Profile Image",
+    label: 'Select Profile Image',
     touched: false,
   },
   cover: {
-    el: "input",
+    el: 'input',
     config: {
-      type: "file",
-      name: "cover",
-      id: "cover",
-      accept: "image/*",
+      type: 'file',
+      name: 'cover',
+      id: 'cover',
+      accept: 'image/*',
     },
-    label: "Select Cover Image",
+    label: 'Select Cover Image',
     touched: false,
   },
 };

@@ -1,7 +1,7 @@
-import { lazy, Suspense } from "react";
-import CardRowSkelton from "../Skelton/CardRowSkelton";
-const ProjectCard = lazy(() => import("../ProjectCard/ProjectCard"));
-const NoData = lazy(() => import("../NoData/NoData"));
+import { lazy, Suspense } from 'react';
+import CardRowSkelton from '../Skelton/CardRowSkelton';
+const ProjectCard = lazy(() => import('../ProjectCard/ProjectCard'));
+const NoData = lazy(() => import('../NoData/NoData'));
 
 export type TypeAuthor = {
   _id: string;
@@ -24,7 +24,7 @@ export type Project = {
 type TypeProjects = {
   projects: Project[];
   nodata: boolean;
-  filterTags?: string;
+  filterTags: string;
 };
 const Projects = ({ projects, nodata, filterTags }: TypeProjects) => {
   return (
@@ -43,7 +43,7 @@ const Projects = ({ projects, nodata, filterTags }: TypeProjects) => {
               visibility={v.visibility}
               tags={v.tags}
               title={v.title}
-              url={"/project-detail/" + v._id}
+              url={'/project-detail/' + v._id}
               _id={v._id}
             />
           </Suspense>
