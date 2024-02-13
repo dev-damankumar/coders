@@ -335,7 +335,7 @@ p.joined {
   display: none;
 }
 
-section.discussion-section {
+.discussion-section {
   padding: 50px 0;
 }
 
@@ -553,7 +553,7 @@ section.discussion-section {
     font-size: 23px;
   }
 
-  section.discussion-section {
+  .discussion-section {
     padding: 30px 0;
   }
 }

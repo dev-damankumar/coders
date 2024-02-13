@@ -1,46 +1,45 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense } from 'react';
 import {
   Navigate,
   useParams,
   useLocation,
   useNavigate,
-} from "react-router-dom";
-import "./XStudio.css";
-import ThemeIcon from "../../assets/icons/ThemeIcon";
-import SettingsIcon from "../../assets/icons/SettingsIcon";
-import DeleteRowIcon from "../../assets/icons/DeleteRowIcon";
-import Loader from "../../utils/loader";
-import Image from "../../components/Image/Image";
-import ImgIcon from "../../assets/icons/ImgIcon";
-import Editor, { Mode } from "../../components/Editor/Editor";
-import SaveRowIcon from "../../assets/icons/SaveRowIcon";
-import XStudioSidebar from "../../components/XStudioSidebar/XStudioSidebar";
+} from 'react-router-dom';
+import './XStudio.css';
+import ThemeIcon from '../../assets/icons/ThemeIcon';
+import SettingsIcon from '../../assets/icons/SettingsIcon';
+import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';
+import { loader } from '../../utils/';
+import Image from '../../components/Image/Image';
+import ImgIcon from '../../assets/icons/ImgIcon';
+import Editor from '../../components/Editor/Editor';
+import SaveRowIcon from '../../assets/icons/SaveRowIcon';
+import XStudioSidebar from '../../components/XStudioSidebar/XStudioSidebar';
 import XStudioExplorer, {
   XstudionFileType,
-} from "../../components/XStudioExplorer/XStudioExplorer";
-import XStudioTabs from "../../components/XStudioTabs/XStudioTabs";
-import LinkIcon from "../../assets/icons/LinkIcon";
-import IfPrimiumUser from "../../components/IfPrimiumUser";
-import If from "../../components/If/If";
-import { env, joinURL } from "../../utils";
-import { useAuth } from "../../providers/Auth";
+} from '../../components/XStudioExplorer/XStudioExplorer';
+import XStudioTabs from '../../components/XStudioTabs/XStudioTabs';
+import LinkIcon from '../../assets/icons/LinkIcon';
+import IfPrimiumUser from '../../components/IfPrimiumUser';
+import If from '../../components/If/If';
+import { env, joinURL } from '../../utils/';
+import { useAuth } from '../../providers/Auth';
 import {
   FileDetailsType,
   fetchFileContent,
   saveFile,
-} from "../../services/files";
-import { fetchProjectList } from "../../services/project";
-import { FileType } from "../Xcode/Xcode";
-import { ProjectDetailType } from "../ProjectDetail/ProjectDetail";
-import { useNotification } from "../../providers/Notification";
-import { useStudio } from "../../providers/StudioProvider";
-import SearchIconWhite from "../../assets/icons/SearchIconWhite";
+} from '../../services/files';
+import { fetchProjectList } from '../../services/project';
+import { FileType } from '../Xcode/Xcode';
+import { ProjectDetailType } from '../ProjectDetail/ProjectDetail';
+import { useNotification } from '../../providers/Notification';
+import { useStudio } from '../../providers/StudioProvider';
+import SearchIconWhite from '../../assets/icons/SearchIconWhite';
 
 const SearchFile = React.lazy(
-  () => import("../../components/SearchFile/SearchFile")
+  () => import('../../components/SearchFile/SearchFile')
 );
-const DropDown = React.lazy(() => import("../../components/DropDown/DropDown"));
-const loader = Loader();
+const DropDown = React.lazy(() => import('../../components/DropDown/DropDown'));
 
 type ProjectListType = {
   name: string;
@@ -56,21 +55,21 @@ function XStudio() {
   const navigate = useNavigate();
   const auth = useAuth();
   const notification = useNotification();
-  const projectId = params.id! || "";
+  const projectId = params.id! || '';
 
   const [projectList, setProjectList] = useState<ProjectListType[]>([]);
   const [selectedProject, setselectedProject] =
     useState<ProjectListType | null>(null);
 
-  const [filepath, setfilepath] = useState("/");
+  const [filepath, setfilepath] = useState('/');
   const [tabs, setTabs] = useState<string[]>([]);
-  const [activeTab, setActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState('');
   const [fileData, setfileData] = useState<FileDetailsType<string> | null>(
     null
   );
   const [files, setFiles] = useState<XstudionFileType[] | null>(null);
 
-  const [tempdata, setTempData] = useState({ data: fileData?.data || "" });
+  const [tempdata, setTempData] = useState({ data: fileData?.data || '' });
   const [projectDetail, setprojectDetail] = useState<ProjectDetailType>(null);
   const [showSearchField, setShowSearchFeild] = useState(false);
 
@@ -79,7 +78,7 @@ function XStudio() {
     setFiles(null);
     const fetchProjectListArray = async () => {
       const projectList = await fetchProjectList();
-      if ("error" in projectList) {
+      if ('error' in projectList) {
         return notification.error(projectList.message);
       }
       if (projectList.data) {
@@ -91,7 +90,7 @@ function XStudio() {
             icon: <Image src={item.image} />,
             link: `/x-studio/${item._id}`,
           };
-          if (item._id === params.id) {
+          if (item._id === projectId) {
             data.selected = true;
             setselectedProject(data);
           }
@@ -107,17 +106,17 @@ function XStudio() {
     resetEditor();
     setFiles(null);
     const fetchProjects = async () => {
-      if (params.id) {
+      if (projectId) {
         const project = await fetchFileContent<FileType[]>(
-          "",
+          '',
           projectId,
           filepath
         );
-        if ("error" in project) {
+        if ('error' in project) {
           return notification.error(project.message);
         }
         if (project.data) {
-          project.data.sort((a) => (a.type === "folder" ? -1 : 1));
+          project.data.sort((a) => (a.type === 'folder' ? -1 : 1));
           setfilepath(project.prevPath);
           setFiles(project.data);
           setprojectDetail(project.projectDetail);
@@ -127,23 +126,23 @@ function XStudio() {
       }
     };
     fetchProjects();
-  }, [params.id]);
+  }, [projectId]);
 
   useEffect(() => {
     const fetchFile = async () => {
       if (files) return;
       if (!(location?.state?.filename && location?.state?.path)) return;
-      await fetchFileContentHandler("", filepath, true);
-      navigate(`/x-studio/${id}`);
+      await fetchFileContentHandler('', filepath, true);
+      navigate(`/x-studio/${projectId}`);
     };
     fetchFile();
   }, [files]);
 
   const resetEditor = () => {
     setTabs([]);
-    setfilepath("/");
-    setActiveTab("");
-    setTempData({ data: fileData?.data || "" });
+    setfilepath('/');
+    setActiveTab('');
+    setTempData({ data: fileData?.data || '' });
     setfileData(null);
   };
 
@@ -162,7 +161,7 @@ function XStudio() {
     try {
       const tempFile = [...files];
       const currentItem = tempFile.find((file) => {
-        const path = [prevPath, name].join("/");
+        const path = [prevPath, name].join('/');
         if (file.path === path) {
           setfilepath(file.prevPath!);
           return true;
@@ -178,11 +177,11 @@ function XStudio() {
         projectId,
         prevPath || filepath
       );
-      if ("error" in details) {
+      if ('error' in details) {
         return notification.error(details.message);
       }
       if (!isFolder) {
-        if (typeof (details as FileDetailsType<string>).data === "string") {
+        if (typeof (details as FileDetailsType<string>).data === 'string') {
           setfileData(details as FileDetailsType<string>);
           setActiveTab(name);
           let tempTabs = [...tabs];
@@ -208,53 +207,53 @@ function XStudio() {
 
   const saveFileHandler = async (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!id) return;
+    if (!projectId) return;
     const file = activeTab;
     if (!file) return;
     loader.show();
     const data = tempdata.data;
-    const details = await saveFile(file, id, filepath, data);
+    const details = await saveFile(file, projectId, filepath, data);
     loader.hide();
-    if (details.type === "error") return notification.error(details.message);
+    if (details.type === 'error') return notification.error(details.message);
     notification.success(details.message);
   };
 
   const moreMenu = [
     Object.keys(projectDetail || {}).length > 0
       ? {
-          name: "Live Preview",
+          name: 'Live Preview',
           icon: <LinkIcon />,
           link: `${joinURL(
             env.REACT_APP_BASE_URL,
             projectDetail?.url,
             projectDetail?.executableFile
           )}`,
-          target: "_blank",
+          target: '_blank',
         }
       : {},
-    "divider",
+    'divider',
     {
-      name: "Preferences",
+      name: 'Preferences',
       icon: <ThemeIcon />,
     },
     {
-      name: "My Settings",
+      name: 'My Settings',
       icon: <SettingsIcon />,
-      link: "/my-settings",
+      link: '/my-settings',
     },
-    "divider",
-    projectDetail?.user_id === auth.user?._id
+    'divider',
+    projectDetail?.author === auth.user?._id
       ? {
-          name: "Save",
+          name: 'Save',
           icon: <SaveRowIcon />,
           onClick: saveFileHandler,
         }
       : {},
 
     {
-      name: "Exit",
+      name: 'Exit',
       icon: <DeleteRowIcon />,
-      link: "/",
+      link: '/',
     },
   ];
 
@@ -273,13 +272,13 @@ function XStudio() {
   };
 
   return (
-    <IfPrimiumUser else={<Navigate to={"/"} />}>
-      <div className="x-studio-page">
-        <div className="x-studio-editor x-studio-dark-theme">
-          <div className="x-studio-wrapper">
+    <IfPrimiumUser else={<Navigate to={'/'} />}>
+      <div className='x-studio-page'>
+        <div className='x-studio-editor x-studio-dark-theme'>
+          <div className='x-studio-wrapper'>
             <XStudioSidebar
               search={
-                <Suspense fallback="">
+                <Suspense fallback=''>
                   <SearchFile
                     input={<SearchIconWhite />}
                     prevPath={filepath}
@@ -291,13 +290,13 @@ function XStudio() {
                 </Suspense>
               }
             />
-            <div className="x-studio-content">
-              <div className="x-studio-editor-header">
-                <div className="x-studio-editor-header-item project-div">
-                  <Suspense fallback={""}>
+            <div className='x-studio-content'>
+              <div className='x-studio-editor-header'>
+                <div className='x-studio-editor-header-item project-div'>
+                  <Suspense fallback={''}>
                     <DropDown
                       list={projectList}
-                      linkClass="userMenu"
+                      linkClass='userMenu'
                       icon={
                         selectedProject?.icon ? (
                           selectedProject?.icon
@@ -308,41 +307,41 @@ function XStudio() {
                       name={
                         selectedProject?.name
                           ? selectedProject?.name
-                          : "Select Project"
+                          : 'Select Project'
                       }
-                      menuClass="dark-x-studio-menu x-studio-dropdown-menu"
+                      menuClass='dark-x-studio-menu x-studio-dropdown-menu'
                     />
                   </Suspense>
                 </div>
-                <div className="x-studio-editor-header-item">
-                  <div className="editor-view">
+                <div className='x-studio-editor-header-item'>
+                  <div className='editor-view'>
                     <a
-                      className="header-btn"
+                      className='header-btn'
                       onClick={(e) => {
                         e.preventDefault();
-                        studio.sidebar.changeView("left");
+                        studio.sidebar.changeView('left');
                       }}
                     >
-                      <i className="bx bx-dock-left" />
+                      <i className='bx bx-dock-left' />
                     </a>
                     <a
                       onClick={(e) => {
                         e.preventDefault();
-                        studio.sidebar.changeView("right");
+                        studio.sidebar.changeView('right');
                       }}
-                      className="header-btn"
+                      className='header-btn'
                     >
-                      <i className="bx bx-dock-right" />
+                      <i className='bx bx-dock-right' />
                     </a>
                   </div>
-                  <Suspense fallback={""}>
+                  <Suspense fallback={''}>
                     <DropDown
                       list={moreMenu}
-                      icon={<i className="bx bx-dots-vertical-rounded" />}
-                      name={""}
-                      menuClass="dropdown-menu dropdown-menu-right more-dropdown x-studio-dropdown-menu dark-x-studio-menu"
-                      className="editor-view dropdown"
-                      linkClass="header-btn"
+                      icon={<i className='bx bx-dots-vertical-rounded' />}
+                      name={''}
+                      menuClass='dropdown-menu dropdown-menu-right more-dropdown x-studio-dropdown-menu dark-x-studio-menu'
+                      className='editor-view dropdown'
+                      linkClass='header-btn'
                     />
                   </Suspense>
                 </div>
@@ -350,7 +349,7 @@ function XStudio() {
 
               <div
                 className={`x-studio-body ${
-                  studio.sidebar.view === "right" ? "x-studio-right-view" : ""
+                  studio.sidebar.view === 'right' ? 'x-studio-right-view' : ''
                 }`}
               >
                 <XStudioExplorer
@@ -360,7 +359,7 @@ function XStudio() {
                   projectDetail={projectDetail}
                   files={files}
                 />
-                <div className="x-studio-code-place">
+                <div className='x-studio-code-place'>
                   <XStudioTabs
                     tabs={tabs}
                     closeTab={closeTab}
@@ -368,37 +367,37 @@ function XStudio() {
                     fetchFileContentHandler={fetchFileContentHandler}
                   />
                   <Editor
-                    // disabled={projectDetail?.user_id !== auth.user?._id}
+                    // disabled={projectDetail?.author !== auth.user?._id}
                     fileData={fileData}
                     tabs={tabs}
-                    theme="eclipse"
-                    style={{ height: "100%", width: "100%" }}
+                    theme='eclipse'
+                    style={{ height: '100%', width: '100%' }}
                     onChange={(value: string) => {
                       setContent(value);
                     }}
                   />
                   <div
-                    className="x-breadcrumb"
-                    style={{ justifyContent: "flex-end" }}
+                    className='x-breadcrumb'
+                    style={{ justifyContent: 'flex-end' }}
                   >
                     <If cond={!!projectDetail}>
                       <a
-                        target="_blank"
+                        target='_blank'
                         href={joinURL(
                           env.REACT_APP_BASE_URL,
                           projectDetail?.url,
                           projectDetail?.executableFile
                         )}
-                        className="console-x-breadcrumb console-x-breadcrumb-right"
+                        className='console-x-breadcrumb console-x-breadcrumb-right'
                       >
-                        <i className="bx bx-link-external" /> Preview
+                        <i className='bx bx-link-external' /> Preview
                       </a>
-                      <If cond={projectDetail?.user_id === auth.user?._id}>
+                      <If cond={projectDetail?.author === auth.user?._id}>
                         <a
                           onClick={saveFileHandler}
-                          className="console-x-breadcrumb"
+                          className='console-x-breadcrumb'
                         >
-                          <i className="bx bx-check-circle" />
+                          <i className='bx bx-check-circle' />
                           Save
                         </a>
                       </If>

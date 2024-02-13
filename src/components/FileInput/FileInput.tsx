@@ -1,19 +1,22 @@
-import React, { useState, useRef } from "react";
-import { FileDrop } from "react-file-drop";
-import "./FileInut.css";
-import Toast from "../../utils/toast";
-import Loader from "../../utils/loader";
-import placeholder from "../../assets/images/placeholder.png";
+import React, { useRef } from 'react';
+import { FileDrop } from 'react-file-drop';
+import './FileInut.css';
+import { loader } from '../../utils/';
+import placeholder from '../../assets/images/placeholder.png';
+import { useNotification } from '../../providers/Notification';
 
-let toast = new Toast();
-let loader = Loader();
-const FileInput = (props) => {
+type FileInputProps = {
+  onPreview: React.Dispatch<React.SetStateAction<string | ArrayBuffer | null>>;
+  onUpload: React.Dispatch<React.SetStateAction<File | null>>;
+};
+const FileInput = (props: FileInputProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  var loadFile = function (file) {
+  const notification = useNotification();
+  var loadFile = function (file: File) {
     var reader = new FileReader();
     loader.show();
     reader.onload = function () {
-      if (!file.type.includes("image")) {
+      if (!file.type.includes('image')) {
         props.onPreview(placeholder);
       } else {
         props.onPreview(reader.result);
@@ -26,7 +29,7 @@ const FileInput = (props) => {
   function uploadFile(files: FileList | null) {
     if (!files) return;
     if (files && Object.keys(files).length > 1)
-      return toast.error(`Only single file can be uploaded`);
+      return notification.error('Only single file can be uploaded');
     const file = files[0];
     props.onUpload(file);
     loadFile(file);
@@ -49,8 +52,8 @@ const FileInput = (props) => {
       <input
         onChange={onFileInputChange}
         ref={fileInputRef}
-        type="file"
-        className="hidden"
+        type='file'
+        className='hidden'
       />
       <FileDrop
         onTargetClick={onTargetClick}

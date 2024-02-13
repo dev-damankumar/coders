@@ -1,5 +1,5 @@
 import { UserStateType } from '../providers/Auth';
-import getSubscriptionName from '../utils/getSubscriptionName';
+import { getSubscriptionName } from '../utils/';
 
 const localUser = localStorage.getItem('user') || null;
 let user: UserStateType = null;

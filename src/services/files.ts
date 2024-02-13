@@ -1,9 +1,9 @@
-import sign from "jwt-encode";
-import { env } from "../utils";
-import { net } from "../helpers";
-import { AxiosResponse, isAxiosError } from "axios";
-import { ProjectDetailType } from "../pages/ProjectDetail/ProjectDetail";
-import { FailedResponse } from "./auth";
+import sign from 'jwt-encode';
+import { env } from '../utils';
+import { net } from '../helpers';
+import { AxiosResponse, isAxiosError } from 'axios';
+import { ProjectDetailType } from '../pages/ProjectDetail/ProjectDetail';
+import { FailedResponse } from './auth';
 
 export const fetchAllFile = async (
   name: string,
@@ -12,7 +12,7 @@ export const fetchAllFile = async (
 ) => {
   try {
     return await net.post(
-      "/api/fetch-all-files",
+      '/api/fetch-all-files',
       {
         id: projectId,
         name,
@@ -20,7 +20,7 @@ export const fetchAllFile = async (
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -28,18 +28,18 @@ export const fetchAllFile = async (
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
 export type FileDetailsType<T> = {
   data: T;
   lastModified: string;
-  mimeType: "folder" | "file" | "image";
+  mimeType: 'folder' | 'file' | 'image';
   prevPath: string;
   projectDetail: ProjectDetailType;
   title: string;
-  type: "success";
+  type: 'success';
   name: string;
   extension: string;
   size: string;
@@ -54,23 +54,27 @@ export const fetchFileContent = async <T>(
   try {
     const response: AxiosResponse<FileDetailsType<T> | FailedResponse> =
       await net.post(
-        "/api/fetch-files-details",
+        '/api/fetch-files-details',
         {
           id: projectId,
           payload: jwt,
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         }
       );
     return response.data as FileDetailsType<T>;
   } catch (error) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return {
+      error: true,
+      type: 'error',
+      message: 'Unexpected error has been occured',
+    };
   }
 };
 
@@ -81,7 +85,7 @@ export const createFile = async (
   isFolder: boolean = false
 ) => {
   const payload = {
-    type: "create",
+    type: 'create',
     prevPath,
     fileName,
     isFolder,
@@ -94,7 +98,7 @@ export const createFile = async (
       { payload: jwt },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -103,7 +107,7 @@ export const createFile = async (
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
@@ -122,14 +126,14 @@ export const saveFile = async (
   //   loader.show();
   try {
     return await net.post(
-      "/api/save-file",
+      '/api/save-file',
       {
         id: projectId,
         payload: jwt,
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -137,7 +141,7 @@ export const saveFile = async (
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
@@ -147,19 +151,19 @@ export const uploadFile = async (
   prevPath: string
 ) => {
   const formData = new FormData();
-  formData.append("id", projectId);
-  formData.append("type", "upload");
-  formData.append("prevPath", prevPath);
-  formData.append("file", file);
+  formData.append('id', projectId);
+  formData.append('type', 'upload');
+  formData.append('prevPath', prevPath);
+  formData.append('file', file);
 
   try {
-    const response = await net.post("/api/new-file/", formData, {
+    const response = await net.post('/api/new-file/', formData, {
       params: {
         id: projectId,
         prevPath,
       },
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
     return response.data;
@@ -167,7 +171,7 @@ export const uploadFile = async (
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
@@ -176,10 +180,10 @@ export const copyFile = async (
   destination: string,
   projectId: string,
   isFolder: boolean,
-  method: "cut" | "copy"
+  method: 'cut' | 'copy'
 ) => {
   const payload = {
-    type: "create",
+    type: 'create',
     source,
     destination,
     isFolder,
@@ -189,14 +193,14 @@ export const copyFile = async (
   // loader.show();
   try {
     return await net.post(
-      "/api/copy-file/",
+      '/api/copy-file/',
       {
         id: projectId,
         payload: jwt,
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -204,7 +208,7 @@ export const copyFile = async (
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
@@ -222,14 +226,14 @@ export const renameFile = async (
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   try {
     return await net.post(
-      "/api/rename-file/",
+      '/api/rename-file/',
       {
         id: projectId,
         payload: jwt,
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -237,7 +241,7 @@ export const renameFile = async (
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
@@ -250,14 +254,14 @@ export const deleteSingleFile = async (
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   try {
     return await net.post(
-      "/api/delete-file/",
+      '/api/delete-file/',
       {
         id: projectId,
         payload: jwt,
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -265,12 +269,12 @@ export const deleteSingleFile = async (
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };
 
 export const deleteMultiFiles = async (
-  deletefiles: { name: string; type: "file" | "folder" }[],
+  deletefiles: { name: string; type: 'file' | 'folder' }[],
   projectId: string,
   prevPath: string
 ) => {
@@ -282,14 +286,14 @@ export const deleteMultiFiles = async (
   try {
     // loader.show();
     const response = await net.post(
-      "/api/delete-files/",
+      '/api/delete-files/',
       {
         id: projectId,
         payload: jwt,
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }
     );
@@ -298,6 +302,6 @@ export const deleteMultiFiles = async (
     if (isAxiosError(error)) {
       return { error: true, ...error.response!.data };
     }
-    return { error: true, message: "Unexpected error has been occured" };
+    return { error: true, message: 'Unexpected error has been occured' };
   }
 };

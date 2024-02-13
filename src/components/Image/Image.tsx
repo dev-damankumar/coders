@@ -1,6 +1,6 @@
-import React from "react";
-import img from "../../assets/images/placeholder.png";
-import { env } from "../../utils";
+import React, { useRef } from 'react';
+import img from '../../assets/images/placeholder.png';
+import { env } from '../../utils';
 
 type ImageType = {
   defaultImg?: string;
@@ -10,22 +10,24 @@ type ImageType = {
 >;
 
 const Image = ({ src, defaultImg, ...rest }: ImageType) => {
-  const imgSrc = env["REACT_APP_BASE_URL"];
+  const imgSrc = env['REACT_APP_BASE_URL'];
   const defaultImgSrc = defaultImg || img;
-  const source = src ? [imgSrc, src].join("/") : defaultImgSrc;
-  // useEffect(() => {
-  //   (async () => {
-  //     setSource(src ? [imgSrc, src].join("/") : defaultImgSrc);
-  //     try {
-  //       await net.get([imgSrc, src].join("/"), {
-  //         mode: "no-cors",
-  //       });
-  //     } catch (e) {
-  //       setSource(defaultImgSrc);
-  //     }
-  //   })();
-  // }, [src]);
-  return <img loading="lazy" src={source} {...rest} />;
+  const source = src ? [imgSrc, src].join('/') : defaultImgSrc;
+  const ref = useRef<HTMLImageElement>(null);
+  const setDefaultImage = () => {
+    if (ref.current) {
+      ref.current.src = defaultImgSrc;
+    }
+  };
+  return (
+    <img
+      {...rest}
+      loading='lazy'
+      src={source}
+      ref={ref}
+      onError={setDefaultImage}
+    />
+  );
 };
 
 export default Image;

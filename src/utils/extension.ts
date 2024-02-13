@@ -3,96 +3,95 @@ type Extensiontype = {
     icon: string;
   };
 };
-const extensions: Extensiontype = {
+export const extensions: Extensiontype = {
   html: {
-    icon: "html.png",
+    icon: 'html.png',
   },
   htm: {
-    icon: "html.png",
+    icon: 'html.png',
   },
   php: {
-    icon: "php.svg",
+    icon: 'php.svg',
   },
   css: {
-    icon: "css.png",
+    icon: 'css.png',
   },
   scss: {
-    icon: "scss.svg",
+    icon: 'scss.svg',
   },
   sass: {
-    icon: "scss.svg",
+    icon: 'scss.svg',
   },
   js: {
-    icon: "js.png",
+    icon: 'js.png',
   },
   tsx: {
-    icon: "atom.svg",
+    icon: 'atom.svg',
   },
   ts: {
-    icon: "ts.svg",
+    icon: 'ts.svg',
   },
   py: {
-    icon: "python.svg",
+    icon: 'python.svg',
   },
   jsx: {
-    icon: "atom.svg",
+    icon: 'atom.svg',
   },
   doc: {
-    icon: "docs.svg",
+    icon: 'docs.svg',
   },
   docs: {
-    icon: "docs.svg",
+    icon: 'docs.svg',
   },
   pdf: {
-    icon: "pdf.svg",
+    icon: 'pdf.svg',
   },
   xls: {
-    icon: "xls.svg",
+    icon: 'xls.svg',
   },
   xlsx: {
-    icon: "xls.svg",
+    icon: 'xls.svg',
   },
   ppt: {
-    icon: "ppt.svg",
+    icon: 'ppt.svg',
   },
   pptx: {
-    icon: "ppt.svg",
+    icon: 'ppt.svg',
   },
   txt: {
-    icon: "document.svg",
+    icon: 'document.svg',
   },
   mp4: {
-    icon: "video.png",
+    icon: 'video.png',
   },
   mp3: {
-    icon: "audio.png",
+    icon: 'audio.png',
   },
   jpg: {
-    icon: "image.png",
+    icon: 'image.png',
   },
   jpeg: {
-    icon: "image.png",
+    icon: 'image.png',
   },
   png: {
-    icon: "image.png",
+    icon: 'image.png',
   },
   mkv: {
-    icon: "video.png",
+    icon: 'video.png',
   },
   env: {
-    icon: "document.svg",
+    icon: 'document.svg',
   },
   gitignore: {
-    icon: "git.svg",
+    icon: 'git.svg',
   },
   json: {
-    icon: "json.svg",
+    icon: 'json.svg',
   },
   folder: {
-    icon: "folder.svg",
+    icon: 'folder.svg',
   },
   fallback: {
-    icon: "document.svg",
+    icon: 'document.svg',
   },
 };
-export default extensions;

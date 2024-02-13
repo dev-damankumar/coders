@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
-import "./EditProject.css";
-import placeholder from "../../../assets/images/placeholder.png";
-import { WithContext as ReactTags } from "react-tag-input";
-import Toast from "../../../utils/toast";
-import Loader from "../../../utils/loader";
-import Radio from "../../../components/Form/Radio/Radio";
-import { useNavigate } from "react-router-dom";
-import Http from "../../../hooks/http";
-import Loading from "../../../components/Loading/Loading";
-import { env } from "../../../utils";
-let loader = Loader();
+import React, { useEffect, useState } from 'react';
+import './EditProject.css';
+import placeholder from '../../../assets/images/placeholder.png';
+import { WithContext as ReactTags } from 'react-tag-input';
+import { loader } from '../../../utils/';
+import Radio from '../../../components/Form/Radio/Radio';
+import { useNavigate } from 'react-router-dom';
+import Http from '../../../hooks/http';
+import Loading from '../../../components/Loading/Loading';
+import { env } from '../../../utils';
 const KeyCodes = {
   comma: 188,
   enter: [10, 13],
@@ -21,7 +19,7 @@ const EditProject = (props: any) => {
   let http = Http();
   let history = useNavigate();
   let id = props.match.params.id;
-  let token = localStorage.getItem("token");
+  let token = localStorage.getItem('token');
   let [projectDetail, setProjectDetail] = useState();
   let [isOwnProject, setisOwnProject] = useState(false);
   let [projectGridImages, setProjectGridImages] = useState([]);
@@ -39,23 +37,23 @@ const EditProject = (props: any) => {
   const onChangeHandler = (type, value) => {
     setTouched(true);
     let obj = { ...projectDetail };
-    if (type === "visibility") {
-      if (value === "public") {
+    if (type === 'visibility') {
+      if (value === 'public') {
         obj[type] = true;
       } else {
         obj[type] = false;
       }
       setProjectDetail({ ...obj });
-    } else if (type === "image" || type === "imageGrid") {
+    } else if (type === 'image' || type === 'imageGrid') {
       let files = value;
       let tempImage = [...projectGridImages];
       Object.keys(files).forEach((v) => {
         const reader = new FileReader();
         reader.onloadend = () => {
-          if (type === "image") {
+          if (type === 'image') {
             obj[type] = reader.result;
           }
-          if (type === "imageGrid") {
+          if (type === 'imageGrid') {
             obj[type].push(reader.result);
           }
           setProjectDetail({ ...obj });
@@ -91,12 +89,12 @@ const EditProject = (props: any) => {
         return v.text;
       });
       let formData = new FormData(e.target);
-      formData.append("tags", tags);
-      formData.delete("visibility");
-      formData.append("visibility", projectDetail.visibility);
-      formData.append("prevImgGrid", prevImages);
+      formData.append('tags', tags);
+      formData.delete('visibility');
+      formData.append('visibility', projectDetail.visibility);
+      formData.append('prevImgGrid', prevImages);
       let project = await http.post(
-        `${env["REACT_APP_BASE_URL"]}/api/edit-project/${id}`,
+        `${env['REACT_APP_BASE_URL']}/api/edit-project/${id}`,
         formData,
         {
           formData: true,
@@ -106,7 +104,7 @@ const EditProject = (props: any) => {
         }
       );
       if (project) {
-        toast.success(project.message, "Project Updated");
+        toast.success(project.message, 'Project Updated');
         loader.hide();
       }
     }
@@ -114,12 +112,12 @@ const EditProject = (props: any) => {
   useEffect(() => {
     let fetchProject = async () => {
       let project = await http.get(
-        `${env["REACT_APP_BASE_URL"]}/api/edit-project/${id}`
+        `${env['REACT_APP_BASE_URL']}/api/edit-project/${id}`
       );
       if (project) {
-        if (project.type === "error") {
+        if (project.type === 'error') {
           toast.error(project.message);
-          history("/");
+          history('/');
           return;
         }
         setisOwnProject(true);
@@ -128,11 +126,11 @@ const EditProject = (props: any) => {
           tags[i] = { id: `${v}_${i}`, text: v };
         });
         let image = project.image;
-        image = [env["REACT_APP_BASE_URL"], image].join("/");
+        image = [env['REACT_APP_BASE_URL'], image].join('/');
         let images = project?.imageGrid ? [...project?.imageGrid] : [];
         setPrevImages(project?.imageGrid ? [...project?.imageGrid] : []);
         images.forEach((v, i) => {
-          images[i] = [env["REACT_APP_BASE_URL"], v].join("/");
+          images[i] = [env['REACT_APP_BASE_URL'], v].join('/');
         });
         setProjectDetail({
           ...project,
@@ -141,72 +139,72 @@ const EditProject = (props: any) => {
           image,
         });
       }
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     fetchProject();
   }, [id]);
 
   return isOwnProject ? (
     <section
-      className="section edit-project-section form-creation-wrap"
-      style={{ paddingTop: "10px" }}
+      className='section edit-project-section form-creation-wrap'
+      style={{ paddingTop: '10px' }}
     >
       <section>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-12'>
               <h2
-                id="main-heading"
-                className="main-h"
-                style={{ marginBottom: "30px" }}
+                id='main-heading'
+                className='main-h'
+                style={{ marginBottom: '30px' }}
               >
                 My <span>Projects</span>
               </h2>
             </div>
-            <div className="col-md-12">
+            <div className='col-md-12'>
               <form onSubmit={saveHandler}>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group  ">
-                      <label htmlFor="email">Project Name:</label>
+                <div className='row'>
+                  <div className='col-md-6'>
+                    <div className='form-group  '>
+                      <label htmlFor='email'>Project Name:</label>
                       <input
-                        type="text"
-                        placeholder="Enter Your Name"
-                        name="title"
-                        id="name"
-                        className="form-input"
-                        value={projectDetail?.title || ""}
+                        type='text'
+                        placeholder='Enter Your Name'
+                        name='title'
+                        id='name'
+                        className='form-input'
+                        value={projectDetail?.title || ''}
                         onChange={(e) => {
-                          onChangeHandler("title", e.target.value);
+                          onChangeHandler('title', e.target.value);
                         }}
                       />
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group  ">
-                      <label htmlFor="email">Description:</label>
+                  <div className='col-md-6'>
+                    <div className='form-group  '>
+                      <label htmlFor='email'>Description:</label>
                       <input
-                        type="text"
-                        placeholder="Enter Your Name"
-                        name="description"
-                        id="name"
-                        className="form-input "
-                        value={projectDetail?.description || ""}
+                        type='text'
+                        placeholder='Enter Your Name'
+                        name='description'
+                        id='name'
+                        className='form-input '
+                        value={projectDetail?.description || ''}
                         onChange={(e) => {
-                          onChangeHandler("description", e.target.value);
+                          onChangeHandler('description', e.target.value);
                         }}
                       />
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group form-file-group ">
-                      <label htmlFor="email">Select Image:</label>
-                      <div className="form-img-group">
-                        <div className="img-wrap-form">
+                <div className='row'>
+                  <div className='col-md-6'>
+                    <div className='form-group form-file-group '>
+                      <label htmlFor='email'>Select Image:</label>
+                      <div className='form-img-group'>
+                        <div className='img-wrap-form'>
                           <img
-                            alt="select image"
+                            alt='select image'
                             src={
                               projectDetail?.image
                                 ? projectDetail?.image
@@ -214,67 +212,67 @@ const EditProject = (props: any) => {
                             }
                           />
                         </div>
-                        <div className="main-file-wrap">
-                          <div className="file-make-div file-sm-div">
+                        <div className='main-file-wrap'>
+                          <div className='file-make-div file-sm-div'>
                             <input
-                              type="file"
-                              name="image"
-                              id="image"
-                              className="form-input "
+                              type='file'
+                              name='image'
+                              id='image'
+                              className='form-input '
                               onChange={(e) => {
-                                onChangeHandler("image", e.target.files);
+                                onChangeHandler('image', e.target.files);
                               }}
                             />
-                            <i className="bx bx-plus"></i>
+                            <i className='bx bx-plus'></i>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group form-file-group ">
-                      <label htmlFor="email">Project Images:</label>
-                      <div className="form-img-group">
+                  <div className='col-md-6'>
+                    <div className='form-group form-file-group '>
+                      <label htmlFor='email'>Project Images:</label>
+                      <div className='form-img-group'>
                         {projectDetail?.imageGrid?.map((img, i) => {
                           return (
-                            <div className="img-wrap-form">
+                            <div className='img-wrap-form'>
                               <img alt={img} src={img ? img : placeholder} />
                               <a
-                                href="#"
+                                href='#'
                                 onClick={() => {
                                   deleteImage(i);
                                 }}
-                                className="close-form-img"
+                                className='close-form-img'
                               >
-                                <i className="bx bx-x"></i>
+                                <i className='bx bx-x'></i>
                               </a>
                             </div>
                           );
                         })}
 
-                        <div className="main-file-wrap">
-                          <div className="file-make-div file-sm-div">
+                        <div className='main-file-wrap'>
+                          <div className='file-make-div file-sm-div'>
                             <input
-                              type="file"
-                              name="imageGrid"
-                              id="image"
-                              className="form-input "
+                              type='file'
+                              name='imageGrid'
+                              id='image'
+                              className='form-input '
                               multiple={true}
                               onChange={(e) => {
-                                onChangeHandler("imageGrid", e.target.files);
+                                onChangeHandler('imageGrid', e.target.files);
                               }}
                             />
-                            <i className="bx bx-plus"></i>
+                            <i className='bx bx-plus'></i>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group  ">
-                      <label htmlFor="email">Tags:</label>
+                <div className='row'>
+                  <div className='col-md-6'>
+                    <div className='form-group  '>
+                      <label htmlFor='email'>Tags:</label>
                       {projectDetail?.tags ? (
                         <ReactTags
                           autofocus={false}
@@ -288,33 +286,33 @@ const EditProject = (props: any) => {
                           delimiters={delimiters}
                         />
                       ) : (
-                        ""
+                        ''
                       )}
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group  ">
-                      <label htmlFor="email">Set Privacy:</label>
-                      <div className="form-group ">
-                        <div className="inline-form">
+                  <div className='col-md-6'>
+                    <div className='form-group  '>
+                      <label htmlFor='email'>Set Privacy:</label>
+                      <div className='form-group '>
+                        <div className='inline-form'>
                           <Radio
-                            label="Public"
-                            name="visibility"
-                            id="public"
-                            value="public"
+                            label='Public'
+                            name='visibility'
+                            id='public'
+                            value='public'
                             onChange={(e) => {
-                              onChangeHandler("visibility", e.target.value);
+                              onChangeHandler('visibility', e.target.value);
                             }}
                             checked={projectDetail?.visibility === true}
                           />
 
                           <Radio
-                            label="Public"
-                            name="visibility"
-                            id="private"
-                            value="private"
+                            label='Public'
+                            name='visibility'
+                            id='private'
+                            value='private'
                             onChange={(e) => {
-                              onChangeHandler("visibility", e.target.value);
+                              onChangeHandler('visibility', e.target.value);
                             }}
                             checked={projectDetail?.visibility === true}
                           />
@@ -323,15 +321,15 @@ const EditProject = (props: any) => {
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group ">
-                      <label htmlFor="email">Select Executable:</label>
+                <div className='row'>
+                  <div className='col-md-6'>
+                    <div className='form-group '>
+                      <label htmlFor='email'>Select Executable:</label>
                       <select
-                        name="executableFile"
-                        className="form-input "
+                        name='executableFile'
+                        className='form-input '
                         onChange={(e) => {
-                          onChangeHandler("executableFile", e.target.value);
+                          onChangeHandler('executableFile', e.target.value);
                         }}
                       >
                         {projectDetail?.executables.map((option) => {
@@ -348,9 +346,9 @@ const EditProject = (props: any) => {
                       </select>
                     </div>
                   </div>
-                  <div className="col-md-12">
-                    <div className="form-group" style={{ marginTop: "20px" }}>
-                      <button type="submit" className="btn btn-dark">
+                  <div className='col-md-12'>
+                    <div className='form-group' style={{ marginTop: '20px' }}>
+                      <button type='submit' className='btn btn-dark'>
                         Save
                       </button>
                     </div>

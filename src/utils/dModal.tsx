@@ -1,5 +1,5 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 type DModalType = {
   size?: string;
@@ -14,6 +14,7 @@ type DModalType = {
   cancelButtonText?: string;
   successButtonText?: string;
 };
+
 const DModal = ({
   size,
   dark,
@@ -31,69 +32,69 @@ const DModal = ({
     if (onClose) {
       onClose();
     }
-    ReactDOM.unmountComponentAtNode(document.getElementById("modal")!);
+    ReactDOM.unmountComponentAtNode(document.getElementById('modal')!);
   };
 
   const successModal = () => {
     onSuccess();
-    ReactDOM.unmountComponentAtNode(document.getElementById("modal")!);
+    ReactDOM.unmountComponentAtNode(document.getElementById('modal')!);
   };
 
   const modalEl = (
-    <div className={`dModal dModal-show ${dark ? "dModalDark" : ""}`}>
+    <div className={`dModal dModal-show ${dark ? 'dModalDark' : ''}`}>
       <div
-        className={`dModal-content ${size ? `dModal-${size}-content` : ""}`}
-        data-modal-content="sm"
+        className={`dModal-content ${size ? `dModal-${size}-content` : ''}`}
+        data-modal-content='sm'
       >
-        <div className="dModal-header">
+        <div className='dModal-header'>
           <h3>
             {headerIcon} {heading}
           </h3>
           {!hideCloseButton && (
             <span
               onClick={close}
-              className="dModal-close"
-              data-modal-destroy=""
+              className='dModal-close'
+              data-modal-destroy=''
             >
               ×
             </span>
           )}
         </div>
-        <div className="dModal-body">{body}</div>
+        <div className='dModal-body'>{body}</div>
         {footer ? (
           footer
         ) : footer != false ? (
-          <div className="dModal-footer">
-            <div className="d-modal-button-div">
+          <div className='dModal-footer'>
+            <div className='d-modal-button-div'>
               <button
-                type="button"
+                type='button'
                 onClick={successModal}
-                className="btn btn-small btn-primary"
+                className='btn btn-small btn-primary'
               >
-                {successButtonText ? successButtonText : "Submit"}
+                {successButtonText ? successButtonText : 'Submit'}
               </button>
               <button
-                className="btn btn-small btn-dark"
-                type="reset"
+                className='btn btn-small btn-dark'
+                type='reset'
                 onClick={closeModal}
               >
-                {cancelButtonText ? cancelButtonText : "Cancel"}
+                {cancelButtonText ? cancelButtonText : 'Cancel'}
               </button>
             </div>
           </div>
         ) : (
-          ""
+          ''
         )}
       </div>
     </div>
   );
 
-  ReactDOM.render(modalEl, document.getElementById("modal"));
+  ReactDOM.render(modalEl, document.getElementById('modal'));
 
   return DModal;
 };
 
 const close = () => {
-  ReactDOM.unmountComponentAtNode(document.getElementById("modal")!);
+  ReactDOM.unmountComponentAtNode(document.getElementById('modal')!);
 };
 export { DModal, close as DModalClose };

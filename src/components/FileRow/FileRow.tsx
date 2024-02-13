@@ -1,13 +1,13 @@
-import If from "../If/If";
-import IfStandardUser from "../IfStandardUser/IfStandardUser";
-import CheckBox from "../Form/Checkbox/Checkbox";
-import getImageByExtension from "../../utils/getImageByExtension";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import EditRowIcon from "../../assets/icons/EditRowIcon";
-import DeleteRowIcon from "../../assets/icons/DeleteRowIcon";
-import { deleteSingleFile } from "../../services/files";
-import { useNotification } from "../../providers/Notification";
-import { FileType } from "../../pages/Xcode/Xcode";
+import If from '../If/If';
+import IfStandardUser from '../IfStandardUser/IfStandardUser';
+import CheckBox from '../Form/Checkbox/Checkbox';
+import { getImageByExtension } from '../../utils/';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import EditRowIcon from '../../assets/icons/EditRowIcon';
+import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';
+import { deleteSingleFile } from '../../services/files';
+import { useNotification } from '../../providers/Notification';
+import { FileType } from '../../pages/Xcode/Xcode';
 
 type FileRowType = {
   files: FileType[] | null;
@@ -54,16 +54,16 @@ const FileRow = ({
     if (!files) return;
     const fileArray = [...files];
     const details = await deleteSingleFile(name, projectId, filepath);
-    if (details.type === "error")
+    if (details.type === 'error')
       return notification.add({
-        type: "error",
+        type: 'error',
         message: details.message,
       });
-    if (details.type === "success") {
+    if (details.type === 'success') {
       fileArray.splice(index, 1);
       setfiles(fileArray);
       return notification.add({
-        type: "success",
+        type: 'success',
         message: details.message,
       });
     }
@@ -89,12 +89,12 @@ const FileRow = ({
               </td>
             </IfStandardUser>
           </If>
-          <td style={{ width: "250px" }}>
+          <td style={{ width: '250px' }}>
             <a
-              className="open-x-code"
+              className='open-x-code'
               onClick={(e) => {
                 e.preventDefault();
-                if (extension === "folder") {
+                if (extension === 'folder') {
                   navigate(
                     `/xcode/${projectId}?filepath=${encodeURIComponent(
                       v.prevPath!
@@ -104,13 +104,13 @@ const FileRow = ({
                 fetchFileContentHandler(
                   v.name,
                   undefined,
-                  extension === "folder"
+                  extension === 'folder'
                 );
               }}
             >
               <img
-                alt="dg"
-                className="x-file-img"
+                alt='dg'
+                className='x-file-img'
                 src={getImageByExtension(extension)}
               />
               {v.name}
@@ -120,12 +120,12 @@ const FileRow = ({
             <div>{extension}</div>
           </td>
           <td>
-            <div>{date.toDateString().split(":")[0]}</div>
+            <div>{date.toDateString().split(':')[0]}</div>
           </td>
           <If cond={isAuthor}>
             <IfStandardUser>
               <td>
-                <ul className="x-actions">
+                <ul className='x-actions'>
                   <If
                     cond={
                       Object.keys(selected)?.length === 0 ||
@@ -133,33 +133,33 @@ const FileRow = ({
                     }
                     else={
                       <>
-                        <li className="x-action-li x-action-li-disabled">
-                          <a className="x-btn">
+                        <li className='x-action-li x-action-li-disabled'>
+                          <a className='x-btn'>
                             <EditRowIcon />
                           </a>
                         </li>
-                        <li className="x-action-li x-action-li-disabled x-action-delete-row">
-                          <a data-table-tooltip="Delete Row" className="x-btn">
+                        <li className='x-action-li x-action-li-disabled x-action-delete-row'>
+                          <a data-table-tooltip='Delete Row' className='x-btn'>
                             <DeleteRowIcon />
                           </a>
                         </li>
                       </>
                     }
                   >
-                    <li className="x-action-li x-action-edit-row">
+                    <li className='x-action-li x-action-edit-row'>
                       <NavLink
                         to={`/x-studio/${projectId}`}
                         state={{ filename: v.name, path: v.prevPath }}
-                        className="x-btn"
-                        title="Edit Row"
+                        className='x-btn'
+                        title='Edit Row'
                       >
                         <EditRowIcon />
                       </NavLink>
                     </li>
-                    <li className="x-action-li x-action-delete-row">
+                    <li className='x-action-li x-action-delete-row'>
                       <a
-                        title="Delete Row"
-                        className="x-btn"
+                        title='Delete Row'
+                        className='x-btn'
                         onClick={() => {
                           deleteFile(v.name, i);
                         }}

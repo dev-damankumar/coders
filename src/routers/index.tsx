@@ -17,9 +17,7 @@ const FilePreview = React.lazy(
 );
 const Login = React.lazy(() => import('../pages/Login/Login'));
 const NotFound = React.lazy(() => import('../pages/NotFound/NotFound'));
-const Profile: React.LazyExoticComponent<
-  React.NamedExoticComponent<{ tab: string }>
-> = React.lazy(() => import('../pages/Profile/Profile'));
+const Profile = React.lazy(() => import('../pages/Profile/Profile'));
 const Register = React.lazy(() => import('../pages/Register/Register'));
 const ForgotPassword = React.lazy(
   () => import('../pages/ForgotPassword/ForgotPassword')
@@ -33,8 +31,12 @@ const PublicProfile = React.lazy(
 const AllProjects = React.lazy(
   () => import('../pages/AllProjects/AllProjects')
 );
+const EditProject = React.lazy(
+  () => import('../pages/Admin/EditProject/EditProject')
+);
 
 const Xstudio = React.lazy(() => import('../pages/XStudio/XStudio'));
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -88,18 +90,18 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path='profile/:id'
+          path='profile'
           element={
             <Suspense fallback={<Loading />}>
-              <PublicProfile tab={'profile'} />
+              <Profile tab='profile' />
             </Suspense>
           }
         />
         <Route
-          path='profile'
+          path='profile/:id'
           element={
             <Suspense fallback={<Loading />}>
-              <Profile tab={'profile'} />
+              <PublicProfile tab='profile' />
             </Suspense>
           }
         />
@@ -160,7 +162,38 @@ const router = createBrowserRouter(
             </Suspense>
           }
         />
-
+        <Route
+          path='admin/add-project'
+          element={
+            <Suspense fallback={<Loading />}>
+              <Profile tab={'add-project'} />
+            </Suspense>
+          }
+        />
+        <Route
+          path='admin/edit-project/:id'
+          element={
+            <Suspense fallback={<Loading />}>
+              <EditProject />
+            </Suspense>
+          }
+        />
+        <Route
+          path='admin/manage-project'
+          element={
+            <Suspense fallback={<Loading />}>
+              <Profile tab={'manage-project'} />
+            </Suspense>
+          }
+        />
+        <Route
+          path='admin/manage-subscription'
+          element={
+            <Suspense fallback={<Loading />}>
+              <Profile tab={'manage-subscription'} />
+            </Suspense>
+          }
+        />
         <Route
           path='*'
           element={

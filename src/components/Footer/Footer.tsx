@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import SiteLogo from '../../assets/icons/SiteLogo';
 import { excludeFromPaths } from '../../helpers';
-import SocialIcons from '../SocialIcons/SocialIcons';
+import SocialIcons from '../profile/SocialIcons';
 
 const Footer = () => {
   const path = useLocation().pathname;

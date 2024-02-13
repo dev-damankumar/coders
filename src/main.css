@@ -134,3 +134,15 @@ button.c-toast-close-btn svg {
 .main-footer .social-wrap p {
   color: white;
 }
+
+p.error {
+  margin: 0;
+  color: red;
+  background: #ffebeb;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 10px;
+  display: inline-block;
+  font-weight: 600;
+}

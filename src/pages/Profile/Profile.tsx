@@ -3,8 +3,8 @@ import './Profile.css';
 import { NavLink } from 'react-router-dom';
 import IfAdmin from '../../components/IfAdmin/IfAdmin';
 import UserProfileInfo from '../../components/UserProfileInfo/UserProfileInfo';
-import SocialInfo from '../../components/SocialInfo/SocialInfo';
-import SocialIcons from '../../components/SocialIcons/SocialIcons';
+import SocialInfo from '../../components/profile/SocialInfo';
+import SocialIcons from '../../components/profile/SocialIcons';
 import CoverImage from '../../components/CoverImage/CoverImage';
 import Heading from '../../components/Heading/Heading';
 import Loading from '../../components/Loading/Loading';
@@ -13,6 +13,7 @@ import LinkIcon from '../../assets/icons/LinkIcon';
 import If from '../../components/If/If';
 import ProfileForm from '../../components/profile/ProfileForm';
 import UploadProfile from '../../components/profile/UploadProfile';
+import { useAuth } from '../../providers/Auth';
 
 const Modal = React.lazy(() => import('../../components/Modal/Modal'));
 
@@ -31,6 +32,7 @@ const ManageProjects = React.lazy(
 
 export type TUploadImageType = 'profile' | 'cover';
 const Profile = React.memo((props: { tab: string }) => {
+  const auth = useAuth();
   const tab = props.tab;
   const [showModal, setshowModal] = useState(false);
   const [uploadType, setUploadType] = useState<TUploadImageType>('profile');
@@ -52,7 +54,10 @@ const Profile = React.memo((props: { tab: string }) => {
   const openSocialModal = () => {
     setshowSocialModal(true);
   };
-
+  if (!auth.user) {
+    location.href = '/login';
+    return;
+  }
   return (
     <>
       <Suspense fallback={<Loading />}>
@@ -92,7 +97,7 @@ const Profile = React.memo((props: { tab: string }) => {
         className='section form-creation-wrap profile-section-main'
         style={{ paddingTop: '10px' }}
       >
-        <section className='discussion-section'>
+        <div className='discussion-section'>
           <div className='container'>
             <div className='row'>
               <div className='col-md-12'>
@@ -259,7 +264,7 @@ const Profile = React.memo((props: { tab: string }) => {
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </section>
     </>
   );

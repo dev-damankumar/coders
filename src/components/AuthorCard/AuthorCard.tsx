@@ -1,19 +1,28 @@
-import React from "react";
-import img from "../../assets/images/profile.svg";
-import Image from "../Image/Image";
+import img from '../../assets/images/profile.svg';
+import Image from '../Image/Image';
 
-const AuthorCard = ({ name, src, self, id }) => {
+type AuthorCardProps = {
+  name: string;
+  src: string;
+  isOwner: boolean;
+  id: string;
+};
+const AuthorCard = ({ name, src, isOwner, id }: AuthorCardProps) => {
+  if (isOwner) {
+    name = 'You';
+  }
+  console.log('id', id);
   return (
     <a
-      href={self ? `/profile` : `/profile/${id}`}
-      target="_blank"
-      data-table-tooltip="true"
-      className={`author-wrap ${self ? "author-self" : ""}`}
+      href={`/profile/${!isOwner ? id : ''}`}
+      target='_blank'
+      data-table-tooltip='true'
+      className={`author-wrap ${isOwner ? 'author-self' : ''}`}
     >
-      <Image className="author-img" src={src} defaultImg={img} />
-      <p className="author-name">
-        <span className="x-tooltip x-tooltip-up">{name || "anonymous"}</span>
-        {name || "anonymous"}
+      <Image className='author-img' src={src + 'g'} defaultImg={img} />
+      <p className='author-name'>
+        <span className='x-tooltip x-tooltip-up'>{name || 'anonymous'}</span>
+        {name || 'anonymous'}
       </p>
     </a>
   );

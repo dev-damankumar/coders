@@ -1,5 +1,5 @@
-import classes from "./Checkbox.module.css";
-import UUID from "../../../utils/uid";
+import classes from './Checkbox.module.css';
+import { UUID } from '../../../utils/';
 
 type CheckboxType = {
   name?: string;
@@ -15,10 +15,10 @@ const CheckBox = (props: CheckboxType) => {
   return (
     <div className={`custom-control custom-checkbox ${classes.customCheckbox}`}>
       <input
-        type="checkbox"
+        type='checkbox'
         name={props.name || uid}
         id={props.id || uid}
-        className="custom-control-input"
+        className='custom-control-input'
         onChange={props.onChange || change}
         checked={!!props.checked}
       />

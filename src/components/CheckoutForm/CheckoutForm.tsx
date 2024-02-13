@@ -1,45 +1,42 @@
-import React from "react";
+import React from 'react';
 import {
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
   useElements,
   useStripe,
-} from "@stripe/react-stripe-js";
-import Http from "../../hooks/http";
-import "./CheckoutForm.css";
-import Toast from "../../utils/toast";
-import Loader from "../../utils/loader";
-import { env } from "../../utils";
+} from '@stripe/react-stripe-js';
+import Http from '../../hooks/http';
+import './CheckoutForm.css';
+import { loader } from '../../utils/';
+import { env } from '../../utils';
 
-let toast = Toast();
-let loader = Loader();
 const inputStyle = {
-  border: "0",
-  outline: "none",
-  borderBottom: "2px solid #dedede",
-  borderImageSlice: "1",
-  textDecoration: "none",
-  borderRadius: "0",
-  fontSize: "15px",
-  padding: "0.5rem 1rem",
-  paddingLeft: "0",
-  display: "block",
-  fontFamily: "Nunito, sans-serif",
-  width: "100%",
+  border: '0',
+  outline: 'none',
+  borderBottom: '2px solid #dedede',
+  borderImageSlice: '1',
+  textDecoration: 'none',
+  borderRadius: '0',
+  fontSize: '15px',
+  padding: '0.5rem 1rem',
+  paddingLeft: '0',
+  display: 'block',
+  fontFamily: 'Nunito, sans-serif',
+  width: '100%',
   fontWeight: 500,
-  color: "#1d293e",
-  background: "#fff",
-  backgroundClip: "padding-box",
-  transition: "border-color .15s ease-in-out, box-shadow .15s ease-in-out",
-  height: "calc(1.5em + 1rem + 2px) !important",
+  color: '#1d293e',
+  background: '#fff',
+  backgroundClip: 'padding-box',
+  transition: 'border-color .15s ease-in-out, box-shadow .15s ease-in-out',
+  height: 'calc(1.5em + 1rem + 2px) !important',
   lineHeight: 1.5,
-  "::placeholder": {
-    color: "rgb(159, 159, 159)",
+  '::placeholder': {
+    color: 'rgb(159, 159, 159)',
   },
 };
 const invalidStyle = {
-  color: "#ff304f",
+  color: '#ff304f',
 };
 
 const CheckoutForm = (props) => {
@@ -57,20 +54,20 @@ const CheckoutForm = (props) => {
   let http = Http();
 
   let resetEveryThing = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("plan");
+    localStorage.removeItem('user');
+    localStorage.removeItem('plan');
     setCurrentUser(null);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!(currentUser?.email && currentUser?._id)) {
-      toast.error("Error occured while registering");
-      window.location.href = "/";
+      toast.error('Error occured while registering');
+      window.location.href = '/';
       return;
     }
     loader.show();
     const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
+      type: 'card',
       card: elements.getElement(
         CardNumberElement,
         CardExpiryElement,
@@ -86,7 +83,7 @@ const CheckoutForm = (props) => {
 
     try {
       const response = await http.post(
-        `${env["REACT_APP_BASE_URL"]}/api/payment/`,
+        `${env['REACT_APP_BASE_URL']}/api/payment/`,
         {
           paymentMethod: paymentMethod.id,
           id: props.id,
@@ -95,11 +92,11 @@ const CheckoutForm = (props) => {
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         }
       );
-      if (response?.payment_status === "requires_action") {
+      if (response?.payment_status === 'requires_action') {
         return stripe
           .confirmCardPayment(response.subscription.client_secret, {
             payment_method: paymentMethod.id,
@@ -107,23 +104,23 @@ const CheckoutForm = (props) => {
           .then(async (result) => {
             if (result.error) {
               const data = await http.post(
-                `${env["REACT_APP_BASE_URL"]}/api/payment-incomplete/`,
+                `${env['REACT_APP_BASE_URL']}/api/payment-incomplete/`,
                 {
                   user: currentUser._id,
                   email: currentUser?.email,
                 },
                 {
                   headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                   },
                 }
               );
               await dataHandler(data);
               throw result;
             } else {
-              if (result.paymentIntent.status === "succeeded") {
+              if (result.paymentIntent.status === 'succeeded') {
                 const data = await http.post(
-                  `${env["REACT_APP_BASE_URL"]}/api/payment-3d-secure/`,
+                  `${env['REACT_APP_BASE_URL']}/api/payment-3d-secure/`,
                   {
                     paymentMethod: paymentMethod.id,
                     id: props.id,
@@ -132,7 +129,7 @@ const CheckoutForm = (props) => {
                   },
                   {
                     headers: {
-                      "Content-Type": "application/json",
+                      'Content-Type': 'application/json',
                     },
                   }
                 );
@@ -142,11 +139,11 @@ const CheckoutForm = (props) => {
             }
           })
           .catch((error) => {
-            console.log("error", error);
+            console.log('error', error);
           });
       } else {
         await dataHandler(response);
-        if (response.type === "success") {
+        if (response.type === 'success') {
           resetEveryThing();
         }
       }
@@ -158,15 +155,15 @@ const CheckoutForm = (props) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12 payment-col">
-              <div className="form-payment-group">
-                <label className="main-payment-label">
-                  <i className="bx bxs-credit-card"></i>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-md-12 payment-col'>
+              <div className='form-payment-group'>
+                <label className='main-payment-label'>
+                  <i className='bx bxs-credit-card'></i>
                   Card Number
                 </label>
-                <div className="main-input-wrap">
+                <div className='main-input-wrap'>
                   <CardNumberElement
                     options={{
                       style: {
@@ -178,10 +175,10 @@ const CheckoutForm = (props) => {
                 </div>
               </div>
             </div>
-            <div className="col-md-6 payment-col" style={{ paddingLeft: "0" }}>
-              <div className="form-payment-group">
-                <label className="main-payment-label">Card Expiry Date</label>
-                <div className="main-input-wrap">
+            <div className='col-md-6 payment-col' style={{ paddingLeft: '0' }}>
+              <div className='form-payment-group'>
+                <label className='main-payment-label'>Card Expiry Date</label>
+                <div className='main-input-wrap'>
                   <CardExpiryElement
                     options={{
                       style: {
@@ -193,10 +190,10 @@ const CheckoutForm = (props) => {
                 </div>
               </div>
             </div>
-            <div className="col-md-6 payment-col" style={{ paddingRight: "0" }}>
-              <div className="form-payment-group">
-                <label className="main-payment-label">Card CVV</label>
-                <div className="main-input-wrap">
+            <div className='col-md-6 payment-col' style={{ paddingRight: '0' }}>
+              <div className='form-payment-group'>
+                <label className='main-payment-label'>Card CVV</label>
+                <div className='main-input-wrap'>
                   <CardCvcElement
                     options={{
                       style: {
@@ -209,9 +206,9 @@ const CheckoutForm = (props) => {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-12 payment-col">
-              <button className="btn btn-primary">Payment</button>
+          <div className='row'>
+            <div className='col-md-12 payment-col'>
+              <button className='btn btn-primary'>Payment</button>
             </div>
           </div>
         </div>

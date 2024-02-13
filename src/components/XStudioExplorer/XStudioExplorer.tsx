@@ -1,32 +1,31 @@
-import React, { Suspense, useState } from "react";
-import getImageByExtension from "../../utils/getImageByExtension";
-import FileLoader from "../FileLoader/FileLoader";
-import fileIcon from "../../assets/images/add-project.png";
-import AddIcon from "../../assets/icons/AddIcon";
-import cutIcon from "../../assets/images/cut.png";
-import CopyIcon from "../../assets/icons/CopyIcon";
-import pasteIcon from "../../assets/images/paste.png";
-import EditRowIcon from "../../assets/icons/EditRowIcon";
-import DeleteRowIcon from "../../assets/icons/DeleteRowIcon";
-import Loader from "../../utils/loader";
-import extensions from "../../utils/extension";
-import If from "../If/If";
+import React, { Suspense, useState } from 'react';
+import { getImageByExtension } from '../../utils/';
+import FileLoader from '../FileLoader/FileLoader';
+import fileIcon from '../../assets/images/add-project.png';
+import AddIcon from '../../assets/icons/AddIcon';
+import cutIcon from '../../assets/images/cut.png';
+import CopyIcon from '../../assets/icons/CopyIcon';
+import pasteIcon from '../../assets/images/paste.png';
+import EditRowIcon from '../../assets/icons/EditRowIcon';
+import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';
+import { loader } from '../../utils/';
+import { extensions } from '../../utils/';
+import If from '../If/If';
 import {
   copyFile,
   createFile,
   deleteSingleFile,
   renameFile,
-} from "../../services/files";
-import { useAuth } from "../../providers/Auth";
-import { useParams } from "react-router-dom";
-import { ProjectDetailType } from "../../pages/ProjectDetail/ProjectDetail";
-import { FileType } from "../../pages/Xcode/Xcode";
-import { useNotification } from "../../providers/Notification";
-import { useStudio } from "../../providers/StudioProvider";
+} from '../../services/files';
+import { useAuth } from '../../providers/Auth';
+import { useParams } from 'react-router-dom';
+import { ProjectDetailType } from '../../pages/ProjectDetail/ProjectDetail';
+import { FileType } from '../../pages/Xcode/Xcode';
+import { useNotification } from '../../providers/Notification';
+import { useStudio } from '../../providers/StudioProvider';
 
-const loader = Loader();
-const Modal = React.lazy(() => import("../Modal/Modal"));
-const ContextMenu = React.lazy(() => import("../ContextMenu/ContextMenu"));
+const Modal = React.lazy(() => import('../Modal/Modal'));
+const ContextMenu = React.lazy(() => import('../ContextMenu/ContextMenu'));
 
 export type XstudionFileType =
   | FileType & { isOpened?: boolean; data?: XstudionFileType[] };
@@ -52,7 +51,7 @@ const XStudioExplorer = ({
   const auth = useAuth();
   const params = useParams();
   const studio = useStudio();
-  console.log("studio", studio);
+  console.log('studio', studio);
   const notification = useNotification();
   const id = params.id;
   const [currentData, setCurrentData] = useState<{
@@ -60,40 +59,40 @@ const XStudioExplorer = ({
     prevPath: string;
     type: string;
   } | null>(null);
-  const [filename, setfilename] = useState("");
-  const [rename, setrename] = useState("");
-  const [fileExtention, setfileExtention] = useState("txt");
+  const [filename, setfilename] = useState('');
+  const [rename, setrename] = useState('');
+  const [fileExtention, setfileExtention] = useState('txt');
   const [createFolder, setcreateFolder] = useState(false);
   const [openCreateFile, setopenCreateFile] = useState(false);
   const [openRenameFile, setopenRenameFile] = useState(false);
   const [currentActionFile, setCurrentActionFile] = useState<{
-    type: "folder" | "file";
+    type: 'folder' | 'file';
     method: string;
   } | null>(null);
 
   const closeContextMenu = () => {
-    if (projectDetail?.user_id === auth.user?._id) {
+    if (projectDetail?.author === auth.user?._id) {
       const menu = document.querySelector<HTMLDivElement>(
-        "#x-studio-context-menu"
+        '#x-studio-context-menu'
       );
       if (menu) {
-        menu.style.top = "0";
-        menu.style.left = "0";
-        menu.style.transform = "scale(0)";
+        menu.style.top = '0';
+        menu.style.left = '0';
+        menu.style.transform = 'scale(0)';
       }
     }
   };
 
   const deleteFile = async () => {
     if (!files || !currentData) return;
-    if (projectDetail?.user_id === auth.user?._id) {
+    if (projectDetail?.author === auth.user?._id) {
       closeContextMenu();
       const fileArray = [...files];
       const { name, prevPath } = currentData;
       const temp = [...prevPath];
       let tempFile = [...fileArray];
       temp.forEach((v) => {
-        if (v !== "") {
+        if (v !== '') {
           tempFile = tempFile.filter((f) => {
             return f.name === v;
           })[0].data;
@@ -101,11 +100,11 @@ const XStudioExplorer = ({
       });
 
       const currentItem = tempFile.findIndex((file) => {
-        let previousPath = "/";
+        let previousPath = '/';
         if (prevPath) {
           previousPath = prevPath;
         }
-        const path = [...previousPath, name].join("/");
+        const path = [...previousPath, name].join('/');
         if (file.path === path) {
           return true;
         }
@@ -113,11 +112,11 @@ const XStudioExplorer = ({
 
       tempFile.splice(currentItem, 1);
       const currentDelItem = fileArray.findIndex((file) => {
-        let previousPath = "/";
+        let previousPath = '/';
         if (prevPath) {
           previousPath = prevPath;
         }
-        const path = [...previousPath, name].join("/");
+        const path = [...previousPath, name].join('/');
         if (file.path === path) {
           return true;
         }
@@ -126,11 +125,11 @@ const XStudioExplorer = ({
       setFiles(fileArray);
       loader.show();
       const details = await deleteSingleFile(name, id, prevPath);
-      if (details.type === "error") {
+      if (details.type === 'error') {
         return notification.error(details.message);
       }
 
-      if (details.type === "success") {
+      if (details.type === 'success') {
         setFiles(fileArray);
         loader.hide();
         notification.success(details.message);
@@ -139,14 +138,14 @@ const XStudioExplorer = ({
   };
   let copyFileHandler = async (type) => {
     if (!files || !currentData) return;
-    if (projectDetail?.user_id === auth?.user?._id) {
+    if (projectDetail?.author === auth?.user?._id) {
       closeContextMenu();
       let fileArray = [...files];
       let { name, prevPath } = currentData;
       let temp = [...prevPath];
       let tempFile = [...fileArray];
       temp.forEach((v) => {
-        if (v !== "") {
+        if (v !== '') {
           tempFile = tempFile.filter((f) => {
             return f.name === v;
           })[0].data;
@@ -154,11 +153,11 @@ const XStudioExplorer = ({
       });
 
       let currentItem = tempFile.find((file) => {
-        let previousPath = "/";
+        let previousPath = '/';
         if (prevPath) {
           previousPath = prevPath;
         }
-        let path = [...previousPath, name].join("/");
+        let path = [...previousPath, name].join('/');
         if (file.path === path) {
           return true;
         }
@@ -171,7 +170,7 @@ const XStudioExplorer = ({
 
   const pasteFile = async () => {
     if (!files || !currentData || !currentActionFile) return;
-    if (projectDetail?.user_id === auth.user?._id) {
+    if (projectDetail?.author === auth.user?._id) {
       closeContextMenu();
       let fileArray = [...files];
       let { name, prevPath, type } = currentData;
@@ -180,7 +179,7 @@ const XStudioExplorer = ({
       let temp = [...prevPath];
       let tempFile = [...fileArray];
       temp.forEach((v) => {
-        if (v !== "") {
+        if (v !== '') {
           tempFile = tempFile.filter((f) => {
             return f.name === v;
           })[0].data;
@@ -188,25 +187,25 @@ const XStudioExplorer = ({
       });
 
       const currentItem = tempFile.find((file) => {
-        let previousPath = "/";
+        let previousPath = '/';
         if (prevPath) {
           previousPath = prevPath;
         }
-        const path = [...previousPath, name].join("/");
+        const path = [...previousPath, name].join('/');
         if (file.path === path) {
           return true;
         }
       });
       let sourcePath = [...currentActionFile.prevPath, currentActionFile.name];
-      let destinationPath = ["", currentActionFile.name];
+      let destinationPath = ['', currentActionFile.name];
       if (currentItem) {
         destinationPath = [
           ...currentItem.prevPath,
           currentItem.name,
           currentActionFile.name,
         ];
-        if (currentActionFile.type === "folder") {
-          if (type === "folder") {
+        if (currentActionFile.type === 'folder') {
+          if (type === 'folder') {
             destinationPath = [
               ...currentItem.prevPath,
               currentItem.name,
@@ -222,20 +221,20 @@ const XStudioExplorer = ({
         sourcePath,
         destinationPath,
         id,
-        currentActionFile.type === "folder",
+        currentActionFile.type === 'folder',
         method
       );
-      if (details.type === "error") {
+      if (details.type === 'error') {
         loader.hide();
-        return toast.error(details.message, "Error Occured");
+        return toast.error(details.message, 'Error Occured');
       }
 
-      if (details.type === "success") {
-        if (method === "cut") {
+      if (details.type === 'success') {
+        if (method === 'cut') {
           let temp = [...currentActionFile.prevPath];
           let tempFile = [...fileArray];
           temp.forEach((v) => {
-            if (v !== "") {
+            if (v !== '') {
               tempFile = tempFile.filter((f) => {
                 return f.name === v;
               })[0].data;
@@ -247,7 +246,7 @@ const XStudioExplorer = ({
             }
           });
           tempFile.splice(index, 1);
-          if (type === "folder") {
+          if (type === 'folder') {
             fileArray.splice(index, 1);
           }
           /*fileArray.splice(index,1)*/
@@ -255,23 +254,23 @@ const XStudioExplorer = ({
 
         let tempcurrentActionFile = { ...currentActionFile };
         if (currentItem) {
-          if (type === "folder") {
+          if (type === 'folder') {
             tempcurrentActionFile.prevPath = [
               ...currentItem.prevPath,
               currentItem.name,
             ];
-            tempcurrentActionFile.path = [...destinationPath].join("/");
+            tempcurrentActionFile.path = [...destinationPath].join('/');
           } else {
             tempcurrentActionFile.prevPath = [...currentItem.prevPath];
-            tempcurrentActionFile.path = [...destinationPath].join("/");
+            tempcurrentActionFile.path = [...destinationPath].join('/');
           }
         } else {
-          if (type === "folder") {
-            tempcurrentActionFile.prevPath = [""];
-            tempcurrentActionFile.path = [...destinationPath].join("/");
+          if (type === 'folder') {
+            tempcurrentActionFile.prevPath = [''];
+            tempcurrentActionFile.path = [...destinationPath].join('/');
           } else {
-            tempcurrentActionFile.prevPath = [""];
-            tempcurrentActionFile.path = [...destinationPath].join("/");
+            tempcurrentActionFile.prevPath = [''];
+            tempcurrentActionFile.path = [...destinationPath].join('/');
           }
         }
 
@@ -281,62 +280,62 @@ const XStudioExplorer = ({
         setFiles([...fileArray, tempcurrentActionFile]);
         setCurrentActionFile(null);
         loader.hide();
-        toast.success(details.message, "File Copied");
+        toast.success(details.message, 'File Copied');
       }
     }
   };
   let contextMenu =
-    projectDetail?.user_id === auth?.user?._id
+    projectDetail?.author === auth?.user?._id
       ? [
           {
-            name: "New File",
+            name: 'New File',
             icon: <img src={fileIcon} />,
             onClick: () => {
               setopenCreateFile(true);
             },
           },
           {
-            name: "New Folder",
+            name: 'New Folder',
             icon: <AddIcon />,
             onClick: () => {
               setcreateFolder(true);
               setopenCreateFile(true);
             },
           },
-          "divider",
+          'divider',
           {
-            name: "Cut",
+            name: 'Cut',
             icon: <img src={cutIcon} />,
             onClick: (e) => {
-              copyFileHandler("cut");
+              copyFileHandler('cut');
             },
           },
           {
-            name: "Copy",
+            name: 'Copy',
             icon: <CopyIcon />,
             onClick: (e) => {
-              copyFileHandler("copy");
+              copyFileHandler('copy');
             },
           },
           {
-            id: "paste",
-            name: "Paste",
+            id: 'paste',
+            name: 'Paste',
             icon: <img src={pasteIcon} />,
             onClick: pasteFile,
           },
-          "divider",
+          'divider',
           {
-            name: "Rename",
+            name: 'Rename',
             icon: <EditRowIcon />,
             onClick: () => {
               closeContextMenu();
-              setcreateFolder(currentData.type === "folder");
+              setcreateFolder(currentData.type === 'folder');
               setrename(currentData.name);
               setopenRenameFile(true);
             },
           },
           {
-            name: "Delete",
+            name: 'Delete',
             icon: <DeleteRowIcon />,
             onClick: () => {
               deleteFile();
@@ -347,18 +346,18 @@ const XStudioExplorer = ({
 
   const renderList = (file: XstudionFileType) => {
     if (!file) return;
-    console.log("in", file);
+    console.log('in', file);
     return (
       <>
         <li
-          key={file.name + "_" + file.prevPath}
-          className={file.isOpened ? "parent" : ""}
+          key={file.name + '_' + file.prevPath}
+          className={file.isOpened ? 'parent' : ''}
           onClick={(e) => {
             e.preventDefault();
             fetchFileContentHandler(
               file.name,
               file.prevPath,
-              file.extension === "folder"
+              file.extension === 'folder'
             );
           }}
           onContextMenu={(e) => {
@@ -367,32 +366,32 @@ const XStudioExplorer = ({
         >
           {file.isOpened ? (
             <span className={`caret caret-down`}>
-              <i className="bx bx-chevron-right caret-i" />
+              <i className='bx bx-chevron-right caret-i' />
               <img
                 alt={file.name}
-                className="file-icon"
+                className='file-icon'
                 src={getImageByExtension(file.extension)}
               />
               {file.name}
             </span>
           ) : (
             <>
-              <i className="bx bx-chevron-right caret-i" />
+              <i className='bx bx-chevron-right caret-i' />
               <img
                 alt={file.name}
-                className="file-icon"
+                className='file-icon'
                 src={getImageByExtension(file.extension)}
               />
               {file.name}
             </>
           )}
 
-          <ul className={`nested ${file.isOpened ? "file-expand" : ""}`}>
+          <ul className={`nested ${file.isOpened ? 'file-expand' : ''}`}>
             {file.data &&
               file.data.map((j, i) => {
                 const nestedFile = j;
                 if (!nestedFile) return;
-                if (nestedFile.type === "folder" && nestedFile.data) {
+                if (nestedFile.type === 'folder' && nestedFile.data) {
                   return renderList(nestedFile);
                 } else {
                   return (
@@ -403,7 +402,7 @@ const XStudioExplorer = ({
                         fetchFileContentHandler(
                           nestedFile.name,
                           nestedFile.prevPath,
-                          nestedFile.extension === "folder"
+                          nestedFile.extension === 'folder'
                         );
                       }}
                       onContextMenu={(e) => {
@@ -414,14 +413,14 @@ const XStudioExplorer = ({
                           nestedFile.type
                         );
                       }}
-                      data-target-context="x-studio-context-menu"
+                      data-target-context='x-studio-context-menu'
                     >
-                      {nestedFile.type === "folder" && (
-                        <i className="bx bx-chevron-right caret-i" />
+                      {nestedFile.type === 'folder' && (
+                        <i className='bx bx-chevron-right caret-i' />
                       )}
                       <img
                         alt={nestedFile.name}
-                        className="file-icon"
+                        className='file-icon'
                         src={getImageByExtension(nestedFile.extension)}
                       />
                       {nestedFile.name}
@@ -436,22 +435,22 @@ const XStudioExplorer = ({
   };
 
   let createFileHandler = async () => {
-    if (projectDetail?.user_id === auth?.user._id) {
+    if (projectDetail?.author === auth?.user._id) {
       closeContextMenu();
       let file = createFolder ? filename : `${filename}.${fileExtention}`;
       loader.show();
       let details = await createFile(file, id, prevPath, createFolder);
-      if (details.type === "error") {
+      if (details.type === 'error') {
         loader.hide();
         setopenCreateFile(false);
-        return toast.error(details.message, "Error Occured");
+        return toast.error(details.message, 'Error Occured');
       }
 
-      if (details.type === "success") {
+      if (details.type === 'success') {
         let fileArray = [...files];
         let newFile = {
           name: details.file,
-          type: "file",
+          type: 'file',
           size: details.size,
           lastModified: details.lastModified,
           extension: details.extension,
@@ -461,7 +460,7 @@ const XStudioExplorer = ({
         let tempFile = [...fileArray];
         let temp = [...prevPath];
         temp.forEach((v) => {
-          if (v !== "") {
+          if (v !== '') {
             tempFile = tempFile.filter((f) => {
               return f.name === v;
             })[0].data;
@@ -473,17 +472,17 @@ const XStudioExplorer = ({
         }
 
         setFiles(fileArray);
-        setfilename("");
-        setfileExtention("txt");
+        setfilename('');
+        setfileExtention('txt');
         setopenCreateFile(false);
         loader.hide();
-        toast.success(details.message, "File Created");
+        toast.success(details.message, 'File Created');
       }
     }
   };
 
   let contextHandler = async (e, name, prePath, type) => {
-    if (projectDetail?.user_id === auth?.user._id) {
+    if (projectDetail?.author === auth?.user._id) {
       e.stopPropagation();
       e.preventDefault();
       var el = e.target;
@@ -508,7 +507,7 @@ const XStudioExplorer = ({
   };
 
   let renameFileHandler = async () => {
-    if (projectDetail?.user_id === auth?.user._id) {
+    if (projectDetail?.author === auth?.user._id) {
       loader.show();
       let fileArray = [...files];
       let { name, prevPath, type } = currentData;
@@ -516,7 +515,7 @@ const XStudioExplorer = ({
       let temp = [...prevPath];
       let tempFile = [...fileArray];
       temp.forEach((v) => {
-        if (v !== "") {
+        if (v !== '') {
           tempFile = tempFile.filter((f) => {
             return f.name === v;
           })[0].data;
@@ -524,7 +523,7 @@ const XStudioExplorer = ({
       });
 
       let currentItem = tempFile.find((file) => {
-        let path = [...prevPath, name].join("/");
+        let path = [...prevPath, name].join('/');
         if (file.path === path) {
           return true;
         }
@@ -534,62 +533,62 @@ const XStudioExplorer = ({
       currentItem.name = rename;
 
       let details = await renameFile(path, id, name, rename);
-      if (details.type === "error") {
-        return toast.error(details.message, "Error Occured");
+      if (details.type === 'error') {
+        return toast.error(details.message, 'Error Occured');
       }
 
-      if (details.type === "success") {
+      if (details.type === 'success') {
         setopenRenameFile(false);
-        setrename("");
+        setrename('');
         setFiles([...tempFile]);
         loader.hide();
-        toast.success(details.message, "File Created");
+        toast.success(details.message, 'File Created');
       }
     }
   };
 
   return (
     <>
-      <If cond={projectDetail?.user_id === auth.user?._id}>
+      <If cond={projectDetail?.author === auth.user?._id}>
         {openCreateFile ? (
-          <Suspense fallback={""}>
+          <Suspense fallback={''}>
             <Modal
               dark={true}
-              heading={"Create A File"}
-              size="sm"
-              headerIcon={<i className="bx bx-file-blank"></i>}
+              heading={'Create A File'}
+              size='sm'
+              headerIcon={<i className='bx bx-file-blank'></i>}
               body={
-                <div className="container create-div-modal">
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <div className="input-group">
+                <div className='container create-div-modal'>
+                  <div className='row'>
+                    <div className='col-sm-12'>
+                      <div className='input-group'>
                         <input
-                          type="text"
+                          type='text'
                           autoFocus={true}
                           placeholder={`Enter ${
-                            createFolder ? "Folder" : "File"
+                            createFolder ? 'Folder' : 'File'
                           } Name`}
-                          name="name"
-                          id="name"
+                          name='name'
+                          id='name'
                           value={filename}
-                          className="form-input"
+                          className='form-input'
                           onChange={(e) => {
                             setfilename(e.target.value);
                           }}
                         />
                         {!createFolder && (
-                          <div className="input-group-append">
+                          <div className='input-group-append'>
                             <select
                               onChange={(e) => {
                                 setfileExtention(e.target.value);
                               }}
                               value={fileExtention}
-                              className="form-input"
+                              className='form-input'
                             >
                               {Object.keys(extensions).map((extension) => {
                                 if (
-                                  extension !== "folder" &&
-                                  extension !== "fallback"
+                                  extension !== 'folder' &&
+                                  extension !== 'fallback'
                                 ) {
                                   return (
                                     <option key={extension} value={extension}>
@@ -604,19 +603,19 @@ const XStudioExplorer = ({
                       </div>
                     </div>
                     <div
-                      className="col-sm-12"
-                      style={{ textAlign: "right", marginTop: "15px" }}
+                      className='col-sm-12'
+                      style={{ textAlign: 'right', marginTop: '15px' }}
                     >
                       <button
-                        type="button"
-                        className="btn btn-small btn-primary create-btn"
+                        type='button'
+                        className='btn btn-small btn-primary create-btn'
                         onClick={createFileHandler}
                       >
                         Create
                       </button>
                       <button
-                        type="button"
-                        className="btn btn-small btn-dark create-btn"
+                        type='button'
+                        className='btn btn-small btn-dark create-btn'
                       >
                         Cancel
                       </button>
@@ -628,33 +627,33 @@ const XStudioExplorer = ({
             />
           </Suspense>
         ) : (
-          ""
+          ''
         )}
         {openRenameFile ? (
-          <Suspense fallback={""}>
+          <Suspense fallback={''}>
             <Modal
               dark={true}
-              heading={`Rename A ${createFolder ? "Folder" : "File"}`}
-              size="sm"
-              headerIcon={<i className="bx bx-file-blank"></i>}
+              heading={`Rename A ${createFolder ? 'Folder' : 'File'}`}
+              size='sm'
+              headerIcon={<i className='bx bx-file-blank'></i>}
               onClose={() => {
                 setopenRenameFile(false);
               }}
               body={
-                <div className="container create-div-modal">
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <div className="input-group">
+                <div className='container create-div-modal'>
+                  <div className='row'>
+                    <div className='col-sm-12'>
+                      <div className='input-group'>
                         <input
-                          type="text"
+                          type='text'
                           autoFocus={true}
                           placeholder={`Enter ${
-                            createFolder ? "Folder" : "File"
+                            createFolder ? 'Folder' : 'File'
                           } Name`}
-                          name="name"
-                          id="name"
+                          name='name'
+                          id='name'
                           value={rename}
-                          className="form-input"
+                          className='form-input'
                           onChange={(e) => {
                             setrename(e.target.value);
                           }}
@@ -662,19 +661,19 @@ const XStudioExplorer = ({
                       </div>
                     </div>
                     <div
-                      className="col-sm-12"
-                      style={{ textAlign: "right", marginTop: "15px" }}
+                      className='col-sm-12'
+                      style={{ textAlign: 'right', marginTop: '15px' }}
                     >
                       <button
-                        type="button"
-                        className="btn btn-small btn-primary create-btn"
+                        type='button'
+                        className='btn btn-small btn-primary create-btn'
                         onClick={renameFileHandler}
                       >
                         Rename
                       </button>
                       <button
-                        type="button"
-                        className="btn btn-small btn-dark create-btn"
+                        type='button'
+                        className='btn btn-small btn-dark create-btn'
                         onClick={() => {
                           setopenRenameFile(false);
                         }}
@@ -689,15 +688,15 @@ const XStudioExplorer = ({
             />
           </Suspense>
         ) : (
-          ""
+          ''
         )}
-        <div className="x-studio-context-menu">
-          <Suspense fallback={""}>
+        <div className='x-studio-context-menu'>
+          <Suspense fallback={''}>
             <ContextMenu
               disablePaste={currentActionFile}
               list={contextMenu}
-              id="x-studio-context-menu"
-              menuClass="dark-x-studio-menu x-studio-dropdown-menu"
+              id='x-studio-context-menu'
+              menuClass='dark-x-studio-menu x-studio-dropdown-menu'
             />
           </Suspense>
         </div>
@@ -705,28 +704,28 @@ const XStudioExplorer = ({
 
       <div
         className={`x-file-view-div ${
-          studio.sidebar.isOpen ? "x-file-view-open" : ""
+          studio.sidebar.isOpen ? 'x-file-view-open' : ''
         }`}
       >
         <If cond={!!id}>
           {projectDetail?.title && files ? (
-            <ul id="file-explorer" className="file-expand">
+            <ul id='file-explorer' className='file-expand'>
               <li
-                className="parent"
-                data-target-context="x-studio-context-menu"
+                className='parent'
+                data-target-context='x-studio-context-menu'
                 onContextMenu={(e) => {
-                  contextHandler(e, "", [""], "folder");
+                  contextHandler(e, '', [''], 'folder');
                 }}
               >
-                <span className="caret caret-down">
-                  <i className="bx bx-chevron-right" />
+                <span className='caret caret-down'>
+                  <i className='bx bx-chevron-right' />
                   {projectDetail?.title}
                 </span>
-                <ul className="nested file-expand">
+                <ul className='nested file-expand'>
                   {files &&
                     files.map((file, i) => {
-                      if (file.type === "folder" && file.data) {
-                        console.log("file", file);
+                      if (file.type === 'folder' && file.data) {
+                        console.log('file', file);
                         return renderList(file);
                       } else {
                         return (
@@ -736,7 +735,7 @@ const XStudioExplorer = ({
                               fetchFileContentHandler(
                                 file.name,
                                 file.prevPath,
-                                file.extension === "folder"
+                                file.extension === 'folder'
                               );
                             }}
                             onContextMenu={(e) => {
@@ -748,16 +747,16 @@ const XStudioExplorer = ({
                               );
                             }}
                             id={file.name}
-                            data-target-context="x-studio-context-menu"
+                            data-target-context='x-studio-context-menu'
                           >
-                            {file.type === "folder" ? (
-                              <i className="bx bx-chevron-right caret-i" />
+                            {file.type === 'folder' ? (
+                              <i className='bx bx-chevron-right caret-i' />
                             ) : (
-                              ""
+                              ''
                             )}
                             <img
                               alt={file.name}
-                              className="file-icon"
+                              className='file-icon'
                               src={getImageByExtension(file.extension)}
                             />
                             {file.name}

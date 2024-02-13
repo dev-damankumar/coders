@@ -111,3 +111,5 @@ export const excludeFromPaths = (excudingPathArray: string[], path: string) => {
 export function isAbsoluteURL(url: string) {
   return url.indexOf('://') > 0 || url.indexOf('//') === 0;
 }
+
+

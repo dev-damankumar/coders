@@ -11,7 +11,7 @@ import Prism from 'prismjs';
 import Loading from '../../components/Loading/Loading';
 import NoData from '../../components/NoData/NoData';
 import IfPrimiumUser from '../../components/IfPrimiumUser';
-import { toast, loader, env } from '../../utils';
+import { loader, env } from '../../utils';
 import If from '../../components/If/If';
 import { useAuth } from '../../providers/Auth';
 import { FileDetailsType, fetchFileContent } from '../../services/files';
@@ -44,12 +44,7 @@ const FilePreview = React.memo(() => {
   const getFileLines = fileData?.data?.split('\n')?.length;
   const codeRef = useRef<HTMLElement>(null);
 
-  const fetchFileContentHandler = async (
-    name: string,
-    prevPath?: string,
-    isFolder?: boolean
-  ) => {
-    isFolder = false;
+  const fetchFileContentHandler = async (name: string, prevPath?: string) => {
     loader.show();
     if (!projectId) {
       notification.add({
@@ -99,13 +94,12 @@ const FilePreview = React.memo(() => {
     e.preventDefault();
     if (codeRef.current) {
       const isCopied = copyToClipboard(codeRef.current.innerText);
-      if (isCopied)
-        return toast.success('Text Copied Successfully', 'Copied!!');
-      toast.error('Error while copying', 'Error Occured');
+      if (isCopied) return notification.success('Text Copied Successfully');
+      notification.error('Error while copying');
     }
   };
 
-  const code = (
+  let code = (
     <GetLines data={fileData?.data || ''}>
       <div className='code-edit-container'>
         <pre className='code-output'>

@@ -48,7 +48,7 @@ export const login = async (email: string, password: string) => {
     return response.data as LoginSuccessResponse;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
     return { error: true, message: 'Unexpected error occured' };
   }
@@ -74,8 +74,9 @@ export const logout = async (options?: LogoutOptionsType) => {
     //     loader.hide();
     //   }, 1000);
   } catch (error: unknown) {
-    if (error instanceof Error) return { error: true, message: error.message };
-    return { error: true, message: 'Unexpected error occured' };
+    if (error instanceof Error)
+      return { error: true, type: 'error', message: error.message };
+    return { error: true, type: 'error', message: 'Unexpected error occured' };
   }
 };
 
@@ -88,9 +89,9 @@ export const register = async (
     return response.data as RegisterSuccessResponse;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
-    return { error: true, message: 'registration failed' };
+    return { error: true, type: 'error', message: 'registration failed' };
   }
 };
 
@@ -108,9 +109,9 @@ export const registerProfile = async (
     return response.data as RegisterSuccessResponse;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
-    return { error: true, message: 'registration failed' };
+    return { error: true, type: 'error', message: 'registration failed' };
   }
 };
 
@@ -130,9 +131,13 @@ export const forgotPassword = async (
     return response.data as SuccessResponse;
   } catch (error) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
-    return { error: true, message: 'Unexpected error has been occured' };
+    return {
+      error: true,
+      type: 'error',
+      message: 'Unexpected error has been occured',
+    };
   }
 };
 
@@ -149,9 +154,13 @@ export const resetPassword = async (password: string, token: string) => {
     );
   } catch (error) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
-    return { error: true, message: 'Unexpected error has been occured' };
+    return {
+      error: true,
+      type: 'error',
+      message: 'Unexpected error has been occured',
+    };
   }
 };
 
@@ -164,9 +173,13 @@ export const socialLogin = async (user: RegisterUserType) => {
     });
   } catch (error) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
-    return { error: true, message: 'Unexpected error has been occured' };
+    return {
+      error: true,
+      type: 'error',
+      message: 'Unexpected error has been occured',
+    };
   }
 };
 
@@ -179,9 +192,13 @@ export const socialSignUp = async (user: RegisterUserType) => {
     });
   } catch (error) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
-    return { error: true, message: 'Unexpected error has been occured' };
+    return {
+      error: true,
+      type: 'error',
+      message: 'Unexpected error has been occured',
+    };
   }
 };
 
@@ -198,9 +215,13 @@ export const unsubscribe = async () => {
     );
   } catch (error) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
-    return { error: true, message: 'Unexpected error has been occured' };
+    return {
+      error: true,
+      type: 'error',
+      message: 'Unexpected error has been occured',
+    };
   }
 };
 
@@ -222,8 +243,12 @@ export const isValidResetToken = async (
     return response.data as SuccessResponse;
   } catch (error) {
     if (isAxiosError(error)) {
-      return { error: true, ...error.response!.data };
+      return { error: true, type: 'error', ...error.response!.data };
     }
-    return { error: true, message: 'Unexpected error has been occured' };
+    return {
+      error: true,
+      type: 'error',
+      message: 'Unexpected error has been occured',
+    };
   }
 };

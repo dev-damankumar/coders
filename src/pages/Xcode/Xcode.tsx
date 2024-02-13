@@ -9,8 +9,8 @@ import React, {
 } from 'react';
 import './Xcode.css';
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { toast, loader } from '../../utils';
-import extensions from '../../utils/extension';
+import { loader } from '../../utils';
+import { extensions } from '../../utils/';
 import CheckBox from '../../components/Form/Checkbox/Checkbox';
 import TableRowSkelton from '../../components/Skelton/TableRowSkelton';
 import Loading from '../../components/Loading/Loading';
@@ -82,7 +82,7 @@ const Xcode = memo(() => {
   const filesRef = useRef<HTMLTableSectionElement>(null);
 
   const isStandardAndAbove = auth?.user?.type === 1 || auth?.user?.type === 2;
-  const isAuthor = projectDetail?.user_id === auth?.user?._id;
+  const isAuthor = projectDetail?.author === auth?.user?._id;
 
   const [selected, setSelected] = useState({});
   const [checkAll, setcheckAll] = useState(false);
@@ -131,9 +131,13 @@ const Xcode = memo(() => {
       return openFile(name, prevPath || filepath);
     }
     loader.show();
-    let details = await fetchFileContent(name, projectId, prevPath || filepath);
+    const details = await fetchFileContent<FileType[]>(
+      name,
+      projectId,
+      prevPath || filepath
+    );
     if (details.type === 'error') {
-      return toast.error(details.message, 'Error Occured');
+      return notification.error(details.message);
     }
 
     if (details.type === 'success') {

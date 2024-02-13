@@ -1,21 +1,21 @@
-import React, { Suspense, useEffect, useState } from "react";
-import "./ProjectDetail.css";
-import { NavLink, useParams } from "react-router-dom";
-import NoData from "../../components/NoData/NoData";
-import IfPrimiumUser from "../../components/IfPrimiumUser";
-import If from "../../components/If/If";
-import { joinURL } from "../../utils";
-import { baseURL } from "../../config";
-import Tags from "../../components/Tags/Tags";
-import GallaryGrid from "../../components/GallaryGrid/GallaryGrid";
-import { useAuth } from "../../providers/Auth";
-import { getProject } from "../../services/project";
-import { useNotification } from "../../providers/Notification";
-import IframeSkelton from "../../components/Skelton/IframeSkelton";
-import ProjectDetailSkelton from "../../components/Skelton/ProjectDetailSkelton";
+import React, { Suspense, useEffect, useState } from 'react';
+import './ProjectDetail.css';
+import { NavLink, useParams } from 'react-router-dom';
+import NoData from '../../components/NoData/NoData';
+import IfPrimiumUser from '../../components/IfPrimiumUser';
+import If from '../../components/If/If';
+import { joinURL } from '../../utils/';
+import { baseURL } from '../../config';
+import Tags from '../../components/Tags/Tags';
+import GallaryGrid from '../../components/GallaryGrid/GallaryGrid';
+import { User, useAuth } from '../../providers/Auth';
+import { getProject } from '../../services/project';
+import { useNotification } from '../../providers/Notification';
+import IframeSkelton from '../../components/Skelton/IframeSkelton';
+import ProjectDetailSkelton from '../../components/Skelton/ProjectDetailSkelton';
 
 const AuthorCard = React.lazy(
-  () => import("../../components/AuthorCard/AuthorCard")
+  () => import('../../components/AuthorCard/AuthorCard')
 );
 
 export type ExecutableFileType = {
@@ -34,7 +34,7 @@ export type ProjectDetailType = {
   tags: string[];
   title: string;
   url: string;
-  user_id: string;
+  author?: User;
   user: { _id: string; name: string; image: string };
   visibility: boolean;
   _id: string;
@@ -54,10 +54,10 @@ const ProjectDetail = React.memo(() => {
     (async () => {
       if (projectDetail && Object.keys(projectDetail).length > 0) return;
       const project = await getProject(projectId);
-      if ("error" in project) {
+      if ('error' in project) {
         notification.add({
-          type: "error",
-          message: "Unable to get project details",
+          type: 'error',
+          message: 'Unable to get project details',
         });
       }
       setProjectDetail(project || {});
@@ -74,51 +74,56 @@ const ProjectDetail = React.memo(() => {
     projectDetail?.url,
     projectDetail?.executableFile
   );
+  console.log('projectDetail', projectDetail);
   return (
-    <div className="body_wrapper project-details-page">
-      <div className="main-project-detail">
-        <div className="container-fluid">
-          <div className="row">
+    <div className='body_wrapper project-details-page'>
+      <div className='main-project-detail'>
+        <div className='container-fluid'>
+          <div className='row'>
             <NoData
               if={projectDetail && Object.keys(projectDetail).length === 0}
             />
-            <div className="col-lg-7 site-div">
+            <div className='col-lg-7 site-div'>
               <If cond={!!projectDetail} else={<IframeSkelton />}>
-                <iframe title="site" className="iframe-img" src={previewURL} />
+                <iframe title='site' className='iframe-img' src={previewURL} />
               </If>
             </div>
             <div
               className={`col-lg-5 info-col ${
-                isExpand ? "" : "info-body-shrink"
+                isExpand ? '' : 'info-body-shrink'
               }`}
             >
               <If
                 cond={projectDetail && Object.keys(projectDetail).length > 0}
                 else={<ProjectDetailSkelton />}
               >
-                <div className="jumbotron bg-light project-detail-div">
-                  <div className="info-header">
+                <div className='jumbotron bg-light project-detail-div'>
+                  <div className='info-header'>
                     <h1>{projectDetail?.title}</h1>
-                    <a href="#" onClick={shrinkBox} className="shrink-box">
-                      <i className="bx bx-chevron-down" />
+                    <a href='#' onClick={shrinkBox} className='shrink-box'>
+                      <i className='bx bx-chevron-down' />
                     </a>
                   </div>
-                  <div className="info-body ">
-                    <div className="project-content">
+                  <div className='info-body '>
+                    <div className='project-content'>
                       <p>{projectDetail?.description}</p>
-                      <div className="main-author-div">
-                        <Suspense fallback="">
-                          <AuthorCard
-                            id={projectDetail?.user?._id}
-                            name={projectDetail?.user?.name}
-                            src={projectDetail?.user?.image}
-                            self={projectDetail?.user?._id === auth?.user?._id}
-                          />
-                        </Suspense>
+                      <div className='main-author-div'>
+                        {projectDetail?.author && (
+                          <Suspense fallback=''>
+                            <AuthorCard
+                              id={projectDetail.author._id}
+                              name={projectDetail.author.username}
+                              src={projectDetail.author.image}
+                              isOwner={
+                                projectDetail.author._id === auth?.user?._id
+                              }
+                            />
+                          </Suspense>
+                        )}
                       </div>
-                      <p className="web-url">
+                      <p className='web-url'>
                         <b>Website Url:</b>
-                        <a href={previewURL} target="_blank" rel="noreferrer">
+                        <a href={previewURL} target='_blank' rel='noreferrer'>
                           {previewURL}
                         </a>
                       </p>
@@ -126,12 +131,12 @@ const ProjectDetail = React.memo(() => {
                       <GallaryGrid images={projectDetail?.imageGrid} />
                     </div>
 
-                    <div className="info-footer" style={{ marginTop: "15px" }}>
+                    <div className='info-footer' style={{ marginTop: '15px' }}>
                       <a
                         href={previewURL}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="btn btn-primary"
+                        target='_blank'
+                        rel='noreferrer'
+                        className='btn btn-primary'
                       >
                         Live Preview
                       </a>
@@ -140,7 +145,7 @@ const ProjectDetail = React.memo(() => {
                         else={
                           <IfPrimiumUser>
                             <NavLink
-                              className="btn btn-dark"
+                              className='btn btn-dark'
                               to={`/xcode/${projectDetail?._id}`}
                             >
                               View X Code
@@ -149,7 +154,7 @@ const ProjectDetail = React.memo(() => {
                         }
                       >
                         <NavLink
-                          className="btn btn-dark"
+                          className='btn btn-dark'
                           to={`/xcode/${projectDetail?._id}`}
                         >
                           View X Code

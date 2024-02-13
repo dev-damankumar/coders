@@ -16,7 +16,7 @@ export type Project = {
   imageGrid?: string[];
   title: string;
   url: string;
-  user_id: TypeAuthor;
+  author: TypeAuthor;
   visibility: boolean;
   _id: string;
 };
@@ -35,7 +35,7 @@ const Projects = ({ projects, nodata, filterTags }: TypeProjects) => {
           <Suspense key={i} fallback={<CardRowSkelton hideContext={true} />}>
             <ProjectCard
               filterTags={filterTags}
-              author={v.user_id}
+              author={v.author}
               hideContext={true}
               image={v.image}
               index={i}

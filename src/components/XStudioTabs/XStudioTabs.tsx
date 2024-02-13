@@ -1,4 +1,4 @@
-import getImageByExtension from "../../utils/getImageByExtension";
+import { getImageByExtension } from '../../utils/';
 
 type XStudioTabsProps = {
   tabs: string[];
@@ -19,7 +19,7 @@ const XStudioTabs = ({
   return (
     tabs &&
     tabs.length > 0 && (
-      <div className="x-tabs">
+      <div className='x-tabs'>
         {tabs.map((v, i) => {
           return (
             <li
@@ -27,19 +27,19 @@ const XStudioTabs = ({
               onClick={() => {
                 fetchFileContentHandler(v);
               }}
-              className={activeTab === v ? "x-studio-active-tab" : ""}
+              className={activeTab === v ? 'x-studio-active-tab' : ''}
             >
-              <button title={v} type="button" className="x-tab">
-                <img src={getImageByExtension(v.split(".")[1])} />{" "}
+              <button title={v} type='button' className='x-tab'>
+                <img src={getImageByExtension(v.split('.')[1])} />{' '}
                 <span>{v}</span>
               </button>
               <button
-                type="button"
+                type='button'
                 onClick={(e) => {
                   e.preventDefault();
                   closeTab(v);
                 }}
-                className="x-tab-close"
+                className='x-tab-close'
               >
                 &times;
               </button>

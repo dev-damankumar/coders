@@ -21,7 +21,8 @@ export type TProfileInputs = Omit<
   | 'email'
   | 'username'
   | 'password'
->;
+  | 'image'
+> & { profileImage: string };
 
 const SettingsForm = () => {
   const notification = useNotification();
@@ -39,13 +40,15 @@ const SettingsForm = () => {
       city: auth.user?.city || '',
       country: auth.user?.country || '',
       mobile: auth.user?.mobile || 0,
-      cover: auth.user?.cover || undefined,
-      image: auth.user?.image || undefined,
     },
   });
   const onSubmit: SubmitHandler<TProfileInputs> = async (user) => {
     loader.show();
     try {
+      if (user.cover) user.cover = user.cover[0];
+      if (user.profileImage) user.profileImage = user.profileImage[0];
+      console.log('user', user);
+
       const data = await updateProfile(user);
       if ('error' in data) {
         return notification.add({
@@ -197,33 +200,25 @@ const SettingsForm = () => {
           <div className='valid-wrap'>
             <label className='inputlabel'>Profile Image</label>
             <FileUpload
-              {...register('image', {
-                required: {
-                  value: true,
-                  message: 'Profile Image is required',
-                },
-              })}
+              {...register('profileImage')}
               defaultImage={auth.user?.image}
               placeholder='Enter Profile Image URL'
               type='text'
-              name='image'
-              id='image'
+              name='profileImage'
+              id='profileImage'
               className='form-control form-control-lg input'
             />
 
-            {errors.image && <p className='error'>{errors.image.message}</p>}
+            {errors.profileImage && (
+              <p className='error'>{errors.profileImage.message}</p>
+            )}
           </div>
         </div>
         <div className='form-group'>
           <div className='valid-wrap'>
             <label className='inputlabel'>Cover Image</label>
             <FileUpload
-              {...register('cover', {
-                required: {
-                  value: true,
-                  message: 'Cover Image is required',
-                },
-              })}
+              {...register('cover')}
               defaultImage={auth.user?.cover}
               placeholder='Enter Cover Image URL'
               type='text'

@@ -17,12 +17,12 @@ const ProfileForm = ({ closeModal }: { closeModal: () => void }) => {
     formState: { errors },
   } = useForm<TProfileLinksInputs>({
     defaultValues: {
-      facebook: auth.user?.socials.facebook || '',
-      github: auth.user?.socials.github || '',
-      instagram: auth.user?.socials.instagram || '',
-      linkedin: auth.user?.socials.linkedin || '',
-      website: auth.user?.socials.website || '',
-      youtube: auth.user?.socials.youtube || '',
+      facebook: auth.user?.socials?.facebook || '',
+      github: auth.user?.socials?.github || '',
+      instagram: auth.user?.socials?.instagram || '',
+      linkedin: auth.user?.socials?.linkedin || '',
+      website: auth.user?.socials?.website || '',
+      youtube: auth.user?.socials?.youtube || '',
     },
   });
   const onSubmit: SubmitHandler<TProfileLinksInputs> = async (socials) => {
