@@ -3,7 +3,7 @@ import { SocialLinksType, setSocials } from '../../services/user';
 import { useNotification } from '../../providers/Notification';
 import { useAuth } from '../../providers/Auth';
 import { loader } from '../../utils';
-import { validateUrl } from '../../helpers';
+import { validateUrl } from '../../utils';
 
 type TProfileLinksInputs = SocialLinksType;
 

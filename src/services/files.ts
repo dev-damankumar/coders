@@ -1,6 +1,6 @@
 import sign from 'jwt-encode';
 import { env } from '../utils';
-import { net } from '../helpers';
+import { http } from '../utils';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { ProjectDetailType } from '../pages/ProjectDetail/ProjectDetail';
 import { FailedResponse } from './auth';
@@ -11,7 +11,7 @@ export const fetchAllFile = async (
   prevPath: string
 ) => {
   try {
-    return await net.post(
+    return await http.post(
       '/api/fetch-all-files',
       {
         id: projectId,
@@ -53,7 +53,7 @@ export const fetchFileContent = async <T>(
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   try {
     const response: AxiosResponse<FileDetailsType<T> | FailedResponse> =
-      await net.post(
+      await http.post(
         '/api/fetch-files-details',
         {
           id: projectId,
@@ -93,7 +93,7 @@ export const createFile = async (
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   //   loader.show();
   try {
-    const response = await net.post(
+    const response = await http.post(
       `/api/new-file/?id=${projectId}`,
       { payload: jwt },
       {
@@ -125,7 +125,7 @@ export const saveFile = async (
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   //   loader.show();
   try {
-    return await net.post(
+    return await http.post(
       '/api/save-file',
       {
         id: projectId,
@@ -157,7 +157,7 @@ export const uploadFile = async (
   formData.append('file', file);
 
   try {
-    const response = await net.post('/api/new-file/', formData, {
+    const response = await http.post('/api/new-file/', formData, {
       params: {
         id: projectId,
         prevPath,
@@ -192,7 +192,7 @@ export const copyFile = async (
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   // loader.show();
   try {
-    return await net.post(
+    return await http.post(
       '/api/copy-file/',
       {
         id: projectId,
@@ -225,7 +225,7 @@ export const renameFile = async (
   };
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   try {
-    return await net.post(
+    return await http.post(
       '/api/rename-file/',
       {
         id: projectId,
@@ -253,7 +253,7 @@ export const deleteSingleFile = async (
   const payload = { name, prevPath: prevPath };
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   try {
-    return await net.post(
+    return await http.post(
       '/api/delete-file/',
       {
         id: projectId,
@@ -285,7 +285,7 @@ export const deleteMultiFiles = async (
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   try {
     // loader.show();
-    const response = await net.post(
+    const response = await http.post(
       '/api/delete-files/',
       {
         id: projectId,

@@ -16,34 +16,19 @@ import { env, loader } from '../../utils';
 import If from '../If/If';
 import Tags from '../Tags/Tags';
 import { useAuth } from '../../providers/Auth';
-import { TypeAuthor } from '../Projects/Projects';
-import { useNotification } from '../../providers/Notification';
 
-export type TypeProjectCard = {
-  author: TypeAuthor;
+import { useNotification } from '../../providers/Notification';
+import { Project } from '../../types';
+
+export type TypeProjectCard = Project & {
   filterTags: string;
-  visibility: boolean;
-  description: string;
-  tags: string[];
-  title: string;
-  url: string;
-  image: string;
   index: number;
-  _id: string;
   hideContext: true;
 };
 
-type ExtraProjectsProps = {
-  author: TypeAuthor;
+type ExtraProjectsProps = Project & {
   filterTags: string;
-  visibility: boolean;
-  description: string;
-  tags: string[];
-  title: string;
-  url: string;
-  image: string;
   index: number;
-  _id: string;
   hideContext: false;
   configHandler: (...args: any[]) => void;
   confirmHandler: (...args: any[]) => void;
@@ -170,7 +155,7 @@ const ProjectCard = ({
               id={author._id}
               name={author.name}
               src={author.image}
-              self={author?._id === auth.user?._id}
+              isOwner={author?._id === auth.user?._id}
             />
             <If cond={!hideContext}>
               <IfPrimiumUser>

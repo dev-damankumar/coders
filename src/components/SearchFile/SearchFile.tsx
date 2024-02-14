@@ -4,7 +4,7 @@ import FileListSkelton from '../Skelton/FileListSkelton';
 import SearchIcon from '../../assets/icons/SearchIcon';
 import { getImageByExtension } from '../../utils/';
 import { FileType } from '../../pages/Xcode/Xcode';
-import { goBackPaths } from '../../helpers';
+import { goBackPaths } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 
 type SearchFileType = {

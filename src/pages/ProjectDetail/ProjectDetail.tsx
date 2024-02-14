@@ -5,7 +5,7 @@ import NoData from '../../components/NoData/NoData';
 import IfPrimiumUser from '../../components/IfPrimiumUser';
 import If from '../../components/If/If';
 import { joinURL } from '../../utils/';
-import { baseURL } from '../../config';
+import { baseURL } from '../../constants';
 import Tags from '../../components/Tags/Tags';
 import GallaryGrid from '../../components/GallaryGrid/GallaryGrid';
 import { User, useAuth } from '../../providers/Auth';

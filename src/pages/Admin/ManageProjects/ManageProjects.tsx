@@ -1,6 +1,5 @@
 import React, {
   Suspense,
-  useContext,
   useEffect,
   useReducer,
   useRef,
@@ -9,11 +8,6 @@ import React, {
 import { NavLink } from 'react-router-dom';
 import CheckBox from '../../../components/Form/Checkbox/Checkbox';
 import IfAdmin from '../../../components/IfAdmin/IfAdmin';
-import {
-  cloneProject,
-  deleteProject,
-  downloadProject,
-} from '../../../utils/services';
 import TableRowSkelton from '../../../components/Skelton/TableRowSkelton';
 import '../../../pages/Xcode/Xcode.css';
 import Http from '../../../hooks/http';
@@ -33,6 +27,14 @@ import DeleteRowIcon from '../../../assets/icons/DeleteRowIcon';
 import { useAuth } from '../../../providers/Auth';
 import Loading from '../../../components/Loading/Loading';
 import { env } from '../../../utils';
+import {
+  cloneProject,
+  deleteProject,
+  downloadProject,
+} from '../../../services/project';
+import { useNotification } from '../../../providers/Notification';
+import { ProjectsState } from '../../AllProjects/AllProjects';
+import Projects from '../../../components/project/Projects';
 
 const Pagination = React.lazy(
   () => import('../../../components/Pagination/Pagination')
@@ -46,8 +48,10 @@ const ProjectConfig = React.lazy(
 
 let rowLoader = <TableRowSkelton rows={5} cols={7} />;
 
-let initialState = {
-  projects: null,
+type ManagePropjectState = Omit<ProjectsState, 'filterTags' | 'filterCount'>;
+
+const initialState: ManagePropjectState = {
+  projects: [],
   pageNo: 1,
   limit: 10,
   totalProjects: 0,
@@ -56,16 +60,20 @@ let initialState = {
   progress: 0,
   loading: true,
 };
-let toast = Toast();
-const ManageProjects = () => {
-  let http = Http();
-  let auth = useAuth();
-  let [state, dispatch] = useReducer(homeReducer, initialState);
-  let [selected, setSelected] = useState({});
-  let [checkAll, setcheckAll] = useState(false);
-  let projectRef = useRef(null);
 
-  let deleteProjectHandler = async (id) => {
+const ManageProjects = () => {
+  const http = Http();
+  const notification = useNotification();
+  const auth = useAuth();
+  const [state, dispatch] = useReducer(
+    homeReducer<ManagePropjectState>,
+    initialState
+  );
+  const [selected, setSelected] = useState({});
+  const [checkAll, setcheckAll] = useState(false);
+  const projectRef = useRef(null);
+
+  const deleteProjectHandler = async (id) => {
     await deleteProject(id, state.projects, dispatch);
     if (state.projects.length < 2) {
       onPagination(state.pageNo - 1);
@@ -90,13 +98,7 @@ const ManageProjects = () => {
       footer: false,
       body: (
         <Suspense fallback={<Loading />}>
-          <ProjectConfig
-            downloadProject={() => {
-              DModalClose();
-              downloadHandler(id);
-            }}
-            projectId={id}
-          />
+          <ProjectConfig isAuthor={isAuthor} dispatch={dispatch} />
         </Suspense>
       ),
     });
@@ -289,9 +291,6 @@ const ManageProjects = () => {
           <thead className='dark-head'>
             <tr className=''>
               <th className=''>
-                <CheckBox checked={checkAll} onChange={selectAll} />
-              </th>
-              <th className=''>
                 <div className=''>Project Name</div>
               </th>
               <th className=''>
@@ -312,298 +311,31 @@ const ManageProjects = () => {
               <th className=''>
                 <div className=''>Images</div>
               </th>
-              <IfAdmin>
-                <th className=''>
-                  <ul className='x-actions'>
-                    {Object.keys(selected)?.length === 0 ||
-                    Object.keys(selected)?.length === 1 ? (
-                      <li className='x-action-li x-action-edit-row'>
-                        <NavLink
-                          to='/x-studio'
-                          className='x-btn'
-                          data-table-tooltip='Edit Row'
-                        >
-                          <EditRowIcon />
-                          <div className='x-tooltip '>Edit Row</div>
-                        </NavLink>
-                      </li>
-                    ) : (
-                      <li className='x-action-li x-action-li-disabled'>
-                        <a className='x-btn'>
-                          <EditRowIcon />
-                        </a>
-                      </li>
-                    )}
-
-                    {Object.keys(selected)?.length > 1 ? (
-                      <li className='x-action-li x-action-delete-row'>
-                        <a
-                          data-table-tooltip='Delete Row'
-                          className='x-btn'
-                          onClick={(e) => {
-                            e.preventDefault();
-                            deleteMultiFilesHandler();
-                          }}
-                        >
-                          <DeleteRowIcon />
-                          <div className='x-tooltip '>Delete Row</div>
-                        </a>
-                      </li>
-                    ) : (
-                      <li className='x-action-li x-action-li-disabled'>
-                        <a className='x-btn'>
-                          <DeleteRowIcon />
-                        </a>
-                      </li>
-                    )}
-                  </ul>
-                </th>
-              </IfAdmin>
             </tr>
           </thead>
           <tbody>
-            {state?.projects?.length === 0 && (
-              <tr key={`tr`} className=''>
-                <td style={{ textAlign: 'center' }} colSpan={10}>
-                  No Data Found
-                </td>
-              </tr>
-            )}
-            {!state?.projects
-              ? rowLoader
-              : state?.projects?.map((project) => {
-                  return (
-                    <tr className=''>
-                      <td className=''>
-                        <CheckBox
-                          checked={selected[project._id]}
-                          onChange={(e) => {
-                            let sels = { ...selected };
-                            if (e.target.checked) {
-                              sels[project._id] = true;
-                            } else {
-                              delete sels[project._id];
-                            }
-                            setSelected(sels);
-                          }}
-                        />
-                      </td>
-                      <td className=''>
-                        <a
-                          href={
-                            auth?.auth
-                              ? '/project-detail/' + project?._id
-                              : '/login'
-                          }
-                          target='_blank'
-                          className='open-x-code'
-                          onClick={(e) => {}}
-                        >
-                          <img
-                            alt='dg'
-                            style={{
-                              width: '20px',
-                              height: '20px',
-                              borderRadius: '50%',
-                            }}
-                            className='x-file-img'
-                            src={
-                              project.image
-                                ? [
-                                    env['REACT_APP_BASE_URL'],
-                                    project.image,
-                                  ].join('/')
-                                : placeholder
-                            }
-                          />
-                          {project.title}
-                        </a>
-                      </td>
-                      <td className=''>
-                        <div
-                          className='description'
-                          data-table-tooltip='Edit Row'
-                        >
-                          {project.description.slice(0, 40)}
-                          <div className='x-tooltip '>
-                            {project.description}
-                          </div>
-                        </div>
-                      </td>
-                      <td className=''>
-                        <div className='url-link'>
-                          <a
-                            title={[
-                              env['REACT_APP_BASE_URL'],
-                              project.url,
-                              project.executableFile,
-                            ].join('/')}
-                            target='_blank'
-                            href={[
-                              env['REACT_APP_BASE_URL'],
-                              project.url,
-                              project.executableFile,
-                            ].join('/')}
-                          >
-                            <button
-                              type='button'
-                              className='btn btn-small btn-primary live-url-btn'
-                            >
-                              Live URL <i className='bx bx-link-external'></i>
-                            </button>
-                          </a>
-                          <a
-                            title={[
-                              env['REACT_APP_BASE_URL'],
-                              project.url,
-                              project.executableFile,
-                            ].join('/')}
-                            href={
-                              auth?.auth
-                                ? '/xcode/' + project?._id
-                                : '/admin/login'
-                            }
-                            target='_blank'
-                          >
-                            <button
-                              type='button'
-                              className='btn btn-small btn-dark live-url-btn'
-                            >
-                              Xcode <i className='bx bx-link-external'></i>
-                            </button>
-                          </a>
-                        </div>
-                      </td>
-                      <td className=''>{project.executableFile}</td>
-                      <td className=''>
-                        <div className='tags'>
-                          {project.tags.map((tag, tagIndex) => {
-                            return (
-                              <div className='tag' key={`tag_${tagIndex}`}>
-                                {tag}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </td>
-                      <td className=''>
-                        <Switch
-                          onChange={(e) => setProjectPrivacy(e, project?._id)}
-                          style={{ marginTop: '12px' }}
-                          checked={project.visibility}
-                        />
-                      </td>
-                      <td className=''>
-                        <div className='img-grid-wrap'>
-                          {project?.imageGrid?.map((img, tagIndex) => {
-                            return (
-                              <img
-                                src={
-                                  img
-                                    ? [env['REACT_APP_BASE_URL'], img].join('/')
-                                    : placeholder
-                                }
-                                key={`img_${tagIndex}`}
-                              />
-                            );
-                          })}
-                        </div>
-                      </td>
-                      <IfAdmin>
-                        <td>
-                          <ul className='x-actions'>
-                            {Object.keys(selected)?.length === 0 ||
-                            Object.keys(selected)?.length === 1 ? (
-                              <li className='x-action-li x-action-edit-row'>
-                                <NavLink
-                                  to={`/admin/edit-project/${project._id}`}
-                                  className='x-btn'
-                                  data-table-tooltip='Edit Row'
-                                >
-                                  <EditRowIcon />
-                                  <div className='x-tooltip '>Edit Row</div>
-                                </NavLink>
-                              </li>
-                            ) : (
-                              <li className='x-action-li x-action-li-disabled'>
-                                <a className='x-btn'>
-                                  <EditRowIcon />
-                                </a>
-                              </li>
-                            )}
-                            {Object.keys(selected)?.length === 0 ||
-                            Object.keys(selected)?.length === 1 ? (
-                              <li className='x-action-li x-action-delete-row'>
-                                <a
-                                  data-table-tooltip='Delete Row'
-                                  className='x-btn'
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    confirmHandler(project._id, `delete`);
-                                  }}
-                                >
-                                  <DeleteRowIcon />
-                                  <div className='x-tooltip '>Delete Row</div>
-                                </a>
-                              </li>
-                            ) : (
-                              <li className='x-action-li x-action-li-disabled x-action-delete-row'>
-                                <a
-                                  data-table-tooltip='Delete Row'
-                                  className='x-btn'
-                                >
-                                  <DeleteRowIcon />
-                                </a>
-                              </li>
-                            )}
-                            <li className='x-action-li x-action-more-row'>
-                              <a
-                                className='x-btn'
-                                data-table-tooltip='More Row'
-                              >
-                                <Suspense fallback={<Loading />}>
-                                  <DropDown
-                                    menuClass='dropdown-menu-right'
-                                    size='small'
-                                    direction='down'
-                                    list={projectActions(project._id)}
-                                    name=''
-                                    icon={
-                                      <i className='bx bx-dots-vertical-rounded' />
-                                    }
-                                  />
-                                </Suspense>
-                                <div className='x-tooltip '>More</div>
-                              </a>
-                            </li>
-                          </ul>
-                        </td>
-                      </IfAdmin>
-                    </tr>
-                  );
-                })}
+            <Projects
+              layout='row'
+              filterTags=''
+              projects={state?.projects}
+              nodata={state?.nodata}
+            />
           </tbody>
         </table>
       </div>
-      {state?.projects && state.totalProjects > state.projects.length ? (
+      {state.totalProjects > state.projects.length && (
         <div className='row'>
           <div className='col-md-12' style={{ textAlign: 'right' }}>
-            {state.projects.length > 0 ? (
-              <Suspense fallback={''}>
-                <Pagination
-                  pageNo={state.pageNo}
-                  limit={state.limit}
-                  total={state.totalProjects}
-                  onPagination={onPagination}
-                />
-              </Suspense>
-            ) : (
-              ''
-            )}
+            <Suspense fallback={''}>
+              <Pagination
+                pageNo={state.pageNo}
+                limit={state.limit}
+                total={state.totalProjects}
+                onPagination={onPagination}
+              />
+            </Suspense>
           </div>
         </div>
-      ) : (
-        ''
       )}
     </div>
   );

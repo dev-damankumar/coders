@@ -12,7 +12,7 @@ class Loader {
       document.head.innerHTML += this.style;
     }
     if (!document.querySelector('[data-loader-modal]')) {
-      document.body.innerHTML += loader;
+      document.body.innerHTML += this.loader;
     }
   }
 

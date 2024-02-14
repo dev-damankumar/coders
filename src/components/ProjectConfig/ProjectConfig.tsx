@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 import { downloadProject } from '../../services/project';
 import { useAuth } from '../../providers/Auth';
 import { useNotification } from '../../providers/Notification';
-import { FileType } from '../../pages/Xcode/Xcode';
 import { XcodeReducerActionType } from '../../reducers/xcodeReducer';
 
 type ProjectConfigType = {
@@ -41,8 +40,8 @@ const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
       size: 'xs',
       headerIcon: <i className='bx bx-qr-scan'></i>,
       body: (
-        <div className={`qr-wrap`}>
-          <div className={`qrdiv`}>
+        <div className='qr-wrap'>
+          <div className='qrdiv'>
             <QRCode value={`${env['REACT_APP_WEB_URL']}/xcode/${projectId}`} />
           </div>
         </div>
@@ -50,7 +49,7 @@ const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
     });
   };
   return (
-    <div className={`project-congfig-div`}>
+    <div className='project-congfig-div'>
       <div className={`download-div ${classes['download-div']}`}>
         <p>
           <i className='bx bx-code-block' /> Clone
@@ -87,7 +86,7 @@ const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
       </div>
       <div className='dropdown-divider' />
       <a
-        href='#action'
+        href='#'
         onClick={() => downloadHandler(projectId)}
         className={classes['download-item']}
       >
@@ -96,7 +95,7 @@ const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
       </a>
       <div className='dropdown-divider' />
       <a
-        href='#action'
+        href='#'
         onClick={(e) => {
           e.preventDefault();
           scanQr();

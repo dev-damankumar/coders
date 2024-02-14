@@ -9,7 +9,7 @@ import If from '../../components/If/If';
 import { forgotPassword } from '../../services/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNotification } from '../../providers/Notification';
-import { validateEmail } from '../../helpers';
+import { validateEmail } from '../../utils';
 
 type TForgotPasswordFormInputs = {
   email: string;

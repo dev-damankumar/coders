@@ -12,6 +12,7 @@ type ImageType = {
 const Image = ({ src, defaultImg, ...rest }: ImageType) => {
   const imgSrc = env['REACT_APP_BASE_URL'];
   const defaultImgSrc = defaultImg || img;
+  console.log("[imgSrc, src].join('/')", [imgSrc, src].join('/'));
   const source = src ? [imgSrc, src].join('/') : defaultImgSrc;
   const ref = useRef<HTMLImageElement>(null);
   const setDefaultImage = () => {

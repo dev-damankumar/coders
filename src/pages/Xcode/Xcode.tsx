@@ -31,7 +31,7 @@ import {
 } from '../../services/files';
 import { ProjectDetailType } from '../ProjectDetail/ProjectDetail';
 import { useNotification } from '../../providers/Notification';
-import { goBackPaths, sortObjectByName } from '../../helpers';
+import { goBackPaths, sortObjectByName } from '../../utils';
 
 const ProjectConfig = lazy(
   () => import('../../components/ProjectConfig/ProjectConfig')

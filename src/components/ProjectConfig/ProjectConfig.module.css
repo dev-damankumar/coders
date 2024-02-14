@@ -1,105 +1,101 @@
-
 .download-div {
-	width: 350px !important;
-	padding: 5px 15px;
+  width: 350px !important;
+  padding: 5px 15px;
 }
 
 .download-div p {
-	margin-bottom: 8px;
-	font-family: 'Nunito SemiBold', sans-serif;
+  margin-bottom: 8px;
+  font-family: 'Nunito SemiBold', sans-serif;
 }
 
 .url-group {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .url-group input {
-	background: #fafbfc !important;
-	border: 1px solid #e1e4e8;
-	padding: 8px 12px;
-	border-radius: 6px 0 0 6px;
-	font-family: monospace;
-	flex: 1;
-	font-size: 13px;
+  background: #fafbfc !important;
+  border: 1px solid #e1e4e8;
+  padding: 8px 12px;
+  border-radius: 6px 0 0 6px;
+  font-family: monospace;
+  flex: 1;
+  font-size: 13px;
 }
 
 button.copy-btn.active-copy-btn {
-	background: #17b978 !important;
-	border-color: #17b978 !important;
-	color: white !important;
+  background: #17b978 !important;
+  border-color: #17b978 !important;
+  color: white !important;
 }
 
 button.copy-btn.active-copy-btn i {
-	color: white !important;
+  color: white !important;
 }
 
-
 p.sub-para {
-	color: #586069;
-	font-family: 'Nunito Sans', sans-serif;
-	font-size: 13px;
-	margin-top: 8px;
-	margin-bottom: 0;
+  color: #586069;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  margin-top: 8px;
+  margin-bottom: 0;
 }
 
 .download-item {
-	padding: 10px 15px;
-	display: block;
-	font-size: 14px;
-	font-family: "Nunito SemiBold", sans-serif;
-	display: flex;
-	align-items: center;
+  padding: 10px 15px;
+  display: block;
+  font-size: 14px;
+  font-family: 'Nunito SemiBold', sans-serif;
+  display: flex;
+  align-items: center;
 }
 
 .download-item i {
-	font-size: 20px;
-	margin-right: 10px;
+  font-size: 20px;
+  margin-right: 10px;
 }
 
 .download-item:hover {
-	background: #f5f5f5;
+  background: #f5f5f5;
 }
 
-
 button.copy-btn {
-	background: #fafbfc !important;
-	border: 1px solid #e1e4e8;
-	padding: 6px 12px;
-	border-left: 0;
-	border-radius: 0 6px 6px 0;
+  background: #fafbfc !important;
+  border: 1px solid #e1e4e8;
+  padding: 6px 12px;
+  border-left: 0;
+  border-radius: 0 6px 6px 0;
 }
 
 @media screen and (max-width: 500px) {
-	 .download-div p {
-		margin-bottom: 3px;
-		font-size: 15px;
-	}
+  .download-div p {
+    margin-bottom: 3px;
+    font-size: 15px;
+  }
 
-	 .download-div p.url-label {
-		font-size: 13px;
-		margin-top: 5px;
-		margin-bottom: 0 !important;
-	}
+  .download-div p.url-label {
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 0 !important;
+  }
 
-	 .download-div p.sub-para {
-		font-size: 12px;
-	}
+  .download-div p.sub-para {
+    font-size: 12px;
+  }
 
-	 .url-group {
-		margin-top: 8px;
-	}
+  .url-group {
+    margin-top: 8px;
+  }
 
-	 .download-item {
-		font-size: 13px;
-	}
+  .download-item {
+    font-size: 13px;
+  }
 
-	 .download-div {
-		width: 100% !important;
-	}
+  .download-div {
+    width: 100% !important;
+  }
 
-	 .download-item {
-		padding: 7px 15px;
-	}
-
+  .download-item {
+    padding: 7px 15px;
+  }
 }

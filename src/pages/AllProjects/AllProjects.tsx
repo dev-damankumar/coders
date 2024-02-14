@@ -9,15 +9,16 @@ import { useLocation } from 'react-router';
 import If from '../../components/If/If';
 import Heading from '../../components/Heading/Heading';
 import { getProjects } from '../../services/project';
-import Projects, { Project } from '../../components/Projects/Projects';
+import Projects from '../../components/project/Projects';
+import { Project } from '../../types';
 
 const Modal = React.lazy(() => import('../../components/Modal/Modal'));
 const Pagination = React.lazy(
   () => import('../../components/Pagination/Pagination')
 );
 
-type ProjectsState = {
-  projects: Project[];
+export type ProjectsState = {
+  projects: Project[] | [];
   pageNo: number;
   limit: number;
   totalProjects: number;

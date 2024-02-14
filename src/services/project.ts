@@ -2,20 +2,19 @@ import downloadjs from 'downloadjs';
 import { Dispatch } from 'react';
 import { HomeReducerActionType } from '../reducers/homeReducer';
 import { env } from '../utils';
-import { Project } from '../components/Projects/Projects';
-import { net } from '../helpers';
+import { http } from '../utils';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { XcodeReducerActionType } from '../reducers/xcodeReducer';
-import { FailedResponse, SuccessResponse } from '../types';
+import {
+  FailedResponse,
+  Project,
+  ProjectListData,
+  ProjectResponseType,
+  SuccessResponse,
+} from '../types';
 import { ProjectDetailType } from '../pages/ProjectDetail/ProjectDetail';
 
 const token = localStorage.getItem('token');
-
-type ProjectResponseType = {
-  type: 'error' | 'success';
-  message: string;
-  data: any;
-};
 
 export const downloadProject = (
   id: string,
@@ -84,7 +83,7 @@ export const cloneProject = async (
 ) => {
   // loader.show();
   try {
-    let project: ProjectResponseType = await net.post(`/api/project/${id}`, {
+    let project: ProjectResponseType = await http.post(`/api/project/${id}`, {
       method: 'POST',
     });
 
@@ -120,7 +119,7 @@ export const deleteProject = async (
 ) => {
   // loader.show();
   try {
-    let project: ProjectResponseType = await net.delete(`/api/project/${id}`);
+    let project: ProjectResponseType = await http.delete(`/api/project/${id}`);
 
     if (project.type === 'error') {
       return { error: true, message: project.message };
@@ -149,19 +148,13 @@ export const deleteProject = async (
   }
 };
 
-export type ProjectListData = {
-  image: string;
-  title: string;
-  _id: string;
-};
-
 export const fetchProjectList = async (): Promise<
   SuccessResponse<ProjectListData[]> | FailedResponse
 > => {
   try {
     const response: AxiosResponse<
       SuccessResponse<ProjectListData[]> | FailedResponse
-    > = await net.get('/api/project-list');
+    > = await http.get('/api/project-list');
     return response.data as SuccessResponse<ProjectListData[]>;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
@@ -184,7 +177,7 @@ export const getProject = async (id: string) => {
   try {
     const response: AxiosResponse<
       SuccessResponse<ProjectDetailType> | FailedResponse
-    > = await net.get(`/api/project/${id}`);
+    > = await http.get(`/api/project/${id}`);
     return response.data as SuccessResponse<ProjectDetailType>;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
@@ -213,7 +206,7 @@ export const getProjects = async ({
   try {
     const response: AxiosResponse<
       SuccessResponse<ProjectDetailType[]> | FailedResponse
-    > = await net.get(`/api/projects?pageNo=${pageNo}&limit=${limit}`);
+    > = await http.get(`/api/projects?pageNo=${pageNo}&limit=${limit}`);
     return response.data as SuccessResponse<ProjectDetailType[]>;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
@@ -228,6 +221,33 @@ export const getProjects = async ({
       type: 'error',
       error: true,
       message: 'Unable to get projects',
+    };
+  }
+};
+
+export const changeProjectVisibility = async (
+  id: string,
+  visibility: boolean
+): Promise<SuccessResponse<Project> | FailedResponse> => {
+  try {
+    const response: AxiosResponse<SuccessResponse<Project> | FailedResponse> =
+      await http.post(`/api/set-privacy/${id}`, {
+        visibility,
+      });
+    return response.data as SuccessResponse<Project>;
+  } catch (error: unknown) {
+    if (isAxiosError(error)) {
+      return {
+        error: true,
+        ...(error?.response?.data || {
+          message: 'Unable to update project visibility',
+        }),
+      };
+    }
+    return {
+      type: 'error',
+      error: true,
+      message: 'Unexpected error has been occured',
     };
   }
 };

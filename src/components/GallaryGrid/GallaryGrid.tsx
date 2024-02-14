@@ -1,14 +1,20 @@
-import React from 'react';
-import {baseURL} from "../../config";
+import { baseURL } from '../../constants';
+import { joinURL } from '../../utils';
 
-const GallaryGrid = ({images}) => {
-    return (
-        <div className="gallery-grid">
-            {images?.map((image, i) => <div className="gallery-item" key={`image_${i}`}>
-                <img alt={image} src={[baseURL, image].join("/")} className="rounded-image thumbnail"/>
-            </div>)}
+const GallaryGrid = ({ images }: { images: string[] }) => {
+  return (
+    <div className='gallery-grid'>
+      {images?.map((image: string, i: number) => (
+        <div className='gallery-item' key={`image_${i}`}>
+          <img
+            alt={image}
+            src={joinURL(baseURL, image)}
+            className='rounded-image thumbnail'
+          />
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default GallaryGrid;

@@ -1,52 +1,52 @@
-import { Project } from "./../components/Projects/Projects";
+import { Project } from '../types';
 
 type TypeSetProject = {
-  type: "SET_PROJECTS";
+  type: 'SET_PROJECTS';
   data: Project[];
 };
 
 type TypeSetPageNo = {
-  type: "SET_PAGE_NO";
+  type: 'SET_PAGE_NO';
   data: number;
 };
 
 type TypeSetLimit = {
-  type: "SET_LIMIT";
+  type: 'SET_LIMIT';
   data: number;
 };
 
 type TypeSetFilterTag = {
-  type: "SET_FILTER_TAG";
+  type: 'SET_FILTER_TAG';
   data: string;
 };
 
 type TypeSetFilterCount = {
-  type: "SET_FILTER_COUNT";
+  type: 'SET_FILTER_COUNT';
   data: number;
 };
 
 type TypeSetTotalProjects = {
-  type: "SET_TOTAL_PROJECTS";
+  type: 'SET_TOTAL_PROJECTS';
   data: number;
 };
 
 type TypeSetNoData = {
-  type: "SET_NO_DATA";
+  type: 'SET_NO_DATA';
   data: boolean;
 };
 
 type TypeSetLoading = {
-  type: "SET_LOADING";
+  type: 'SET_LOADING';
   data: boolean;
 };
 
 type TypeSetDownload = {
-  type: "SET_DOWNLOAD";
+  type: 'SET_DOWNLOAD';
   data: boolean;
 };
 
 type TypeSetProgress = {
-  type: "SET_PROGRESS";
+  type: 'SET_PROGRESS';
   data: number;
 };
 export type HomeReducerActionType =
@@ -63,25 +63,25 @@ export type HomeReducerActionType =
 
 const homeReducer = <T>(state: T, action: HomeReducerActionType): T => {
   switch (action.type) {
-    case "SET_PROJECTS":
+    case 'SET_PROJECTS':
       return { ...state, projects: action.data };
-    case "SET_PAGE_NO":
+    case 'SET_PAGE_NO':
       return { ...state, pageNo: action.data };
-    case "SET_LIMIT":
+    case 'SET_LIMIT':
       return { ...state, limit: action.data };
-    case "SET_FILTER_TAG":
+    case 'SET_FILTER_TAG':
       return { ...state, filterTags: action.data };
-    case "SET_FILTER_COUNT":
+    case 'SET_FILTER_COUNT':
       return { ...state, filterCount: action.data };
-    case "SET_TOTAL_PROJECTS":
+    case 'SET_TOTAL_PROJECTS':
       return { ...state, totalProjects: action.data };
-    case "SET_NO_DATA":
+    case 'SET_NO_DATA':
       return { ...state, nodata: action.data };
-    case "SET_DOWNLOAD":
+    case 'SET_DOWNLOAD':
       return { ...state, showDownload: action.data };
-    case "SET_PROGRESS":
+    case 'SET_PROGRESS':
       return { ...state, progress: action.data };
-    case "SET_LOADING":
+    case 'SET_LOADING':
       return { ...state, loading: action.data };
     default:
       return { ...state };

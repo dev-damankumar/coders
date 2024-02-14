@@ -1,6 +1,6 @@
 import { useEffect, useRef, Suspense, useReducer, lazy, memo } from 'react';
 import { NavLink } from 'react-router-dom';
-import CardRowSkelton from '../../components/Skelton/CardRowSkelton';
+
 import RecentProjectSkelton from '../../components/Skelton/RecentProjectSkelton';
 import homeReducer from '../../reducers/homeReducer';
 import Loading from '../../components/Loading/Loading';
@@ -10,13 +10,14 @@ import Heading from '../../components/Heading/Heading';
 import If from '../../components/If/If';
 const Roadmap = lazy(() => import('../../components/RoadMap/Roadmap'));
 const WhyChoose = lazy(() => import('../../components/WhyChoose/WhyChoose'));
-const Projects = lazy(() => import('../../components/Projects/Projects'));
+const Projects = lazy(() => import('../../components/project/Projects'));
 const RecentProjects = lazy(
   () => import('../../components/RecentProjects/RecentProjects')
 );
 import './Home.css';
-import { Project } from '../../components/Projects/Projects';
 import { getProjects } from '../../services/project';
+import { Project } from '../../types';
+import CardSkelton from '../../components/Skelton/CardSkelton';
 
 type HomeState = {
   projects: Project[];
@@ -90,9 +91,9 @@ const Home = memo(() => {
                   state.loading
                 )
               }
-              else={<CardRowSkelton hideContext={true} />}
+              else={<CardSkelton count={4} hideContext />}
             >
-              <Suspense fallback={<CardRowSkelton hideContext={true} />}>
+              <Suspense fallback={<CardSkelton count={4} hideContext />}>
                 <Projects
                   filterTags=''
                   projects={state?.projects}

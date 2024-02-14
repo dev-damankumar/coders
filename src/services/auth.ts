@@ -1,5 +1,5 @@
 import { AxiosResponse, isAxiosError } from 'axios';
-import { net } from '../helpers';
+import { http } from '../utils';
 import { RegisterUserType } from '../models/onboard/registerForm';
 import { User } from '../providers/Auth';
 import { IRegisterFormInput } from '../pages/Register/Register';
@@ -35,7 +35,7 @@ export const login = async (email: string, password: string) => {
   //   loader.show();
   try {
     const response: AxiosResponse<LoginSuccessResponse | FailedResponse> =
-      await net.post(
+      await http.post(
         '/api/login',
         {
           email: email.toLowerCase(),
@@ -85,7 +85,7 @@ export const register = async (
 ): Promise<RegisterSuccessResponse | FailedResponse> => {
   try {
     const response: AxiosResponse<RegisterSuccessResponse | FailedResponse> =
-      await net.post('/api/signup', user);
+      await http.post('/api/signup', user);
     return response.data as RegisterSuccessResponse;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
@@ -100,7 +100,7 @@ export const registerProfile = async (
 ): Promise<RegisterSuccessResponse | FailedResponse> => {
   try {
     const response: AxiosResponse<RegisterSuccessResponse | FailedResponse> =
-      await net.post('/api/register-profile', userProfileData, {
+      await http.post('/api/register-profile', userProfileData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -119,7 +119,7 @@ export const forgotPassword = async (
   email: string
 ): Promise<SuccessResponse | FailedResponse> => {
   try {
-    const response = await net.post(
+    const response = await http.post(
       '/api/forgot-password',
       { email },
       {
@@ -143,7 +143,7 @@ export const forgotPassword = async (
 
 export const resetPassword = async (password: string, token: string) => {
   try {
-    return await net.post(
+    return await http.post(
       '/api/reset-password',
       { password, token },
       {
@@ -166,7 +166,7 @@ export const resetPassword = async (password: string, token: string) => {
 
 export const socialLogin = async (user: RegisterUserType) => {
   try {
-    return await net.post('/api/social-login', user, {
+    return await http.post('/api/social-login', user, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -185,7 +185,7 @@ export const socialLogin = async (user: RegisterUserType) => {
 
 export const socialSignUp = async (user: RegisterUserType) => {
   try {
-    return await net.post('/api/social-signup', user, {
+    return await http.post('/api/social-signup', user, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -204,7 +204,7 @@ export const socialSignUp = async (user: RegisterUserType) => {
 
 export const unsubscribe = async () => {
   try {
-    return await net.post(
+    return await http.post(
       '/api/unsubscribe',
       {},
       {
@@ -229,7 +229,7 @@ export const isValidResetToken = async (
   token: string
 ): Promise<SuccessResponse | FailedResponse> => {
   try {
-    const response = await net.post(
+    const response = await http.post(
       '/api/is-valid-reset-token',
       {
         token: token,

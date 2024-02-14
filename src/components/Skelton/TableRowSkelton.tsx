@@ -1,8 +1,8 @@
-import classes from "./TableRowSkelton.module.css";
+import classes from './TableRowSkelton.module.css';
 
 const TableRowSkelton = (props: { rows?: number; cols?: number }) => {
-  let rows = Array.from(Array(props.rows || 4).keys());
-  let cols = Array.from(Array(props.cols || 4).keys());
+  const rows = Array.from(Array(props.rows || 4).keys());
+  const cols = Array.from(Array(props.cols || 4).keys());
   return (
     <>
       {rows.map((row, i) => {
@@ -12,7 +12,7 @@ const TableRowSkelton = (props: { rows?: number; cols?: number }) => {
               return (
                 <td key={`${col}_${i}`}>
                   <div
-                    className={["loading", classes["field-loader"]].join(" ")}
+                    className={['loading', classes['field-loader']].join(' ')}
                   ></div>
                 </td>
               );

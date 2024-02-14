@@ -1,13 +1,8 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import {
-  SocialLinksType,
-  setSocials,
-  updateProfile,
-} from '../../services/user';
+import { updateProfile } from '../../services/user';
 import { useNotification } from '../../providers/Notification';
 import { User, useAuth } from '../../providers/Auth';
 import { loader } from '../../utils';
-import { validateUrl } from '../../helpers';
 import FileUpload from '../file-upload';
 
 export type TProfileInputs = Omit<

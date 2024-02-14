@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { NavLink, Navigate } from 'react-router-dom';
 // import { GoogleLogin } from "react-google-login";
-import SiteLogo from "../../assets/icons/SiteLogo";
-import Steps from "../../components/Steps/Steps";
-import SaveRowIcon from "../../assets/icons/SaveRowIcon";
-import If from "../../components/If/If";
-import { User, useAuth } from "../../providers/Auth";
-import "../Login/Login.css";
+import SiteLogo from '../../assets/icons/SiteLogo';
+import Steps from '../../components/Steps/Steps';
+import SaveRowIcon from '../../assets/icons/SaveRowIcon';
+import If from '../../components/If/If';
+import { User, useAuth } from '../../providers/Auth';
+import '../Login/Login.css';
 import {
   register as registerHandler,
   registerProfile,
-} from "../../services/auth";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { validateEmail } from "../../helpers";
-import { useNotification } from "../../providers/Notification";
+} from '../../services/auth';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { validateEmail } from '../../utils';
+import { useNotification } from '../../providers/Notification';
 
 export interface IRegisterFormInput {
   username: string;
@@ -36,12 +36,12 @@ function Register() {
   const auth = useAuth();
   const notification = useNotification();
   const profileUser: User = JSON.parse(
-    localStorage.getItem("profile_user") || "{}"
+    localStorage.getItem('profile_user') || '{}'
   );
   let stepsArray: any = [];
   if (profileUser?.profileCompletion) {
     const count = Number(profileUser?.profileCompletion);
-    const countArray = Array.from("x".repeat(count));
+    const countArray = Array.from('x'.repeat(count));
     stepsArray = countArray.map((v, i) => {
       return `step-${i + 1}`;
     });
@@ -70,14 +70,14 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
 
   const resetEveryThing = () => {
-    localStorage.removeItem("profile_user");
+    localStorage.removeItem('profile_user');
   };
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
 
   const saveLocalSteps = (user: User) => {
-    localStorage.setItem("profile_user", JSON.stringify(user));
+    localStorage.setItem('profile_user', JSON.stringify(user));
   };
   const continueNextStep = (user: User) => {
     const nextStep = user.profileCompletion + 1;
@@ -92,12 +92,12 @@ function Register() {
     auth.logout({});
 
     const payload = new FormData();
-    payload.append("id", profileUser._id);
-    payload.append("cover", form.cover[0]);
-    payload.append("profileImage", form.profileImage[0]);
+    payload.append('id', profileUser._id);
+    payload.append('cover', form.cover[0]);
+    payload.append('profileImage', form.profileImage[0]);
     const data = await registerProfile(payload);
 
-    if ("error" in data) {
+    if ('error' in data) {
       return handleErrorForCurrentStep();
     }
 
@@ -108,7 +108,7 @@ function Register() {
     form
   ) => {
     const data = await registerHandler(form);
-    if ("error" in data) {
+    if ('error' in data) {
       return handleErrorForCurrentStep();
     }
     notification.add({
@@ -119,206 +119,206 @@ function Register() {
   };
 
   const steps = [
-    <div key="step-1" id="step-1">
-      <div className="loginpart">
+    <div key='step-1' id='step-1'>
+      <div className='loginpart'>
         <form
           onSubmit={handleSubmit(onSubmitRegisterHandler)}
-          action="#"
-          className="upload-img-form row"
-          encType=""
+          action='#'
+          className='upload-img-form row'
+          encType=''
           style={{ padding: 10 }}
         >
-          <div className="form-group col-md-6  ">
-            <label className="inputlabel" htmlFor="name">
+          <div className='form-group col-md-6  '>
+            <label className='inputlabel' htmlFor='name'>
               Firstname:
             </label>
             <input
-              {...register("firstname", {
+              {...register('firstname', {
                 required: {
                   value: true,
-                  message: "Firstname is required",
+                  message: 'Firstname is required',
                 },
               })}
-              type="text"
-              placeholder="Enter Your Firstname"
-              name="firstname"
-              id="firstname"
-              className="form-input inputtext"
+              type='text'
+              placeholder='Enter Your Firstname'
+              name='firstname'
+              id='firstname'
+              className='form-input inputtext'
             />
             {errors.firstname && (
-              <p className="error">{errors.firstname.message}</p>
+              <p className='error'>{errors.firstname.message}</p>
             )}
           </div>
-          <div className="form-group col-md-6  ">
-            <label className="inputlabel" htmlFor="name">
+          <div className='form-group col-md-6  '>
+            <label className='inputlabel' htmlFor='name'>
               Lastname:
             </label>
             <input
-              {...register("lastname", {
+              {...register('lastname', {
                 required: {
                   value: true,
-                  message: "Lastname is required",
+                  message: 'Lastname is required',
                 },
               })}
-              type="text"
-              placeholder="Enter Your Lastname"
-              name="lastname"
-              id="lastname"
-              className="form-input inputtext"
+              type='text'
+              placeholder='Enter Your Lastname'
+              name='lastname'
+              id='lastname'
+              className='form-input inputtext'
             />
             {errors.lastname && (
-              <p className="error">{errors.lastname.message}</p>
+              <p className='error'>{errors.lastname.message}</p>
             )}
           </div>
-          <div className="form-group col-md-6  ">
-            <label className="inputlabel" htmlFor="mobile">
+          <div className='form-group col-md-6  '>
+            <label className='inputlabel' htmlFor='mobile'>
               Mobile:
             </label>
             <input
-              {...register("mobile", {
+              {...register('mobile', {
                 required: {
                   value: true,
-                  message: "Mobile number is required",
+                  message: 'Mobile number is required',
                 },
               })}
-              type="tel"
-              placeholder="Enter Mobile Number"
-              name="mobile"
-              id="mobile"
-              className="form-input inputtext"
+              type='tel'
+              placeholder='Enter Mobile Number'
+              name='mobile'
+              id='mobile'
+              className='form-input inputtext'
             />
-            {errors.mobile && <p className="error">{errors.mobile.message}</p>}
+            {errors.mobile && <p className='error'>{errors.mobile.message}</p>}
           </div>
-          <div className="form-group col-md-6  ">
-            <label className="inputlabel" htmlFor="email">
+          <div className='form-group col-md-6  '>
+            <label className='inputlabel' htmlFor='email'>
               Email:
             </label>
             <input
-              {...register("email", {
+              {...register('email', {
                 required: {
                   value: true,
-                  message: "Email is required",
+                  message: 'Email is required',
                 },
                 validate: {
                   emailVal: (value) => {
-                    return validateEmail(value) || "Please enter valid email";
+                    return validateEmail(value) || 'Please enter valid email';
                   },
                 },
               })}
-              type="email"
-              placeholder="Enter Email"
-              name="email"
-              id="email"
-              className="form-input inputtext"
+              type='email'
+              placeholder='Enter Email'
+              name='email'
+              id='email'
+              className='form-input inputtext'
             />
-            {errors.email && <p className="error">{errors.email.message}</p>}
+            {errors.email && <p className='error'>{errors.email.message}</p>}
           </div>
-          <div className="form-group col-md-6  ">
-            <label className="inputlabel" htmlFor="password">
+          <div className='form-group col-md-6  '>
+            <label className='inputlabel' htmlFor='password'>
               Password:
             </label>
             <input
-              {...register("password", {
+              {...register('password', {
                 required: {
                   value: true,
-                  message: "Password is required",
+                  message: 'Password is required',
                 },
                 minLength: {
                   value: 5,
-                  message: "Password should be atleast 5 charactors",
+                  message: 'Password should be atleast 5 charactors',
                 },
               })}
-              type="password"
-              placeholder="Enter Password"
-              name="password"
-              id="password"
-              className="form-input inputtext"
+              type='password'
+              placeholder='Enter Password'
+              name='password'
+              id='password'
+              className='form-input inputtext'
             />
             {errors.password && (
-              <p className="error">{errors.password.message}</p>
+              <p className='error'>{errors.password.message}</p>
             )}
             <button
-              type={"button"}
+              type={'button'}
               onClick={togglePassword}
-              className={"show-password"}
+              className={'show-password'}
             >
               {showPassword ? (
-                <i className="bx bxs-show"></i>
+                <i className='bx bxs-show'></i>
               ) : (
-                <i className="bx bxs-hide"></i>
+                <i className='bx bxs-hide'></i>
               )}
             </button>
           </div>
-          <div className="form-group col-md-6  ">
-            <label className="inputlabel" htmlFor="city">
+          <div className='form-group col-md-6  '>
+            <label className='inputlabel' htmlFor='city'>
               City:
             </label>
             <input
-              {...register("city", {
+              {...register('city', {
                 required: {
                   value: true,
-                  message: "City is required",
+                  message: 'City is required',
                 },
               })}
-              type="text"
-              placeholder="Enter City"
-              name="city"
-              id="city"
-              className="form-input inputtext"
+              type='text'
+              placeholder='Enter City'
+              name='city'
+              id='city'
+              className='form-input inputtext'
             />
-            {errors.city && <p className="error">{errors.city.message}</p>}
+            {errors.city && <p className='error'>{errors.city.message}</p>}
           </div>
-          <div className="form-group col-md-6  ">
-            <label className="inputlabel" htmlFor="country">
+          <div className='form-group col-md-6  '>
+            <label className='inputlabel' htmlFor='country'>
               Country:
             </label>
             <input
-              {...register("country", {
+              {...register('country', {
                 required: {
                   value: true,
-                  message: "Country is required",
+                  message: 'Country is required',
                 },
               })}
-              type="text"
-              placeholder="Enter Country"
-              name="country"
-              id="country"
-              className="form-input inputtext"
+              type='text'
+              placeholder='Enter Country'
+              name='country'
+              id='country'
+              className='form-input inputtext'
             />
             {errors.country && (
-              <p className="error">{errors.country.message}</p>
+              <p className='error'>{errors.country.message}</p>
             )}
           </div>
-          <div className="form-group col-md-12  ">
-            <label className="inputlabel" htmlFor="address">
+          <div className='form-group col-md-12  '>
+            <label className='inputlabel' htmlFor='address'>
               Address:
             </label>
             <textarea
-              {...register("address", {
+              {...register('address', {
                 required: {
                   value: true,
-                  message: "Address is required",
+                  message: 'Address is required',
                 },
               })}
-              placeholder="Enter Address"
-              name="address"
-              id="address"
-              className="form-input inputtext"
+              placeholder='Enter Address'
+              name='address'
+              id='address'
+              className='form-input inputtext'
             />
             {errors.address && (
-              <p className="error">{errors.address.message}</p>
+              <p className='error'>{errors.address.message}</p>
             )}
           </div>
-          <div className="form-group col-md-12">
-            <div className="row">
-              <div className="col-md-12">
-                <div className="register-btn-div">
-                  <button type="submit" className="btn btn-primary">
+          <div className='form-group col-md-12'>
+            <div className='row'>
+              <div className='col-md-12'>
+                <div className='register-btn-div'>
+                  <button type='submit' className='btn btn-primary'>
                     Register
                   </button>
                   <div
-                    className="form-group logininput loginwith"
-                    style={{ margin: "0", padding: "0" }}
+                    className='form-group logininput loginwith'
+                    style={{ margin: '0', padding: '0' }}
                   >
                     {/* <GoogleLogin
                       clientId="904156776688-of8bknffbq813fnreqoi0cb7eb4qtjpa.apps.googleusercontent.com"
@@ -353,74 +353,74 @@ function Register() {
         </form>
       </div>
     </div>,
-    <div key="step-2" id="step-2">
-      <If cond={profileUser.profileCompletion === 1} else={<Navigate to="/" />}>
+    <div key='step-2' id='step-2'>
+      <If cond={profileUser.profileCompletion === 1} else={<Navigate to='/' />}>
         <form
           onSubmit={handleProfileSubmit(onProfileSubmitHandler)}
-          action="#"
-          className="upload-img-form"
-          encType="multipart/form-data"
+          action='#'
+          className='upload-img-form'
+          encType='multipart/form-data'
           style={{ padding: 10 }}
         >
-          <div className="form-group  form-file-group ">
-            <label className="" htmlFor="profileImage">
+          <div className='form-group  form-file-group '>
+            <label className='' htmlFor='profileImage'>
               Select Profile Image:
             </label>
-            <div className="main-file-wrap">
-              <div className="file-make-div ">
+            <div className='main-file-wrap'>
+              <div className='file-make-div '>
                 <input
-                  {...profileForm("profileImage", {
+                  {...profileForm('profileImage', {
                     required: {
                       value: true,
-                      message: "Profile is required",
+                      message: 'Profile is required',
                     },
                   })}
-                  type="file"
-                  name="profileImage"
-                  id="profileImage"
-                  accept="image/*"
+                  type='file'
+                  name='profileImage'
+                  id='profileImage'
+                  accept='image/*'
                 />
-                <i className="bx bx-plus" />
+                <i className='bx bx-plus' />
               </div>
               {profileErrors.profileImage && (
-                <p className="error">{profileErrors.profileImage.message}</p>
+                <p className='error'>{profileErrors.profileImage.message}</p>
               )}
-              <div className="preview-img-wrap" />
+              <div className='preview-img-wrap' />
               <p />
             </div>
           </div>
-          <div className="form-group  form-file-group ">
-            <label className="" htmlFor="cover">
+          <div className='form-group  form-file-group '>
+            <label className='' htmlFor='cover'>
               Select Cover Image:
             </label>
-            <div className="main-file-wrap">
-              <div className="file-make-div ">
+            <div className='main-file-wrap'>
+              <div className='file-make-div '>
                 <input
-                  {...profileForm("cover", {
+                  {...profileForm('cover', {
                     required: {
                       value: true,
-                      message: "Cover image is required",
+                      message: 'Cover image is required',
                     },
                   })}
-                  type="file"
-                  name="cover"
-                  id="cover"
-                  accept="image/*"
+                  type='file'
+                  name='cover'
+                  id='cover'
+                  accept='image/*'
                 />
-                <i className="bx bx-plus" />
+                <i className='bx bx-plus' />
               </div>
               {profileErrors.cover && (
-                <p className="error">{profileErrors.cover.message}</p>
+                <p className='error'>{profileErrors.cover.message}</p>
               )}
-              <div className="preview-img-wrap" />
+              <div className='preview-img-wrap' />
               <p />
             </div>
           </div>
-          <div className="form-group col-md-12">
-            <div className="row">
-              <div className="">
-                <div className="register-btn-div">
-                  <button type="submit" className="btn btn-primary">
+          <div className='form-group col-md-12'>
+            <div className='row'>
+              <div className=''>
+                <div className='register-btn-div'>
+                  <button type='submit' className='btn btn-primary'>
                     Upload Images
                   </button>
                 </div>
@@ -430,8 +430,8 @@ function Register() {
         </form>
       </If>
     </div>,
-    <div key="step-3" id="step-3">
-      <div className="success-payment">
+    <div key='step-3' id='step-3'>
+      <div className='success-payment'>
         <SaveRowIcon />
         <h2>You are registered successfully</h2>
         <p>
@@ -439,12 +439,12 @@ function Register() {
           your projects
         </p>
         <NavLink
-          to="/login"
+          to='/login'
           onClick={() => {
             resetEveryThing();
           }}
         >
-          <button type="button" className="btn btn-success">
+          <button type='button' className='btn btn-success'>
             Go to ProjectX
           </button>
         </NavLink>
@@ -461,36 +461,36 @@ function Register() {
   useEffect(() => {
     if (auth.user?._id && auth.user.active) {
       notification.add({
-        type: "warning",
+        type: 'warning',
         message:
-          "Please logout your current user in order to register new user",
+          'Please logout your current user in order to register new user',
       });
     }
   }, []);
 
   return auth.user?._id && auth.user.active ? (
-    <Navigate to="/" />
+    <Navigate to='/' />
   ) : (
-    <div className="analytics-page main-content login-page register-page qr-wrap">
-      <div className="login_section">
-        <div className="container">
-          <div className="row">
-            <div className="col-xl-7 col-lg-9 col-md-12 leftsidecolumn">
-              <div className="leftLoginSide jumbotron">
+    <div className='analytics-page main-content login-page register-page qr-wrap'>
+      <div className='login_section'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-xl-7 col-lg-9 col-md-12 leftsidecolumn'>
+              <div className='leftLoginSide jumbotron'>
                 <div
-                  className="loginLogo"
+                  className='loginLogo'
                   style={{
-                    marginBottom: "15px",
-                    display: "flex",
-                    alignItems: "center",
+                    marginBottom: '15px',
+                    display: 'flex',
+                    alignItems: 'center',
                   }}
                 >
                   <SiteLogo />
                   <div
-                    className="welcomeback"
-                    style={{ marginBottom: "0", marginLeft: "20px" }}
+                    className='welcomeback'
+                    style={{ marginBottom: '0', marginLeft: '20px' }}
                   >
-                    <div style={{ marginBottom: "0" }} className="welcomeback">
+                    <div style={{ marginBottom: '0' }} className='welcomeback'>
                       Register With Us To Get Started
                     </div>
                   </div>
@@ -498,8 +498,8 @@ function Register() {
 
                 <Steps
                   titles={[
-                    { subTitle: "Personal Information", title: "" },
-                    { subTitle: "Upload Images", title: "" },
+                    { subTitle: 'Personal Information', title: '' },
+                    { subTitle: 'Upload Images', title: '' },
                   ]}
                   errorStep={errorStep}
                   initialStep={initialStep}

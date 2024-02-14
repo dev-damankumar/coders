@@ -1,14 +1,14 @@
-import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import RecentCard from "../RecentCard/RecentCard";
-import { env } from "../../utils";
-import { Project } from "../Projects/Projects";
-import React from "react";
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import RecentCard from '../RecentCard/RecentCard';
+import { env } from '../../utils';
+import React from 'react';
+import { Project } from '../../types';
 
 const RecentProjects = React.memo(({ projects }: { projects: Project[] }) => {
   return (
     <OwlCarousel
-      className="owl-theme owl-carousel"
+      className='owl-theme owl-carousel'
       {...{
         margin: 100,
         nav: true,
@@ -21,7 +21,7 @@ const RecentProjects = React.memo(({ projects }: { projects: Project[] }) => {
         ],
         smartSpeed: 500,
       }}
-      id="case"
+      id='case'
     >
       {projects.map((v, i) => {
         return (
@@ -33,8 +33,8 @@ const RecentProjects = React.memo(({ projects }: { projects: Project[] }) => {
             description={v.description}
             tags={v.tags}
             title={v.title}
-            url={"/project-detail/" + v._id}
-            imgSrc={env["REACT_APP_BASE_URL"]}
+            url={'/project-detail/' + v._id}
+            imgSrc={env['REACT_APP_BASE_URL']}
           />
         );
       })}

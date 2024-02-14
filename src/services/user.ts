@@ -1,5 +1,5 @@
 import { isAxiosError } from 'axios';
-import { net } from '../helpers';
+import { http } from '../utils';
 import { User } from '../providers/Auth';
 import { FailedResponse } from './auth';
 import { SuccessResponse } from '../types';
@@ -25,7 +25,7 @@ export const setSocials = async ({
   SuccessResponse<SocialLinksType> | FailedResponse
 > => {
   try {
-    const response = await net.post(
+    const response = await http.post(
       '/api/set-socials',
       {
         socials: {
@@ -60,7 +60,7 @@ export const updateProfile = async (
   profile: FormData | TProfileInputs
 ): Promise<SuccessResponse<User> | FailedResponse> => {
   try {
-    const response = await net.post('/api/update-profile', profile, {
+    const response = await http.post('/api/update-profile', profile, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -82,7 +82,7 @@ export const getPublicProfile = async (
   id: string
 ): Promise<SuccessResponse<User> | FailedResponse> => {
   try {
-    const response = await net.get(`/api/get-public-profile/${id}`, {
+    const response = await http.get(`/api/get-public-profile/${id}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -102,7 +102,7 @@ export const getPublicProfile = async (
 
 export const getUserByEmail = async (email: string) => {
   try {
-    return await net.post('/api/get-user', {
+    return await http.post('/api/get-user', {
       email,
     });
   } catch (error) {

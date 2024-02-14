@@ -15,7 +15,7 @@ import { loader, env } from '../../utils';
 import If from '../../components/If/If';
 import { useAuth } from '../../providers/Auth';
 import { FileDetailsType, fetchFileContent } from '../../services/files';
-import { copyToClipboard } from '../../helpers';
+import { copyToClipboard } from '../../utils';
 import { useNotification } from '../../providers/Notification';
 const SearchFile = React.lazy(
   () => import('../../components/SearchFile/SearchFile')
