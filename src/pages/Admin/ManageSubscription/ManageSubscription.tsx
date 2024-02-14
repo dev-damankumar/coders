@@ -12,7 +12,7 @@ const ManageSubscription = () => {
 
   let confirmHandler = () => {
     DModal({
-      heading: `Unsubscribe from ProjectX`,
+      heading: `Unsubscribe from Coders`,
       size: 'sm',
       headerIcon: <i className='bx bx-x'></i>,
       successButtonText: 'Unsubscribe',
@@ -40,10 +40,9 @@ const ManageSubscription = () => {
       <p className='subs-type'>{getSubscriptionName(auth?.user?.type)}</p>
       <h1>You have purchased the subscription</h1>
       <p>
-        Welcome to ProjectX. you have successfully purchased the subscription.
-        You can access the tools and features of ProjectX based on your
-        subscription type. See what features you have{' '}
-        <NavLink to='/pricing'>here.</NavLink>
+        Welcome to Coders. you have successfully purchased the subscription. You
+        can access the tools and features of Coders based on your subscription
+        type. See what features you have <NavLink to='/pricing'>here.</NavLink>
       </p>
       <button
         onClick={confirmHandler}

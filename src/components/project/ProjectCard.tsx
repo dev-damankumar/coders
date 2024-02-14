@@ -88,7 +88,7 @@ const ProjectCard = ({
         icon: <LinkIcon />,
       },
       {
-        name: 'ProjectX editor',
+        name: 'Codx editor',
         link: `/x-studio/${_id}`,
         icon: <ScriptIcon />,
       },

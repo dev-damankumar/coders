@@ -13,10 +13,10 @@ const BannerSection = () => {
             <div className='main-heading-section'>
               <h6>developer data and customized platform</h6>
               <Heading style={{ fontSize: '35px' }}>
-                Grow Your Project Easily With ProjectX
+                Grow Your Project Easily With Coders
               </Heading>
               <p className='sub-title'>
-                ProjectX is great tool to manage and develop your project. you
+                Coders is great tool to manage and develop your project. you
                 will get one touch access to your each project and can easily
                 manage and customize that project and even you can decide what
                 to show to public and what to not. Get you integrated In-Build

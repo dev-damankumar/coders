@@ -8,9 +8,7 @@ const SubscribeSection = () => {
         <div className='row'>
           <div className='col-md-12'>
             <div className='start-section text-center'>
-              <Heading>
-                Start Growing with your own instance of ProjectX
-              </Heading>
+              <Heading>Start Growing with your own instance of Coders</Heading>
               <p>
                 What are you waiting for get you own instance of the project
                 right now and start building you project with the right tools we

@@ -16,12 +16,11 @@ const Footer = () => {
           </div>
           <div className='col-md-6'>
             <p className='find-p'>
-              ProjectX is great tool to manage and develop your project. you
-              will get one touch access to your each project and can easily
-              manage and customize that project and even you can decide what to
-              show to public and what to not. Get you integrated In-Build Code
-              editor to easily edit your code on the go and see the change live
-              instantly.
+              Coders is great tool to manage and develop your project. you will
+              get one touch access to your each project and can easily manage
+              and customize that project and even you can decide what to show to
+              public and what to not. Get you integrated In-Build Code editor to
+              easily edit your code on the go and see the change live instantly.
             </p>
             <div className='footer-input-wrap'>
               <div className='search-div'>
@@ -72,7 +71,7 @@ const Footer = () => {
         </div>
         <div className='copy-row row'>
           <div className='col-sm-6'>
-            <p>ProjectX {new Date().getFullYear()} | All Rights Reserved</p>
+            <p>Coders {new Date().getFullYear()} | All Rights Reserved</p>
           </div>
           <div className='col-sm-6'>
             <p className='terms'>&copy; Copyright {new Date().getFullYear()}</p>

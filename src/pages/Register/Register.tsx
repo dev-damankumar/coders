@@ -435,8 +435,8 @@ function Register() {
         <SaveRowIcon />
         <h2>You are registered successfully</h2>
         <p>
-          Now you can proceed to your projectX and can grow while you develop
-          your projects
+          Now you can proceed to your coders account and can grow while you
+          develop your projects
         </p>
         <NavLink
           to='/login'
@@ -445,7 +445,7 @@ function Register() {
           }}
         >
           <button type='button' className='btn btn-success'>
-            Go to ProjectX
+            Go to Coders
           </button>
         </NavLink>
       </div>
