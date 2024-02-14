@@ -24,7 +24,7 @@ import { FileType } from '../../pages/Xcode/Xcode';
 import { useNotification } from '../../providers/Notification';
 import { useStudio } from '../../providers/StudioProvider';
 
-const Modal = React.lazy(() => import('../ui/Modal'));
+const Modal = React.lazy(() => import('../ui/Modal/Modal'));
 const ContextMenu = React.lazy(() => import('./ContextMenu'));
 
 export type XstudionFileType =

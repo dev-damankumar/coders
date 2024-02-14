@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../../providers/Auth';
-import { Project } from '../../types';
-import { baseImageSrc } from '../../constants';
-import Image from '../ui/Image';
+import { useAuth } from '../../../providers/Auth';
+import { Project } from '../../../types';
+import Image from '../../ui/Image';
+import classes from './index.module.css';
 
 type RecentProjectProps = Project & {
   index: number;
@@ -17,36 +17,31 @@ const RecentCard = ({
   index,
 }: RecentProjectProps) => {
   const auth = useAuth();
-  const imgSrc: string = baseImageSrc || '';
   return (
     <div className='item'>
-      <div className='project-box'>
+      <div className={classes.recentCard}>
         <div className='row'>
           <div className='col-lg-7 col-md-6 col-sm-12'>
-            <div className='image'>
+            <div className={classes.image}>
               <Image loading='lazy' src={image} alt={`slider-img_${index}`} />
-              <div className='project-overlay' />
+              <div className={classes.projectOverlay} />
             </div>
           </div>
           <div className='col-md-5'>
-            <div className='content'>
-              <h6 className='sub-title'>
+            <div className={classes.content}>
+              <h6 className={classes.subTitle}>
                 <a href='#'>Best Projects</a>
               </h6>
               <h4>
                 <NavLink to={auth?.user ? url : '/login'}>{title}</NavLink>
               </h4>
-              <div className='platform'>
+              <div className={classes.platform}>
                 {tags.map((tag, tagIndex) => {
-                  return (
-                    <span className='plat' key={`tag_${tagIndex}`}>
-                      # {tag}
-                    </span>
-                  );
+                  return <span key={`tag_${tagIndex}`}># {tag}</span>;
                 })}
               </div>
               <p>{description}</p>
-              <div className='image-gallery'>
+              <div className={classes.imageGallery}>
                 {imageGrid?.map((img, imgIndex: number) => {
                   if (imgIndex < 2) {
                     return (
@@ -61,7 +56,7 @@ const RecentCard = ({
                 })}
               </div>
               <NavLink
-                className='button btn read-more'
+                className={`button btn ${classes.readMore}`}
                 to={auth?.user ? url : '/login'}
               >
                 Read More

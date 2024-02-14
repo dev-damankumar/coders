@@ -3,15 +3,15 @@ import {
   getSubscriptionName,
 } from '../../../utils/';
 import { NavLink } from 'react-router-dom';
-import { DModal } from '../../../utils/dModal';
+import useModal from '../../../hooks/useModal';
 import { useAuth } from '../../../providers/Auth';
 
-let toast = Toast();
 const ManageSubscription = () => {
   let auth = useAuth();
+  const { modal } = useModal();
 
   let confirmHandler = () => {
-    DModal({
+    modal({
       heading: `Unsubscribe from Coders`,
       size: 'sm',
       headerIcon: <i className='bx bx-x'></i>,

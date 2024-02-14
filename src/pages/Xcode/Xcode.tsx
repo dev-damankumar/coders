@@ -11,7 +11,7 @@ import './Xcode.css';
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { loader } from '../../utils';
 import { extensions } from '../../utils/';
-import CheckBox from '../../components/Form/Checkbox/Checkbox';
+import CheckBox from '../../components/ui/Form/CheckBox/CheckBox';
 import TableRowSkelton from '../../components/ui/Skelton/TableRowSkelton';
 import Loading from '../../components/ui/Loading';
 import ImportIcon from '../../assets/icons/ImportIcon';
@@ -43,7 +43,7 @@ const UploadFile = lazy(
 const SearchFile = lazy(
   () => import('../../components/project/SearchFile/SearchFile')
 );
-const Modal = lazy(() => import('../../components/ui/Modal'));
+const Modal = lazy(() => import('../../components/ui/Modal/Modal'));
 
 type XcodeIntialState = {
   showDownload: boolean;
@@ -274,6 +274,7 @@ const Xcode = memo(() => {
   };
 
   const goBack = (e: React.MouseEvent) => {
+    e.preventDefault();
     const paths = goBackPaths(filepath);
     fetchFileContentHandler(paths.name, paths.prevPath, true);
   };
@@ -342,26 +343,17 @@ const Xcode = memo(() => {
       </If>
 
       <If cond={isStandardAndAbove && openCreateFile}>
-        <div className='dModal dModal-show'>
-          <div
-            className='dModal-content dModal-sm-content'
-            data-modal-content='sm'
-          >
-            <div className='dModal-header'>
-              <h3>
-                <i className='bx bx-file' /> Add File
-              </h3>
-              <span
-                onClick={() => {
-                  setopenCreateFile(false);
-                }}
-                className='dModal-close'
-                data-modal-destroy=''
-              >
-                &times;
-              </span>
-            </div>
-            <div className='dModal-body'>
+        <Modal
+          onClose={() => {
+            setopenCreateFile(false);
+          }}
+          heading='Add File'
+          headerIcon={<i className='bx bx-file' />}
+          onSuccess={() => {
+            createFileHandler();
+          }}
+          body={
+            <>
               <div className='form-group '>
                 <label htmlFor='email'>File Name:</label>
                 <div className='input-group'>
@@ -399,34 +391,12 @@ const Xcode = memo(() => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className='dModal-footer'>
-              <div className='d-modal-button-div'>
-                <button
-                  onClick={createFileHandler}
-                  type='button'
-                  className='btn btn-small btn-primary'
-                >
-                  Submit
-                </button>
-                <button
-                  className='btn btn-small btn-dark'
-                  onClick={() => {
-                    setopenCreateFile(false);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
       </If>
       <div className='x-code-page'>
-        <section
-          className='section form-creation-wrap'
-          style={{ paddingTop: '20px' }}
-        >
+        <section className='section' style={{ paddingTop: '20px' }}>
           <section className='container x-div'>
             <div className='row'>
               <div className='col-md-12'>

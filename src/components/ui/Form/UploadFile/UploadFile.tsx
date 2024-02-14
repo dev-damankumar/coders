@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Modal from '../../Modal';
+import Modal from '../../Modal/Modal';
 import FileInput from '../../FileInput';
-import coverImg from '../../../assets/images/main-2.jpg';
+import coverImg from '../../../../assets/images/main-2.jpg';
 import ImgIcon from '../../../../assets/icons/ImgIcon';
 
 type UploadFileType = {

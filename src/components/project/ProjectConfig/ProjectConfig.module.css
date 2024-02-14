@@ -33,13 +33,7 @@ button.copy-btn.active-copy-btn i {
   color: white !important;
 }
 
-p.sub-para {
-  color: #586069;
-  font-family: 'Nunito Sans', sans-serif;
-  font-size: 13px;
-  margin-top: 8px;
-  margin-bottom: 0;
-}
+
 
 .download-item {
   padding: 10px 15px;
@@ -78,11 +72,6 @@ button.copy-btn {
     margin-top: 5px;
     margin-bottom: 0 !important;
   }
-
-  .download-div p.sub-para {
-    font-size: 12px;
-  }
-
   .url-group {
     margin-top: 8px;
   }

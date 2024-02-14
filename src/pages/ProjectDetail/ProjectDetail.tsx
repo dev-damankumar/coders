@@ -76,7 +76,7 @@ const ProjectDetail = React.memo(() => {
   );
   console.log('projectDetail', projectDetail);
   return (
-    <div className='body_wrapper project-details-page'>
+    <div className='project-details-page'>
       <div className='main-project-detail'>
         <div className='container-fluid'>
           <div className='row'>

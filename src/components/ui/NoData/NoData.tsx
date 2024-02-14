@@ -3,7 +3,7 @@ import noDataImg from '../../../assets/images/no-data-svg.png';
 import classes from './NoData.module.css';
 
 type NoDataProps = {
-  if?: boolean;
+  if?: boolean | null | undefined;
   message?: string;
 };
 const NoData = (props: NoDataProps) => {

@@ -209,7 +209,7 @@ const ProfileForm = ({ closeModal }: { closeModal: () => void }) => {
         </div>
       </div>
       <div className='d-modal-wrap'>
-        <div className='d-modal-button-div'>
+        <div className='footerWrapper'>
           <button className='btn btn-small btn-primary' type='submit'>
             Submit
           </button>

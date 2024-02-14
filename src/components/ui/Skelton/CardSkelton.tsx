@@ -1,4 +1,5 @@
 import classes from './CardSkelton.module.css';
+import projectCardClasses from '../../project/ProjectCard/index.module.css';
 import IfPrimiumUser from '../../hoc/IfPrimiumUser';
 
 export type TypeCardRowsSkelton = {
@@ -10,7 +11,9 @@ const CardSkelton = ({ hideContext, count = 1 }: TypeCardRowsSkelton) => {
   return rows.map((v) => {
     return (
       <div key={v} className={'col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12'}>
-        <div className={`jumbotron project-card ${classes.loaderWrap}`}>
+        <div
+          className={`${projectCardClasses.projectCard} ${classes.loaderWrap}`}
+        >
           <div className={`loading ${classes['loading-img']}`} />
           <div>
             <h3 className={classes.heading}>
@@ -31,7 +34,7 @@ const CardSkelton = ({ hideContext, count = 1 }: TypeCardRowsSkelton) => {
           </div>
 
           <div className='dropdown-divider'></div>
-          <div className='form-control-footer'>
+          <div className={projectCardClasses.footer}>
             <div data-table-tooltip='true' className='author-wrap'>
               <div className='loading-img author-img loading'></div>
               <p style={{ marginRight: '3px' }} className='author-name loading'>
@@ -41,7 +44,7 @@ const CardSkelton = ({ hideContext, count = 1 }: TypeCardRowsSkelton) => {
             {!hideContext && (
               <IfPrimiumUser>
                 <div className='custom-control custom-switch'>
-                  <label className='custom-control-label loading'></label>
+                  <label className='loading'></label>
                 </div>
                 <div className='divider-hr'></div>
                 <div className='menu-item  dropdown drop-up'>

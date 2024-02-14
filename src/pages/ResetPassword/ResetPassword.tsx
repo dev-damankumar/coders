@@ -70,7 +70,7 @@ function ResetPassword() {
       <If cond={success}>
         <Navigate to='/' />
       </If>
-      <div className='analytics-page main-content forgot-page login-page qr-wrap'>
+      <div className='analytics-page main-content forgot-page login-page'>
         <div className='login_section container-fluid'>
           <div className='row'>
             <div className='col-md-12' />

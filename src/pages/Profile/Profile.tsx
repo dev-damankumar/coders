@@ -15,7 +15,7 @@ import ProfileForm from '../../components/profile/ProfileForm';
 import UploadProfile from '../../components/profile/UploadProfile';
 import { useAuth } from '../../providers/Auth';
 
-const Modal = React.lazy(() => import('../../components/ui/Modal'));
+const Modal = React.lazy(() => import('../../components/ui/Modal/Modal'));
 
 const MySettings = React.lazy(
   () => import('../../components/profile/MySettings/MySettings')
@@ -73,7 +73,7 @@ const Profile = React.memo((props: { tab: string }) => {
           }
           size='md'
           onClose={() => setshowModal(false)}
-          hideFooter
+          footer={null}
         />
       </Suspense>
       <Suspense fallback={<Loading />}>
@@ -81,6 +81,7 @@ const Profile = React.memo((props: { tab: string }) => {
           heading='Upload your social links'
           headerIcon={<LinkIcon />}
           show={showSocialModal}
+          footer={null}
           body={
             <ProfileForm
               closeModal={() => {
@@ -90,11 +91,10 @@ const Profile = React.memo((props: { tab: string }) => {
           }
           size='md'
           onClose={() => setshowSocialModal(false)}
-          hideFooter
         />
       </Suspense>
       <section
-        className='section form-creation-wrap profile-section-main'
+        className='section profile-section-main'
         style={{ paddingTop: '10px' }}
       >
         <div className='discussion-section'>

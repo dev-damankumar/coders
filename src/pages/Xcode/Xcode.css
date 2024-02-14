@@ -12,9 +12,6 @@
   background: white;
   border: none;
 }
-.x-code-page section.section.form-creation-wrap {
-  padding-bottom: 0;
-}
 .x-code-page .table-wrap .table-responsive {
   max-height: calc(100vh - 225px);
   overflow: auto;

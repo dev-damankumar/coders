@@ -1,20 +1,20 @@
 import { useState } from 'react';
-import QRCode from 'react-qr-code';
 import classes from './ProjectConfig.module.css';
-import { DModal } from '../../../utils/dModal';
-import { env } from '../../../utils';
+import useModal from '../../../hooks/useModal';
 import { useParams } from 'react-router-dom';
 import { downloadProject } from '../../../services/project';
 import { useAuth } from '../../../providers/Auth';
 import { useNotification } from '../../../providers/Notification';
 import { XcodeReducerActionType } from '../../../reducers/xcodeReducer';
 import { siteUrl } from '../../../constants';
+import QRCode from '../../ui/QRCode';
 
 type ProjectConfigType = {
   isAuthor: boolean;
   dispatch: React.Dispatch<XcodeReducerActionType>;
 };
 const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
+  const { modal } = useModal();
   const params = useParams();
   const auth = useAuth();
   const notification = useNotification();
@@ -36,17 +36,11 @@ const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
   };
 
   const scanQr = () => {
-    DModal({
+    modal({
       heading: 'Scan QR Code',
       size: 'xs',
       headerIcon: <i className='bx bx-qr-scan'></i>,
-      body: (
-        <div className='qr-wrap'>
-          <div className='qrdiv'>
-            <QRCode value={`${siteUrl}/xcode/${projectId}`} />
-          </div>
-        </div>
-      ),
+      body: <QRCode value={`${siteUrl}/xcode/${projectId}`} />,
     });
   };
   return (
@@ -79,7 +73,7 @@ const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
             <div className='x-tooltip'>Copy</div>
           </button>
         </div>
-        <p className={classes['sub-para']}>
+        <p className='description'>
           You can download the project directly to your local
         </p>
       </div>

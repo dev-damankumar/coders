@@ -43,7 +43,7 @@ const Menu = () => {
 
   if (!show) return;
   return (
-    <section className='menu-section section form-creation-wrap'>
+    <section className='section menu-section'>
       <div className='container'>
         <div className='row'>
           <div className='col-md-12'>

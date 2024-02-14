@@ -6,7 +6,7 @@ import Topbar from '../components/auth/Topbar';
 
 const Layout = () => {
   return (
-    <div className='body_wrapper home-page dark-mode'>
+    <main className='dark-mode'>
       <Topbar />
       <Menu />
       <Controls />
@@ -14,7 +14,7 @@ const Layout = () => {
         <Outlet />
       </div>
       <Footer />
-    </div>
+    </main>
   );
 };
 

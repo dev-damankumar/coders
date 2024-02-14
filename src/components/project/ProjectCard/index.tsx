@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
+import classes from './index.module.css';
 import { NavLink } from 'react-router-dom';
-import img from '../../assets/images/placeholder.png';
-import Switch from '../ui/Form/Switch/Switch';
-import DropDown, { TypeList } from '../ui/DropDown';
-import BinIcon from '../../assets/icons/BinIcon';
-import LinkIcon from '../../assets/icons/LinkIcon';
-import ScriptIcon from '../../assets/icons/ScriptIcon';
-import CopyIcon from '../../assets/icons/CopyIcon';
-import ImportIcon from '../../assets/icons/ImportIcon';
-import PreIcon from '../../assets/icons/PreIcon';
-import IfPrimiumUser from '../hoc/IfPrimiumUser';
-import AuthorCard from '../author/AuthorCard';
-import { loader } from '../../utils';
-import If from '../hoc/If';
-import Tags from '../ui/Tags';
-import { useAuth } from '../../providers/Auth';
+import img from '../../../assets/images/placeholder.png';
+import Switch from '../../ui/Form/Switch/Switch';
+import DropDown, { TypeList } from '../../ui/DropDown';
+import BinIcon from '../../../assets/icons/BinIcon';
+import LinkIcon from '../../../assets/icons/LinkIcon';
+import ScriptIcon from '../../../assets/icons/ScriptIcon';
+import CopyIcon from '../../../assets/icons/CopyIcon';
+import ImportIcon from '../../../assets/icons/ImportIcon';
+import PreIcon from '../../../assets/icons/PreIcon';
+import IfPrimiumUser from '../../hoc/IfPrimiumUser';
+import AuthorCard from '../../author/AuthorCard';
+import { loader } from '../../../utils';
+import If from '../../hoc/If';
+import Tags from '../../ui/Tags';
+import { useAuth } from '../../../providers/Auth';
 
-import { useNotification } from '../../providers/Notification';
-import { Project } from '../../types';
-import { changeProjectVisibility } from '../../services/project';
-import Image from '../ui/Image';
+import { useNotification } from '../../../providers/Notification';
+import { Project } from '../../../types';
+import { changeProjectVisibility } from '../../../services/project';
+import Image from '../../ui/Image';
 
 export type TypeProjectCard = Project & {
   filterTags: string;
@@ -120,18 +121,18 @@ const ProjectCard = ({
       className='col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12'
       id={`slider_${index}`}
     >
-      <div className='jumbotron project-card'>
-        <div className='project-img-wrap'>
+      <div className={classes.projectCard}>
+        <div className={classes.projectImageWrap}>
           <Image
             loading='lazy'
             src={image}
             defaultImg={img}
             alt={`slider-img_${index}`}
           />
-          <div className='project-overlay' />
+          <div className={classes.projectOverlay} />
         </div>
 
-        <div className='project-details'>
+        <div className={classes.projectDetails}>
           <h3>
             <NavLink to={auth?.user ? url : '/login'}>{title}</NavLink>
           </h3>
@@ -140,7 +141,7 @@ const ProjectCard = ({
         </div>
         <>
           <div className='dropdown-divider' />
-          <div className='form-control-footer'>
+          <div className={classes.footer}>
             <AuthorCard
               id={author._id}
               name={author.name}

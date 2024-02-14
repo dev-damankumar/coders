@@ -471,7 +471,7 @@ function Register() {
   return auth.user?._id && auth.user.active ? (
     <Navigate to='/' />
   ) : (
-    <div className='analytics-page main-content login-page register-page qr-wrap'>
+    <div className='analytics-page main-content login-page register-page'>
       <div className='login_section'>
         <div className='container'>
           <div className='row'>

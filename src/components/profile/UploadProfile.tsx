@@ -81,7 +81,7 @@ const UploadProfile = ({
           selectedHandler={setSelected}
         />
       </div>
-      <div className='d-modal-button-div'>
+      <div className='footerWrapper'>
         <div className='d-modal-wrap'>
           <If cond={!!previewImg}>
             <div className={`preview-img`}>

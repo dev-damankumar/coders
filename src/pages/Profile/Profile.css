@@ -37,7 +37,7 @@ button.edit-cover-profile-btn.edit-profile-btn {
   gap: 10px;
 }
 
-.d-modal-button-div {
+.footerWrapper {
   margin: 0 0 0 auto !important;
 }
 .user-detail .list-heading {
@@ -134,11 +134,6 @@ img.profile-img {
   width: 20px;
   height: 20px;
   margin-right: 10px;
-}
-
-.project-wrap .project-card {
-  box-shadow: none !important;
-  border: 1px solid #ededed;
 }
 
 .point-info h1 {
@@ -412,9 +407,6 @@ p.joined {
 @media screen and (max-width: 992px) {
   img.profile-img {
     height: 200px;
-  }
-  .project-wrap .project-card {
-    margin-bottom: 20px;
   }
 
   .point-card {

@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, Suspense, useReducer } from 'react';
-import '../Home/Home.css';
-
 import homeReducer from '../../reducers/homeReducer';
 import Loading from '../../components/ui/Loading';
 import ImportIcon from '../../assets/icons/ImportIcon';
@@ -12,7 +10,7 @@ import { getProjects } from '../../services/project';
 import Projects from '../../components/project/Projects';
 import { Project } from '../../types';
 
-const Modal = React.lazy(() => import('../../components/ui/Modal'));
+const Modal = React.lazy(() => import('../../components/ui/Modal/Modal'));
 const Pagination = React.lazy(() => import('../../components/ui/Pagination'));
 
 export type ProjectsState = {
@@ -153,7 +151,7 @@ const AllProjects = React.memo(() => {
         />
       </Suspense>
       <section
-        className='section form-creation-wrap'
+        className='section'
         style={{ paddingTop: '10px', marginTop: '-100px' }}
       >
         <div className='container'>

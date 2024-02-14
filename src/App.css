@@ -60,11 +60,6 @@
   font-size: 20px;
 }
 
-section.main-footer {
-  background: var(--dark-4);
-  padding: 30px 0 15px;
-}
-
 .main-footer .search-div {
   margin-left: 0 !important;
 }
@@ -171,9 +166,6 @@ section.main-footer {
     margin-top: 20px !important;
     padding-top: 3px;
   }
-  section.main-footer {
-    padding: 30px 0 15px;
-  }
 
   .main-footer .mb-hide {
     display: none !important;
@@ -191,9 +183,7 @@ section.main-footer {
   .main-footer .copy-row.row {
     padding-top: 10px;
   }
-  section.main-footer {
-    padding-bottom: 50px;
-  }
+
   .copy-row.row p {
     text-align: center;
   }

@@ -154,7 +154,7 @@ const FilePreview = React.memo(() => {
     <>
       <div className='file-preview-page'>
         <section
-          className='section form-creation-wrap'
+          className='section'
           style={{ paddingTop: '10px', paddingBottom: '20px' }}
         >
           <section className='x-div'>

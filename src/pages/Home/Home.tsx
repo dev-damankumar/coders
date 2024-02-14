@@ -1,7 +1,6 @@
 import { useEffect, useRef, Suspense, useReducer, lazy, memo } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import RecentProjectSkelton from '../../components/ui/Skelton/RecentProjectSkelton';
 import homeReducer from '../../reducers/homeReducer';
 import Loading from '../../components/ui/Loading';
 import BannerSection from '../../components/home/BannerSection';
@@ -14,7 +13,6 @@ const Projects = lazy(() => import('../../components/project/Projects'));
 const RecentProjects = lazy(
   () => import('../../components/home/RecentProjects')
 );
-import './Home.css';
 import { getProjects } from '../../services/project';
 import { Project } from '../../types';
 import CardSkelton from '../../components/ui/Skelton/CardSkelton';
@@ -68,10 +66,7 @@ const Home = memo(() => {
   return (
     <>
       <BannerSection />
-      <section
-        className='section form-creation-wrap'
-        style={{ paddingTop: '10px' }}
-      >
+      <section className='section' style={{ paddingTop: '10px' }}>
         <div className='container'>
           <div className='row'>
             <div className='col-md-12' ref={projectRef}>
@@ -111,21 +106,9 @@ const Home = memo(() => {
           </div>
         </div>
       </section>
-      <section className='section form-creation-wrap recent-project-section'>
-        <div className='container'>
-          <Heading as='h2' className='main-h' style={{ marginBottom: '30px' }}>
-            Recent Projects
-          </Heading>
-          <If
-            cond={!(state.projects.length === 0 && !state.nodata)}
-            else={<RecentProjectSkelton />}
-          >
-            <Suspense fallback={<Loading />}>
-              <RecentProjects projects={state?.projects} />
-            </Suspense>
-          </If>
-        </div>
-      </section>
+      <Suspense fallback={<Loading />}>
+        <RecentProjects projects={state?.projects} />
+      </Suspense>
       <Suspense fallback=''>
         <WhyChoose />
         <Roadmap />

@@ -145,7 +145,7 @@ const EditProject = (props: any) => {
 
   return isOwnProject ? (
     <section
-      className='section edit-project-section form-creation-wrap'
+      className='section edit-project-section'
       style={{ paddingTop: '10px' }}
     >
       <section>

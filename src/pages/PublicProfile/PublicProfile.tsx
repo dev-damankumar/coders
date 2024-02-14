@@ -44,7 +44,7 @@ const PublicProfile = React.memo((props: { tab: string }) => {
   if (!user) return <Loading />;
   return (
     <section
-      className='section form-creation-wrap profile-section-main'
+      className='section profile-section-main'
       style={{ paddingTop: '10px' }}
     >
       <div className='discussion-section'>

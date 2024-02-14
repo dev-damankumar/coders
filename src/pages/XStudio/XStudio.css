@@ -75,7 +75,7 @@
 }
 
 .x-studio-page ul#file-explorer li.parent:not(:last-child):before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0px;
   top: 50%;
@@ -87,7 +87,7 @@
 }
 
 .x-studio-page ul#file-explorer li.parent:not(:last-child):after {
-  content: "";
+  content: '';
   position: absolute !important;
   left: -7px !important;
   top: -18px !important;
@@ -149,7 +149,7 @@ img.x-studio-img-preview {
 }
 
 .x-studio-page ul.file-expand:not(#file-explorer) li:before {
-  content: "";
+  content: '';
   position: absolute;
   left: -3px;
   top: 50%;
@@ -161,7 +161,7 @@ img.x-studio-img-preview {
 }
 
 .x-studio-page ul.file-expand:not(#file-explorer) li::after {
-  content: "";
+  content: '';
   width: 1px;
   height: calc(100% + 16px);
   border-left: 1px solid #dddddd;
@@ -321,7 +321,7 @@ a.side-icon.logo-x-studio-link svg {
 
 .x-studio-page .project-div .select-div span.select-span span {
   color: #bebebe;
-  font-family: "Nunito SemiBold", sans-serif;
+  font-family: 'Nunito SemiBold', sans-serif;
   font-size: 13px;
 }
 
@@ -388,7 +388,7 @@ a.side-icon.logo-x-studio-link svg {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: "Nunito SemiBold";
+  font-family: 'Nunito SemiBold';
   color: #fff;
 }
 
@@ -494,7 +494,7 @@ a.side-icon.logo-x-studio-link svg {
 
 .x-studio-page .x-breadcrumb a {
   font-size: 13px;
-  font-family: "SegoeUI SemiBold", sans-serif !important;
+  font-family: 'SegoeUI SemiBold', sans-serif !important;
   padding: 5px 16px 5px 13px;
   border-radius: 10px;
   background: var(--dark-3);
@@ -631,18 +631,6 @@ a.side-icon.logo-x-studio-link svg {
   right: 16px;
 }
 
-.x-studio-page .view-filter-wrap label {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  display: block;
-  font-family: "Nunito SemiBold", sans-serif;
-}
-
-.x-studio-page .view-filter-wrap:first-child {
-  margin-bottom: 10px;
-}
-
 .x-studio-page .customize-half-col:first-child {
   margin-right: 10px;
 }
@@ -666,7 +654,7 @@ a.side-icon.logo-x-studio-link svg {
 
 .x-studio-page .color.active-color:before {
   position: absolute;
-  content: "";
+  content: '';
   top: 46%;
   left: 50%;
   width: 10px;
@@ -679,7 +667,7 @@ a.side-icon.logo-x-studio-link svg {
 
 .x-studio-page .active-color-light:before {
   position: absolute;
-  content: "";
+  content: '';
   top: 46%;
   left: 50%;
   width: 10px;
@@ -915,10 +903,10 @@ button.x-tab-close {
   color: #da00ffe6 !important;
 }
 .dark-preview .ace-eclipse .ace_indent-guide {
-  background: url("../../assets/images/dark-line.png") right repeat-y;
+  background: url('../../assets/images/dark-line.png') right repeat-y;
 }
 .dark-preview .ace_fold-widget {
-  background-image: url("../../assets/images/dark-arrow.png");
+  background-image: url('../../assets/images/dark-arrow.png');
 }
 .dark-preview span.ace_meta.ace_tag.ace_punctuation.ace_xml {
   color: rgb(167 199 216) !important;
@@ -979,52 +967,6 @@ button.x-tab-close {
 .dark-preview .ace-eclipse .ace_gutter {
   border-right: 1px solid rgb(0 30 60);
 }
-/*modal*/
-.x-studio-page .dModalDark {
-  background: #00000085 !important;
-}
-.dModalDark .dModal-content {
-  background: var(--dark);
-}
-
-.dModalDark .dModal-content.dModal-sm-content .dModal-header {
-  padding: 8px 15px;
-  border-color: #2b3a55;
-}
-.dModalDark .create-btn {
-  margin-left: 15px;
-}
-.dModalDark .dModal-header h3 {
-  color: var(--dark-2-text);
-  font-family: SegoeUI Bold, sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-}
-.dModalDark .create-div-modal .row > div {
-  padding: 0;
-}
-.dModalDark .form-input {
-  background: var(--dark-1);
-  border-color: var(--dark-1);
-  color: rgb(139, 157, 189);
-  font-size: 14px;
-}
-.dModalDark .form-input option {
-  color: var(--dark-2-text);
-}
-.dModalDark .btn {
-  padding: 7.5px 25px;
-  font-size: 13px;
-}
-.dModalDark input.form-input::placeholder {
-  color: var(--dark-2-text);
-}
-.dModalDark .dModal-header h3 i {
-  color: var(--dark-2-text);
-}
-.dModalDark span.dModal-close {
-  color: var(--dark-2-text);
-}
 
 .x-studio-dark-theme .context-menu .dropdown-menu.dark-x-studio-menu {
   background: #2b3f633b;
@@ -1034,9 +976,7 @@ button.x-tab-close {
   opacity: 1 !important;
   visibility: visible !important;
 }
-.dModalDark .btn-dark {
-  background: #051628;
-}
+
 .x-studio-page .editor .no-file-preview {
   width: 100%;
   height: 100%;
@@ -1047,7 +987,7 @@ button.x-tab-close {
   flex-direction: column;
   color: var(--dark-2-text);
   padding: 10px;
-  font-family: "Nunito SemiBold", sans-serif !important;
+  font-family: 'Nunito SemiBold', sans-serif !important;
 }
 .x-studio-body.x-studio-right-view {
   flex-direction: row-reverse;
@@ -1059,11 +999,11 @@ button.x-tab-close {
   text-overflow: ellipsis;
 }
 .x-studio-page .editor .no-file-preview h1 {
-  font-family: "Nunito SemiBold", sans-serif !important;
+  font-family: 'Nunito SemiBold', sans-serif !important;
   font-size: 22px !important;
 }
 .x-studio-page .editor .no-file-preview p {
-  font-family: "Nunito SemiBold", sans-serif !important;
+  font-family: 'Nunito SemiBold', sans-serif !important;
 }
 @media screen and (max-width: 768px) {
   .x-studio-page .sidebar-open-icon {
@@ -1131,20 +1071,7 @@ button.x-tab-close {
     width: 13px !important;
     height: 13px !important;
   }
-  .dModalDark .form-input {
-    font-size: 12px;
-  }
-  .dModalDark .create-btn {
-    margin-left: 9px;
-    padding: 6.5px 15px !important;
-    font-size: 12px !important;
-  }
-  .dModalDark .dModal-header h3 {
-    font-size: 13px;
-  }
-  .dModalDark span.dModal-close {
-    font-size: 20px;
-  }
+ 
   .x-studio-page ul.file-expand:not(#file-explorer) li:not(.parent) {
     padding: 2px 5px;
     margin: 3px 0;

@@ -45,7 +45,7 @@ const Pricing = () => {
   return (
     <section
       id='pricing'
-      className='section form-creation-wrap'
+      className='section'
       style={{ paddingTop: '130px', marginTop: '-100px' }}
     >
       <div className='container'>

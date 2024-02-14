@@ -5,14 +5,14 @@ import Footer from '../components/ui/Footer/Footer';
 
 const AdminLayout = () => {
   return (
-    <div className='body_wrapper home-page admin-page dark-mode'>
+    <main className='admin-wrapper dark-mode'>
       <Menu />
       <Controls />
       <div className='main-content-wrapper'>
         <Outlet />
       </div>
       <Footer />
-    </div>
+    </main>
   );
 };
 

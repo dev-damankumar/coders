@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const BannerSection = () => {
   return (
     <section
-      className='section form-creation-wrap main-bg-section'
+      className='section main-bg-section'
       style={{ paddingTop: '70px', marginTop: '30px' }}
     >
       <div className='container'>

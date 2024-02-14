@@ -10,8 +10,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { login } from '../../services/auth';
 import { useNotification } from '../../providers/Notification';
 
-const QRCode = React.lazy(() => import('react-qr-code'));
-const Modal = React.lazy(() => import('../../components/ui/Modal'));
+const QRCode = React.lazy(() => import('../../components/ui/QRCode'));
+const Modal = React.lazy(() => import('../../components/ui/Modal/Modal'));
 
 type IFormInput = {
   email: string;
@@ -57,7 +57,7 @@ function Login() {
       {auth.user ? (
         <Navigate to='/' />
       ) : (
-        <div className='analytics-page main-content login-page qr-wrap'>
+        <div className='analytics-page main-content login-page'>
           <Suspense fallback={''}>
             <Modal
               heading={`Scan QR Code`}
@@ -67,11 +67,9 @@ function Login() {
                 setShowQr(false);
               }}
               body={
-                <div className={`qrdiv`}>
-                  <Suspense fallback={<Loading />}>
-                    <QRCode value='https://projectx-23927.web.app/login' />
-                  </Suspense>
-                </div>
+                <Suspense fallback={<Loading />}>
+                  <QRCode value='https://projectx-23927.web.app/login' />
+                </Suspense>
               }
             />
           </Suspense>

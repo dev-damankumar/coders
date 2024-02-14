@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 const SubscribeSection = () => {
   return (
-    <section className='form-creation-wrap section start-main-section'>
+    <section className='section start-main-section'>
       <div className='container'>
         <div className='row'>
           <div className='col-md-12'>
