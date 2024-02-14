@@ -6,23 +6,24 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
-import GetLines from '../../hoc/GetLines';
+import GetLines from '../../components/hoc/GetLines';
 import Prism from 'prismjs';
-import Loading from '../../components/Loading/Loading';
-import NoData from '../../components/NoData/NoData';
-import IfPrimiumUser from '../../components/IfPrimiumUser';
-import { loader, env } from '../../utils';
-import If from '../../components/If/If';
+import Loading from '../../components/ui/Loading';
+import NoData from '../../components/ui/NoData/NoData';
+import IfPrimiumUser from '../../components/hoc/IfPrimiumUser';
+import { loader, joinURL } from '../../utils';
+import If from '../../components/hoc/If';
 import { useAuth } from '../../providers/Auth';
 import { FileDetailsType, fetchFileContent } from '../../services/files';
 import { copyToClipboard } from '../../utils';
 import { useNotification } from '../../providers/Notification';
 const SearchFile = React.lazy(
-  () => import('../../components/SearchFile/SearchFile')
+  () => import('../../components/project/SearchFile/SearchFile')
 );
 
 import '../../assets/css/prism.css';
 import './FilePreview.css';
+import { baseURL } from '../../constants';
 
 const FilePreview = React.memo(() => {
   const params = useParams();
@@ -117,10 +118,7 @@ const FilePreview = React.memo(() => {
 
   if (fileData?.extension === 'pdf') {
     code = (
-      <iframe
-        className='pdf-preview'
-        src={[env.REACT_APP_BASE_URL, fileData?.data].join('/')}
-      />
+      <iframe className='pdf-preview' src={joinURL(baseURL, fileData?.data)} />
     );
   }
 

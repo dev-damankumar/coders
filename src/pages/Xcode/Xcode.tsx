@@ -12,16 +12,16 @@ import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { loader } from '../../utils';
 import { extensions } from '../../utils/';
 import CheckBox from '../../components/Form/Checkbox/Checkbox';
-import TableRowSkelton from '../../components/Skelton/TableRowSkelton';
-import Loading from '../../components/Loading/Loading';
+import TableRowSkelton from '../../components/ui/Skelton/TableRowSkelton';
+import Loading from '../../components/ui/Loading';
 import ImportIcon from '../../assets/icons/ImportIcon';
 import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';
 import addIcon from '../../assets/images/add.png';
-import If from '../../components/If/If';
-import IfPrimiumUser from '../../components/IfPrimiumUser';
-import IfStandardUser from '../../components/IfStandardUser/IfStandardUser';
+import If from '../../components/hoc/If';
+import IfPrimiumUser from '../../components/hoc/IfPrimiumUser';
+import IfStandardUser from '../../components/hoc/IfStandardUser';
 import xcodeReducer from '../../reducers/xcodeReducer';
-import FileRow from '../../components/FileRow/FileRow';
+import FileRow from '../../components/project/FileRow';
 import { useAuth } from '../../providers/Auth';
 import {
   createFile,
@@ -34,14 +34,16 @@ import { useNotification } from '../../providers/Notification';
 import { goBackPaths, sortObjectByName } from '../../utils';
 
 const ProjectConfig = lazy(
-  () => import('../../components/ProjectConfig/ProjectConfig')
+  () => import('../../components/project/ProjectConfig/ProjectConfig')
 );
 const UploadFile = lazy(
-  () => import('../../components/Form/UploadFile/UploadFile')
+  () => import('../../components/ui/Form/UploadFile/UploadFile')
 );
 
-const SearchFile = lazy(() => import('../../components/SearchFile/SearchFile'));
-const Modal = lazy(() => import('../../components/Modal/Modal'));
+const SearchFile = lazy(
+  () => import('../../components/project/SearchFile/SearchFile')
+);
+const Modal = lazy(() => import('../../components/ui/Modal'));
 
 type XcodeIntialState = {
   showDownload: boolean;

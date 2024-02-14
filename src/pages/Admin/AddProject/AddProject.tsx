@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Form, { onChangeHandler } from '../../../components/Form/Form';
-import Steps from '../../../components/Steps/Steps';
-import Http from '../../../hooks/http';
+import Steps from '../../../components/ui/Steps/Steps';
 import { loader } from '../../../utils/';
 import {
   formStructure,
   executableStructure,
 } from '../../../models/addProjectModel';
 import { NavLink } from 'react-router-dom';
-import { env } from '../../../utils';
+import { addExe, addProject } from '../../../services/project';
+import { useNotification } from '../../../providers/Notification';
 
 function AddProject() {
   let mainformStructure = JSON.parse(JSON.stringify(formStructure));
@@ -20,9 +20,9 @@ function AddProject() {
     JSON.parse(JSON.stringify(executableStructure))
   );
   let [initialStep, setStep] = useState(1);
-  let [done, setDone] = useState([]);
+  let [done, setDone] = useState<string[]>([]);
   let [projectId, setProjectId] = useState();
-  let http = Http();
+  const notification = useNotification();
   useEffect(() => {
     let errorEl = document.querySelector('.hasError');
     if (errorEl) {
@@ -34,106 +34,77 @@ function AddProject() {
     }
   }, [formConfig]);
 
-  let onSubmitHandler = async (e) => {
-    document
-      .querySelector('#main-scroll')
-      .scrollIntoView({ behavior: 'smooth' });
+  const onSubmitHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let isInvalid = isFormInvalid();
-    if (isInvalid) {
-      Object.keys(formConfig).forEach((formInput) => {
-        let newForm = { ...formConfig };
-        newForm[formInput].touched = true;
-        setFormConfig(newForm);
-      });
-    } else {
-      loader.show();
-      let form = new FormData(e.target);
-      form.append('executableFile', 'default');
-      let tags = formConfig.tags.options.map((v) => {
-        return v.text;
-      });
-      form.append('tags', tags);
+    const div = document.querySelector('#main-scroll');
+    if (div) div.scrollIntoView({ behavior: 'smooth' });
 
-      let project = await http.post(
-        `${env['REACT_APP_BASE_URL']}/api/add-project/`,
-        form,
-        {
-          formData: true,
-        }
-      );
-      loader.hide();
-      if (project.type === 'error') {
-        return toast.error(project.message, 'Error Occured');
-      }
-
-      if (project.code === 'LIMIT_FILE_SIZE') {
-        return toast.error(project.message, 'Error Occured');
-      }
-
-      if (project.type === 'success') {
-        let prevDone = [...done];
-        prevDone.push(initialStep);
-        setDone(prevDone);
-        setStep(initialStep + 1);
-        let data = project.data;
-        let options = data.map((v) => {
-          return {
-            value: v.name,
-            config: {
-              id: v.name,
-              name: v.name,
-            },
-          };
-        });
-        let exes = { ...executableStructure };
-        exes.executableFile.options = options;
-        setProjectId(project.project._id);
-        setExeConfig(exes);
-      }
-    }
-  };
-  let onExeHandler = async (e) => {
-    document
-      .querySelector('#main-scroll')
-      .scrollIntoView({ behavior: 'smooth' });
-    e.preventDefault();
     loader.show();
-    let form = new FormData(e.target);
-    var body = { id: projectId };
-    form.forEach(function (value, key) {
+    const form = new FormData(e.target!);
+    form.append('executableFile', 'default');
+    const tags = formConfig.tags.options.map((v: { text: string }) => {
+      return v.text;
+    });
+    form.append('tags', tags);
+
+    const project = await addProject(form);
+    loader.hide();
+    if ('error' in project) {
+      return notification.error(project.message);
+    }
+
+    if (project.data.code === 'LIMIT_FILE_SIZE') {
+      return notification.error(project.message);
+    }
+
+    const prevDone = [...done];
+    prevDone.push(initialStep);
+    setDone(prevDone);
+    setStep(initialStep + 1);
+    // const data = project.data;
+    // const options = data.map((v) => {
+    //   return {
+    //     value: v.name,
+    //     config: {
+    //       id: v.name,
+    //       name: v.name,
+    //     },
+    //   };
+    // });
+    // const exes = { ...executableStructure };
+    // exes.executableFile.options = options;
+    // setProjectId(project.project._id);
+    // setExeConfig(exes);
+  };
+
+  const onExeHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    loader.show();
+    const div = document.querySelector('#main-scroll');
+    if (div) div.scrollIntoView({ behavior: 'smooth' });
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const body: any = { id: projectId };
+    form.forEach(function (value: any, key: any) {
       body[key] = value;
     });
-    let project = await http.post(
-      `${env['REACT_APP_BASE_URL']}/api/add-exe/`,
-      body,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    try {
+      const project = await addExe(body);
+      if ('error' in project) {
+        return notification.error(project.message);
       }
-    );
-    if (project.type === 'error') {
-      loader.hide();
-      return toast.error(project.message, 'Error Occured');
-    }
 
-    if (project.type === 'success') {
-      loader.hide();
-      let prevDone = [...done];
+      const prevDone = [...done];
       prevDone.push(initialStep);
       setDone(prevDone);
       setStep(initialStep + 1);
       resetHandler();
-      return toast.success(project.message, 'Success');
+      return notification.success(project.message);
+    } catch (error) {
+    } finally {
+      loader.hide();
     }
   };
 
-  let isFormInvalid = () => {
-    return Object.keys(formConfig).some((formInput) => {
-      return formConfig[formInput].valid === false;
-    });
-  };
   let onChangeHandle = (e, fieldName, state) => {
     let formState = onChangeHandler(e, fieldName, state);
     setFormConfig(formState);
@@ -151,7 +122,7 @@ function AddProject() {
     setProjectId(null);
   };
 
-  let steps = [
+  const steps = [
     <div id={'step-1'} key={'step-1'}>
       <div className='col-md-12'>
         <Form
@@ -204,6 +175,7 @@ function AddProject() {
       </div>
     </div>,
   ];
+
   return (
     <section style={{ paddingTop: '10px' }}>
       <div className='row'>

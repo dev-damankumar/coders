@@ -5,7 +5,7 @@ import SiteLogo from '../../assets/icons/SiteLogo';
 import SaveRowIcon from '../../assets/icons/SaveRowIcon';
 import loginImg from '../../assets/images/3d-people-1.png';
 import { loader } from '../../utils';
-import If from '../../components/If/If';
+import If from '../../components/hoc/If';
 import { forgotPassword } from '../../services/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNotification } from '../../providers/Notification';

@@ -1,13 +1,13 @@
 import React, { Suspense, useState } from 'react';
-import Loading from '../Loading/Loading';
+import Loading from '../ui/Loading';
 import { useNotification } from '../../providers/Notification';
 import { useAuth } from '../../providers/Auth';
 import { loader } from '../../utils';
 import { updateProfile } from '../../services/user';
-import If from '../If/If';
+import If from '../hoc/If';
 import { TUploadImageType } from '../../pages/Profile/Profile';
 import coverImg from '../../assets/images/main-2.jpg';
-import FileInput from '../../components/FileInput/FileInput';
+import FileInput from '../ui/FileInput';
 
 const UploadProfile = ({
   closeModel,

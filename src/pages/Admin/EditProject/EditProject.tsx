@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './EditProject.css';
 import placeholder from '../../../assets/images/placeholder.png';
 import { WithContext as ReactTags } from 'react-tag-input';
-import { loader } from '../../../utils/';
-import Radio from '../../../components/Form/Radio/Radio';
+import { joinURL, loader } from '../../../utils/';
+import Radio from '../../../components/ui/Form/Radio/Radio';
 import { useNavigate } from 'react-router-dom';
 import Http from '../../../hooks/http';
-import Loading from '../../../components/Loading/Loading';
+import Loading from '../../../components/ui/Loading';
 import { env } from '../../../utils';
+import { baseImageSrc, baseURL } from '../../../constants';
 const KeyCodes = {
   comma: 188,
   enter: [10, 13],
@@ -94,7 +95,7 @@ const EditProject = (props: any) => {
       formData.append('visibility', projectDetail.visibility);
       formData.append('prevImgGrid', prevImages);
       let project = await http.post(
-        `${env['REACT_APP_BASE_URL']}/api/edit-project/${id}`,
+        `${baseURL}/api/edit-project/${id}`,
         formData,
         {
           formData: true,
@@ -111,9 +112,7 @@ const EditProject = (props: any) => {
   };
   useEffect(() => {
     let fetchProject = async () => {
-      let project = await http.get(
-        `${env['REACT_APP_BASE_URL']}/api/edit-project/${id}`
-      );
+      let project = await http.get(`${baseURL}/api/edit-project/${id}`);
       if (project) {
         if (project.type === 'error') {
           toast.error(project.message);
@@ -126,11 +125,11 @@ const EditProject = (props: any) => {
           tags[i] = { id: `${v}_${i}`, text: v };
         });
         let image = project.image;
-        image = [env['REACT_APP_BASE_URL'], image].join('/');
+        image = joinURL(baseImageSrc, image);
         let images = project?.imageGrid ? [...project?.imageGrid] : [];
         setPrevImages(project?.imageGrid ? [...project?.imageGrid] : []);
         images.forEach((v, i) => {
-          images[i] = [env['REACT_APP_BASE_URL'], v].join('/');
+          images[i] = joinURL(baseImageSrc, v);
         });
         setProjectDetail({
           ...project,

@@ -2,7 +2,7 @@ import React, { useState, Suspense } from 'react';
 import './Login.css';
 import loginImg from '../../assets/images/3d-people-1.png';
 import { NavLink, Navigate, useNavigate } from 'react-router-dom';
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/ui/Loading';
 import SiteLogo from '../../assets/icons/SiteLogo';
 import { useAuth } from '../../providers/Auth';
 import { validateEmail } from '../../utils';
@@ -11,7 +11,7 @@ import { login } from '../../services/auth';
 import { useNotification } from '../../providers/Notification';
 
 const QRCode = React.lazy(() => import('react-qr-code'));
-const Modal = React.lazy(() => import('../../components/Modal/Modal'));
+const Modal = React.lazy(() => import('../../components/ui/Modal'));
 
 type IFormInput = {
   email: string;

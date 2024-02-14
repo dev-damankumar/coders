@@ -1,17 +1,17 @@
 import React, { useState, Suspense, useEffect, useRef } from 'react';
 import '../Profile/Profile.css';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import UserProfileInfo from '../../components/UserProfileInfo/UserProfileInfo';
+import UserProfileInfo from '../../components/profile/UserProfileInfo';
 import SocialInfo from '../../components/profile/SocialInfo';
 import SocialIcons from '../../components/profile/SocialIcons';
-import CoverImage from '../../components/CoverImage/CoverImage';
-import Heading from '../../components/Heading/Heading';
-import Loading from '../../components/Loading/Loading';
+import CoverImage from '../../components/profile/CoverImage';
+import Heading from '../../components/ui/Heading';
+import Loading from '../../components/ui/Loading';
 import { getPublicProfile } from '../../services/user';
 import { User } from '../../providers/Auth';
 
 const MyProfile = React.lazy(
-  () => import('../../components/MyProfile/MyProfile')
+  () => import('../../components/profile/MyProfile')
 );
 
 const PublicProfile = React.memo((props: { tab: string }) => {

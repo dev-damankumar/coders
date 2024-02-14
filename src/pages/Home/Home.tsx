@@ -1,23 +1,23 @@
 import { useEffect, useRef, Suspense, useReducer, lazy, memo } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import RecentProjectSkelton from '../../components/Skelton/RecentProjectSkelton';
+import RecentProjectSkelton from '../../components/ui/Skelton/RecentProjectSkelton';
 import homeReducer from '../../reducers/homeReducer';
-import Loading from '../../components/Loading/Loading';
-import BannerSection from '../../components/BannerSection/BannerSection';
-import SubscribeSection from '../../components/SubscribeSection/SubscribeSection';
-import Heading from '../../components/Heading/Heading';
-import If from '../../components/If/If';
-const Roadmap = lazy(() => import('../../components/RoadMap/Roadmap'));
-const WhyChoose = lazy(() => import('../../components/WhyChoose/WhyChoose'));
+import Loading from '../../components/ui/Loading';
+import BannerSection from '../../components/home/BannerSection';
+import SubscribeSection from '../../components/home/SubscribeSection';
+import Heading from '../../components/ui/Heading';
+import If from '../../components/hoc/If';
+const Roadmap = lazy(() => import('../../components/home/Roadmap'));
+const WhyChoose = lazy(() => import('../../components/home/WhyChoose'));
 const Projects = lazy(() => import('../../components/project/Projects'));
 const RecentProjects = lazy(
-  () => import('../../components/RecentProjects/RecentProjects')
+  () => import('../../components/home/RecentProjects')
 );
 import './Home.css';
 import { getProjects } from '../../services/project';
 import { Project } from '../../types';
-import CardSkelton from '../../components/Skelton/CardSkelton';
+import CardSkelton from '../../components/ui/Skelton/CardSkelton';
 
 type HomeState = {
   projects: Project[];
@@ -128,7 +128,6 @@ const Home = memo(() => {
       </section>
       <Suspense fallback=''>
         <WhyChoose />
-        {/*<AutoProcessSection/>*/}
         <Roadmap />
       </Suspense>
       <SubscribeSection />

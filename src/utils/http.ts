@@ -3,7 +3,7 @@ import axios, {
   AxiosHeaders,
   RawAxiosRequestHeaders,
 } from 'axios';
-import { env } from './';
+import { baseURL } from '../constants';
 
 type NetHeaders =
   | AxiosHeaders
@@ -24,7 +24,7 @@ if (token) {
 }
 
 export const http = axios.create({
-  baseURL: env['REACT_APP_BASE_URL'],
+  baseURL,
   timeout: 2000,
   headers: {
     'Content-Type': 'application/json',

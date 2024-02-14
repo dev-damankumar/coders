@@ -10,18 +10,18 @@ import ThemeIcon from '../../assets/icons/ThemeIcon';
 import SettingsIcon from '../../assets/icons/SettingsIcon';
 import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';
 import { loader } from '../../utils/';
-import Image from '../../components/Image/Image';
+import Image from '../../components/ui/Image';
 import ImgIcon from '../../assets/icons/ImgIcon';
-import Editor from '../../components/Editor/Editor';
+import Editor from '../../components/xstudio/Editor';
 import SaveRowIcon from '../../assets/icons/SaveRowIcon';
-import XStudioSidebar from '../../components/XStudioSidebar/XStudioSidebar';
+import XStudioSidebar from '../../components/xstudio/XStudioSidebar';
 import XStudioExplorer, {
   XstudionFileType,
-} from '../../components/XStudioExplorer/XStudioExplorer';
-import XStudioTabs from '../../components/XStudioTabs/XStudioTabs';
+} from '../../components/xstudio/XStudioExplorer';
+import XStudioTabs from '../../components/xstudio/XStudioTabs';
 import LinkIcon from '../../assets/icons/LinkIcon';
-import IfPrimiumUser from '../../components/IfPrimiumUser';
-import If from '../../components/If/If';
+import IfPrimiumUser from '../../components/hoc/IfPrimiumUser';
+import If from '../../components/hoc/If';
 import { env, joinURL } from '../../utils/';
 import { useAuth } from '../../providers/Auth';
 import {
@@ -37,9 +37,9 @@ import { useStudio } from '../../providers/StudioProvider';
 import SearchIconWhite from '../../assets/icons/SearchIconWhite';
 
 const SearchFile = React.lazy(
-  () => import('../../components/SearchFile/SearchFile')
+  () => import('../../components/project/SearchFile/SearchFile')
 );
-const DropDown = React.lazy(() => import('../../components/DropDown/DropDown'));
+const DropDown = React.lazy(() => import('../../components/ui/DropDown'));
 
 type ProjectListType = {
   name: string;

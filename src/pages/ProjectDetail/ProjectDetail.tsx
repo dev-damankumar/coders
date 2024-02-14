@@ -1,21 +1,21 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import './ProjectDetail.css';
 import { NavLink, useParams } from 'react-router-dom';
-import NoData from '../../components/NoData/NoData';
-import IfPrimiumUser from '../../components/IfPrimiumUser';
-import If from '../../components/If/If';
+import NoData from '../../components/ui/NoData/NoData';
+import IfPrimiumUser from '../../components/hoc/IfPrimiumUser';
+import If from '../../components/hoc/If';
 import { joinURL } from '../../utils/';
 import { baseURL } from '../../constants';
-import Tags from '../../components/Tags/Tags';
-import GallaryGrid from '../../components/GallaryGrid/GallaryGrid';
+import Tags from '../../components/ui/Tags';
+import GallaryGrid from '../../components/project/GallaryGrid';
 import { User, useAuth } from '../../providers/Auth';
 import { getProject } from '../../services/project';
 import { useNotification } from '../../providers/Notification';
-import IframeSkelton from '../../components/Skelton/IframeSkelton';
-import ProjectDetailSkelton from '../../components/Skelton/ProjectDetailSkelton';
+import IframeSkelton from '../../components/ui/Skelton/IframeSkelton';
+import ProjectDetailSkelton from '../../components/ui/Skelton/ProjectDetailSkelton';
 
 const AuthorCard = React.lazy(
-  () => import('../../components/AuthorCard/AuthorCard')
+  () => import('../../components/author/AuthorCard')
 );
 
 export type ExecutableFileType = {
@@ -128,7 +128,7 @@ const ProjectDetail = React.memo(() => {
                         </a>
                       </p>
                       <Tags tags={projectDetail?.tags} />
-                      <GallaryGrid images={projectDetail?.imageGrid} />
+                      <GallaryGrid images={projectDetail?.imageGrid || []} />
                     </div>
 
                     <div className='info-footer' style={{ marginTop: '15px' }}>

@@ -1,11 +1,11 @@
 import { lazy, Suspense } from 'react';
 
 import { Project } from '../../types';
-import TableRowSkelton from '../Skelton/TableRowSkelton';
-import CardSkelton from '../Skelton/CardSkelton';
+import TableRowSkelton from '../ui/Skelton/TableRowSkelton';
+import CardSkelton from '../ui/Skelton/CardSkelton';
 const ProjectCard = lazy(() => import('./ProjectCard'));
 const ProjectRow = lazy(() => import('./ProjectRow'));
-const NoData = lazy(() => import('../NoData/NoData'));
+const NoData = lazy(() => import('../ui/NoData/NoData'));
 
 let rowLoader = <TableRowSkelton rows={5} cols={7} />;
 type TypeProjects = {

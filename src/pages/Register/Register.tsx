@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, Navigate } from 'react-router-dom';
 // import { GoogleLogin } from "react-google-login";
 import SiteLogo from '../../assets/icons/SiteLogo';
-import Steps from '../../components/Steps/Steps';
+import Steps from '../../components/ui/Steps/Steps';
 import SaveRowIcon from '../../assets/icons/SaveRowIcon';
-import If from '../../components/If/If';
+import If from '../../components/hoc/If';
 import { User, useAuth } from '../../providers/Auth';
 import '../Login/Login.css';
 import {

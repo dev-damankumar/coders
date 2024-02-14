@@ -3,7 +3,7 @@ import { updateProfile } from '../../services/user';
 import { useNotification } from '../../providers/Notification';
 import { User, useAuth } from '../../providers/Auth';
 import { loader } from '../../utils';
-import FileUpload from '../file-upload';
+import FileUpload from '../ui/FileUpload';
 
 export type TProfileInputs = Omit<
   User,

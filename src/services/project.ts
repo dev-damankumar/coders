@@ -13,6 +13,7 @@ import {
   SuccessResponse,
 } from '../types';
 import { ProjectDetailType } from '../pages/ProjectDetail/ProjectDetail';
+import { baseURL } from '../constants';
 
 const token = localStorage.getItem('token');
 
@@ -23,7 +24,7 @@ export const downloadProject = (
   let filename: string;
   dispatch({ type: 'SET_PROGRESS', data: 0 });
   dispatch({ type: 'SET_DOWNLOAD', data: true });
-  return fetch(`${env['REACT_APP_BASE_URL']}/api/download-project/${id}`, {
+  return fetch(`${baseURL}/api/download-project/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -221,6 +222,58 @@ export const getProjects = async ({
       type: 'error',
       error: true,
       message: 'Unable to get projects',
+    };
+  }
+};
+
+export const addProject = async (
+  data: FormData
+): Promise<SuccessResponse<Project & { code: string }> | FailedResponse> => {
+  try {
+    const response: AxiosResponse<SuccessResponse<Project> | FailedResponse> =
+      await http.post(`/api/add-project`, {
+        data,
+      });
+    return response.data as SuccessResponse<Project & { code: string }>;
+  } catch (error: unknown) {
+    if (isAxiosError(error)) {
+      return {
+        error: true,
+        ...(error?.response?.data || {
+          message: 'Unable to get project details',
+        }),
+      };
+    }
+    return {
+      type: 'error',
+      error: true,
+      message: 'Unable to get project details',
+    };
+  }
+};
+
+export const addExe = async (
+  data: FormData
+): Promise<SuccessResponse<Project & { code: string }> | FailedResponse> => {
+  try {
+    const response: AxiosResponse<SuccessResponse<Project> | FailedResponse> =
+      await http.post(`/api/add-exe`, {
+        data,
+      });
+    return response.data as SuccessResponse<Project & { code: string }>;
+  } catch (error: unknown) {
+    if (isAxiosError(error)) {
+      return {
+        error: true,
+        ...(error?.response?.data || {
+          message: 'Unable to get project details',
+        }),
+      };
+    }
+    return {
+      type: 'error',
+      error: true,
+      message: 'Unable to get project details',
     };
   }
 };

@@ -1,30 +1,30 @@
 import React, { useState, Suspense, useEffect } from 'react';
 import './Profile.css';
 import { NavLink } from 'react-router-dom';
-import IfAdmin from '../../components/IfAdmin/IfAdmin';
-import UserProfileInfo from '../../components/UserProfileInfo/UserProfileInfo';
+import IfAdmin from '../../components/hoc/IfAdmin';
+import UserProfileInfo from '../../components/profile/UserProfileInfo';
 import SocialInfo from '../../components/profile/SocialInfo';
 import SocialIcons from '../../components/profile/SocialIcons';
-import CoverImage from '../../components/CoverImage/CoverImage';
-import Heading from '../../components/Heading/Heading';
-import Loading from '../../components/Loading/Loading';
+import CoverImage from '../../components/profile/CoverImage';
+import Heading from '../../components/ui/Heading';
+import Loading from '../../components/ui/Loading';
 import ImgIcon from '../../assets/icons/ImgIcon';
 import LinkIcon from '../../assets/icons/LinkIcon';
-import If from '../../components/If/If';
+import If from '../../components/hoc/If';
 import ProfileForm from '../../components/profile/ProfileForm';
 import UploadProfile from '../../components/profile/UploadProfile';
 import { useAuth } from '../../providers/Auth';
 
-const Modal = React.lazy(() => import('../../components/Modal/Modal'));
+const Modal = React.lazy(() => import('../../components/ui/Modal'));
 
 const MySettings = React.lazy(
-  () => import('../../components/MySettings/MySettings')
+  () => import('../../components/profile/MySettings/MySettings')
 );
 const AddProject = React.lazy(
   () => import('../../pages/Admin/AddProject/AddProject')
 );
 const MyProfile = React.lazy(
-  () => import('../../components/MyProfile/MyProfile')
+  () => import('../../components/profile/MyProfile')
 );
 const ManageProjects = React.lazy(
   () => import('../../pages/Admin/ManageProjects/ManageProjects')

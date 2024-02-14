@@ -2,20 +2,18 @@ import React, { useEffect, useRef, Suspense, useReducer } from 'react';
 import '../Home/Home.css';
 
 import homeReducer from '../../reducers/homeReducer';
-import Loading from '../../components/Loading/Loading';
+import Loading from '../../components/ui/Loading';
 import ImportIcon from '../../assets/icons/ImportIcon';
-import FilterTags from '../../components/FilterTags/FilterTags';
+import FilterTags from '../../components/project/FilterTags';
 import { useLocation } from 'react-router';
-import If from '../../components/If/If';
-import Heading from '../../components/Heading/Heading';
+import If from '../../components/hoc/If';
+import Heading from '../../components/ui/Heading';
 import { getProjects } from '../../services/project';
 import Projects from '../../components/project/Projects';
 import { Project } from '../../types';
 
-const Modal = React.lazy(() => import('../../components/Modal/Modal'));
-const Pagination = React.lazy(
-  () => import('../../components/Pagination/Pagination')
-);
+const Modal = React.lazy(() => import('../../components/ui/Modal'));
+const Pagination = React.lazy(() => import('../../components/ui/Pagination'));
 
 export type ProjectsState = {
   projects: Project[] | [];

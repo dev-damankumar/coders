@@ -1,5 +1,5 @@
-import React, { Component, ErrorInfo } from "react";
-import ErrorMessage from "../components/Error/Error";
+import React, { Component, ErrorInfo } from 'react';
+import ErrorMessage from '../components/ui/ErrorPopup';
 
 type ErrorProps = {
   children: React.ReactNode;
@@ -12,12 +12,12 @@ type ErrorState = {
 class ErrorBoundry extends Component<ErrorProps, ErrorState> {
   state = {
     hasError: false,
-    message: "",
+    message: '',
   };
 
   constructor(props: ErrorProps) {
     super(props);
-    this.state = { hasError: false, message: "" };
+    this.state = { hasError: false, message: '' };
   }
   static getDerivedStateFromError() {
     return { hasError: true };

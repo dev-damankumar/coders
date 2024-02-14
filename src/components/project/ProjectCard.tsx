@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import img from '../../assets/images/placeholder.png';
-import Switch from '../Form/Switch/Switch';
-import Http from '../../hooks/http';
-import DropDown, { TypeList } from '../DropDown/DropDown';
+import Switch from '../ui/Form/Switch/Switch';
+import DropDown, { TypeList } from '../ui/DropDown';
 import BinIcon from '../../assets/icons/BinIcon';
 import LinkIcon from '../../assets/icons/LinkIcon';
 import ScriptIcon from '../../assets/icons/ScriptIcon';
 import CopyIcon from '../../assets/icons/CopyIcon';
 import ImportIcon from '../../assets/icons/ImportIcon';
 import PreIcon from '../../assets/icons/PreIcon';
-import IfPrimiumUser from '../IfPrimiumUser';
-import AuthorCard from '../AuthorCard/AuthorCard';
-import { env, loader } from '../../utils';
-import If from '../If/If';
-import Tags from '../Tags/Tags';
+import IfPrimiumUser from '../hoc/IfPrimiumUser';
+import AuthorCard from '../author/AuthorCard';
+import { loader } from '../../utils';
+import If from '../hoc/If';
+import Tags from '../ui/Tags';
 import { useAuth } from '../../providers/Auth';
 
 import { useNotification } from '../../providers/Notification';
 import { Project } from '../../types';
+import { changeProjectVisibility } from '../../services/project';
+import Image from '../ui/Image';
 
 export type TypeProjectCard = Project & {
   filterTags: string;
@@ -49,38 +50,26 @@ const ProjectCard = ({
   ...props
 }: TypeProjectCard | ExtraProjectsProps) => {
   const notification = useNotification();
-  const imgSrc = env['REACT_APP_BASE_URL'];
   const [visible, setVisibility] = useState(visibility);
-  const http = Http();
   const auth = useAuth();
   const setProjectPrivacy = async (
     e: React.ChangeEvent<HTMLInputElement>,
     id: string
   ) => {
-    setVisibility(e.target.checked);
+    const visibility = !!e.target.checked;
+    setVisibility(visibility);
     try {
       loader.show();
-      const project = await http.post(
-        `${env['REACT_APP_BASE_URL']}/api/set-privacy/${id}`,
-        { visibility: e.target.checked },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      loader.hide();
-      if (project.type === 'error')
-        return notification.add({
-          type: 'error',
-          message: project.message,
-        });
-      if (project.type === 'success')
-        return notification.add({
-          type: 'success',
-          message: project.message,
-        });
+      const project = await changeProjectVisibility(id, visibility);
+      if ('error' in project) return notification.error(project.message);
+      notification.success(project.message);
     } catch (e: unknown) {
       if (e instanceof Error) {
         throw new Error(e.message);
       }
       console.error(e);
+    } finally {
+      loader.hide();
     }
   };
   let projectActions;
@@ -133,9 +122,10 @@ const ProjectCard = ({
     >
       <div className='jumbotron project-card'>
         <div className='project-img-wrap'>
-          <img
+          <Image
             loading='lazy'
-            src={image ? [imgSrc, image].join('/') : img}
+            src={image}
+            defaultImg={img}
             alt={`slider-img_${index}`}
           />
           <div className='project-overlay' />

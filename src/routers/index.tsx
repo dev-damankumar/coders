@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import Layout from '../layouts/Layout';
-import Loading from '../components/Loading/Loading';
+import Loading from '../components/ui/Loading';
 
 const Home = React.lazy(() => import('../pages/Home/Home'));
 const ProjectDetail = React.lazy(

@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useReducer } from "react";
-import Message from "../components/Message";
-import { v4 as uuidv4 } from "uuid";
+import React, { createContext, useContext, useReducer } from 'react';
+import Message from '../components/ui/Message';
+import { v4 as uuidv4 } from 'uuid';
 
-export type NotificationTypes = "success" | "error" | "warning";
+export type NotificationTypes = 'success' | 'error' | 'warning';
 export type Notification = {
   id: string;
   message: string;
@@ -24,12 +24,12 @@ export const useNotification = () => {
   return useContext(NotificationContext) as CustomNotification;
 };
 type AddActionType = {
-  type: "ADD";
+  type: 'ADD';
   payload: Notification;
 };
 
 type RemoveActionType = {
-  type: "REMOVE";
+  type: 'REMOVE';
   payload: { id: string };
 };
 
@@ -42,10 +42,10 @@ export type AddMessageToNotification = {
 };
 const reducer = (state: Notification[] = [], action: ActionType) => {
   switch (action.type) {
-    case "ADD": {
+    case 'ADD': {
       return [...state, { ...action.payload }];
     }
-    case "REMOVE": {
+    case 'REMOVE': {
       const index = state.findIndex((v) => v.id === action.payload.id);
       const tempState = [...state];
       if (index > -1) {
@@ -67,13 +67,13 @@ export const NotificationProvider = React.memo(
     }: AddMessageToNotification) => {
       const id = uuidv4();
       dispatch({
-        type: "ADD",
+        type: 'ADD',
         payload: { id, message, hold, type },
       });
       if (!hold) {
         setTimeout(() => {
           dispatch({
-            type: "REMOVE",
+            type: 'REMOVE',
             payload: { id },
           });
         }, 5000);
@@ -81,18 +81,18 @@ export const NotificationProvider = React.memo(
     };
 
     const success = (message: string, hold = false) => {
-      addMessageToNotification({ message, hold, type: "success" });
+      addMessageToNotification({ message, hold, type: 'success' });
     };
     const error = (message: string, hold = false) => {
-      addMessageToNotification({ message, hold, type: "error" });
+      addMessageToNotification({ message, hold, type: 'error' });
     };
     const warning = (message: string, hold = false) => {
-      addMessageToNotification({ message, hold, type: "warning" });
+      addMessageToNotification({ message, hold, type: 'warning' });
     };
 
     const removeMessageToNotification = (id: string) => {
       dispatch({
-        type: "REMOVE",
+        type: 'REMOVE',
         payload: { id },
       });
     };

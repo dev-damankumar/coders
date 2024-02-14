@@ -77,6 +77,13 @@ const excludingFooterPaths = [
   'x-studio',
 ];
 
+const excludingControlPaths = [
+  'x-studio',
+  'forgot-password',
+  'reset',
+  'register',
+  'login',
+];
 export function validateEmail(email: string) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -154,6 +161,14 @@ export const showMenu = (path: string) => {
 export const showFooter = (path: string) => {
   let show = true;
   if (excludeFromPaths(excludingFooterPaths, path)) {
+    show = false;
+  }
+  return show;
+};
+
+export const showControls = (path: string) => {
+  let show = true;
+  if (excludeFromPaths(excludingControlPaths, path)) {
     show = false;
   }
   return show;

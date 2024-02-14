@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import placeholder from '../../assets/images/placeholder.png';
-import Switch from '../Form/Switch/Switch';
-import Http from '../../hooks/http';
-import DropDown from '../DropDown/DropDown';
+import Switch from '../ui/Form/Switch/Switch';
 import BinIcon from '../../assets/icons/BinIcon';
 import LinkIcon from '../../assets/icons/LinkIcon';
 import ScriptIcon from '../../assets/icons/ScriptIcon';
 import CopyIcon from '../../assets/icons/CopyIcon';
 import ImportIcon from '../../assets/icons/ImportIcon';
 import PreIcon from '../../assets/icons/PreIcon';
-import { env, joinURL, loader } from '../../utils';
+import { joinURL, loader } from '../../utils';
 
 import { useAuth } from '../../providers/Auth';
-import { Project } from './Projects';
 import { useNotification } from '../../providers/Notification';
-import IfAdmin from '../IfAdmin/IfAdmin';
 import { changeProjectVisibility } from '../../services/project';
+import { baseImageSrc } from '../../constants';
+import { Project } from '../../types';
+import Image from '../ui/Image';
 
 export type TypeProjectRow = Project & {
   filterTags: string;
@@ -49,8 +47,8 @@ const ProjectRow = ({
   ...props
 }: TypeProjectRow | ExtraProjectsProps) => {
   const notification = useNotification();
-  const imgSrc: string = env['REACT_APP_BASE_URL'] || '';
-  const [visible, setVisibility] = useState(visibility);
+  const imgSrc: string = baseImageSrc || '';
+  const [_, setVisibility] = useState(visibility);
   const auth = useAuth();
   const setProjectPrivacy = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -58,17 +56,18 @@ const ProjectRow = ({
   ) => {
     const visibility = !!e.target.checked;
     setVisibility(visibility);
+    loader.show();
     try {
-      loader.show();
-      const project = await changeProjectVisibility(_id, !!visibility);
-      loader.hide();
+      const project = await changeProjectVisibility(id, visibility);
       if ('error' in project) return notification.error(project.message);
-      notification.error(project.message);
+      notification.success(project.message);
     } catch (e: unknown) {
       if (e instanceof Error) {
         return notification.error(e.message);
       }
       console.error(e);
+    } finally {
+      loader.hide();
     }
   };
   let projectActions;
@@ -122,7 +121,7 @@ const ProjectRow = ({
           target='_blank'
           className='open-x-code'
         >
-          <img
+          <Image
             alt='dg'
             style={{
               width: '20px',
@@ -130,7 +129,8 @@ const ProjectRow = ({
               borderRadius: '50%',
             }}
             className='x-file-img'
-            src={image ? joinURL(imgSrc, image) : placeholder}
+            src={image}
+            defaultImg={placeholder}
           />
           {title}
         </a>
@@ -194,8 +194,9 @@ const ProjectRow = ({
         <div className='img-grid-wrap'>
           {imageGrid?.map((img: string, tagIndex: number) => {
             return (
-              <img
-                src={img ? joinURL(imgSrc, img) : placeholder}
+              <Image
+                src={img}
+                defaultImg={placeholder}
                 key={`img_${tagIndex}`}
               />
             );
