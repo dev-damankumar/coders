@@ -9,11 +9,11 @@ const Layout = () => {
     <main className='dark-mode'>
       <Topbar />
       <Menu />
-      <Footer />
       <Controls />
       <div className='main-content-wrapper'>
         <Outlet />
       </div>
+      <Footer />
     </main>
   );
 };

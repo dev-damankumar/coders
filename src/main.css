@@ -230,3 +230,24 @@ p.error {
   display: inline-block;
   font-weight: 600;
 }
+
+.youtube {
+  background: red;
+  color: #fff;
+}
+
+.linkedin {
+  background: #0077b7;
+  color: #fff;
+}
+
+.instagram {
+  background: #f3013c;
+  color: #fff;
+}
+
+.facebook {
+  background: #475993;
+  color: #fff;
+  margin-right: 0 !important;
+}

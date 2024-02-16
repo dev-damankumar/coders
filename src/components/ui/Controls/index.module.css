@@ -14,3 +14,26 @@
   position: fixed;
   right: unset;
 }
+
+.controls a {
+  padding: 0;
+  width: 35px;
+  height: 35px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 22px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+}
+
+.controls a svg,
+.controls a img {
+  width: 20px;
+  height: 20px;
+}
+
+.profileImg {
+  object-fit: cover;
+  border-radius: 50%;
+}

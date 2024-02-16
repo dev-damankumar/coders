@@ -1,4 +1,45 @@
-.footerSection {
+.footer {
   background: var(--dark);
   padding: 30px 0 15px;
+  color: white;
+}
+
+.iframeMap {
+  height: 100%;
+  width: 300px;
+  margin-left: auto;
+  max-width: 100%;
+}
+
+.iframeMap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #fff;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.footerPara {
+  margin-top: 20px;
+}
+
+.socialRow {
+  margin-top: 20px;
+  padding-top: 10px;
+}
+
+.copright {
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #404040;
+}
+.copright p {
+  margin: 0;
+}
+.socialIcons {
+}
+
+.terms {
+  text-align: right;
 }
