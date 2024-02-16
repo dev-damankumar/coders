@@ -5,7 +5,7 @@ import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import Loading from '../../components/ui/Loading';
 import SiteLogo from '../../assets/icons/SiteLogo';
 import { useAuth } from '../../providers/Auth';
-import { validateEmail } from '../../utils';
+import { validateEmail } from '../../utils/helper';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { login } from '../../services/auth';
 import { useNotification } from '../../providers/Notification';

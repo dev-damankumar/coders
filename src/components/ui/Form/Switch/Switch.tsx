@@ -1,5 +1,5 @@
 import classes from './Switch.module.css';
-import { UUID } from '../../../../utils';
+import { UUID } from '../../../../utils/helper';
 
 const Switch = (props) => {
   let uid = UUID();

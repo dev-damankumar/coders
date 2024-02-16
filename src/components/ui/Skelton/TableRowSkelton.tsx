@@ -1,4 +1,4 @@
-import { joinURL } from '../../../utils';
+import { joinURL } from '../../../utils/helper';
 import classes from './TableRowSkelton.module.css';
 
 const TableRowSkelton = (props: { rows?: number; cols?: number }) => {

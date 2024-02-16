@@ -2,7 +2,7 @@ import React, { Suspense, useState } from 'react';
 import Loading from '../ui/Loading';
 import { useNotification } from '../../providers/Notification';
 import { useAuth } from '../../providers/Auth';
-import { loader } from '../../utils';
+import { loader } from '../../utils/loader';
 import { updateProfile } from '../../services/user';
 import If from '../hoc/If';
 import { TUploadImageType } from '../../pages/Profile/Profile';
@@ -88,7 +88,7 @@ const UploadProfile = ({
               <img src={previewImg ? previewImg : coverImg} />
               <div className={`preview-info`} data-table-tooltip='Copy'>
                 <h5 title={fileImg?.name}>{fileImg?.name}</h5>
-                <div className='x-tooltip x-tooltip-dark x-tooltip-up'>
+                <div className='tooltip tooltip-dark tooltip-up'>
                   {fileImg?.name}
                 </div>
                 <span>{fileImg?.type}</span>

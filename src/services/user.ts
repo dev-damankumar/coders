@@ -1,9 +1,9 @@
 import { isAxiosError } from 'axios';
-import { http } from '../utils';
 import { User } from '../providers/Auth';
 import { FailedResponse } from './auth';
 import { SuccessResponse } from '../types';
 import { TProfileInputs } from '../components/profile/SettingsForm';
+import http from '../utils/http';
 
 export type SocialLinksType = {
   website: string;

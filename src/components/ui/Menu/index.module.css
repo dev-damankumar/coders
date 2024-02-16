@@ -1,0 +1,43 @@
+.menuSection {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.menu {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 0;
+  box-shadow: none;
+  z-index: 999;
+}
+.menuWrap {
+  flex: 1;
+}
+.userImage {
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+.menuUl {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+  padding-left: 10%;
+}
+.navbar {
+  background: gray;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: #fff;
+  box-shadow: 0 0 30px #00000030;
+  border-radius: 10px;
+}
+
+.navbarDark {
+  background: var(--dark-3);
+}

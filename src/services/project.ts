@@ -1,8 +1,6 @@
 import downloadjs from 'downloadjs';
 import { Dispatch } from 'react';
 import { HomeReducerActionType } from '../reducers/homeReducer';
-import { env } from '../utils';
-import { http } from '../utils';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { XcodeReducerActionType } from '../reducers/xcodeReducer';
 import {
@@ -14,6 +12,7 @@ import {
 } from '../types';
 import { ProjectDetailType } from '../pages/ProjectDetail/ProjectDetail';
 import { baseURL } from '../constants';
+import http from '../utils/http';
 
 const token = localStorage.getItem('token');
 

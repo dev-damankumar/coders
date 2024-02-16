@@ -1,5 +1,6 @@
 import { NavLink, NavLinkProps, To } from 'react-router-dom';
-import logo from '../images/logos/logo.svg';
+import logo from '../../images/logos/logo.svg';
+import classes from './index.module.css';
 
 type SiteLogoProps = Omit<NavLinkProps, 'to'> & {
   compact?: boolean;
@@ -13,7 +14,11 @@ const SiteLogo: React.FC<SiteLogoProps> = ({
   ...rest
 }) => {
   return (
-    <NavLink {...rest} className={`navbar-brand ${className}`} to={to}>
+    <NavLink
+      {...rest}
+      className={`${classes.logo} ${classes.dark} ${className}`}
+      to={to}
+    >
       <img width={30} height={30} src={logo} />
       {!compact && <p>Coders</p>}
     </NavLink>

@@ -1,5 +1,5 @@
 import classes from './Radio.module.css';
-import { UUID } from '../../../../utils';
+import { UUID } from '../../../../utils/helper';
 
 const Radio = (props) => {
   let uid = UUID();

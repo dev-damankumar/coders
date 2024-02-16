@@ -1,0 +1,10 @@
+.subscribe {
+  background: url(src\assets\images\home-bg.webp);
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+}
+
+.subscribeHeading {
+  text-align: center;
+}

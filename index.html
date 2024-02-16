@@ -4,13 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/css/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="preload"
       href="/assets/boxicons-2.1.1/css/boxicons.min.css"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
-    <link href="/assets/css/main.css" rel="stylesheet" />
     <script src="/assets/js/jquery.min.js"></script>
     <title>Coders | A platform to share your code</title>
   </head>
@@ -151,8 +157,8 @@
       const value = v.dataset.tableTooltip;
       if (value) {
         const bottom = v.dataset.tableTooltipBottom;
-        const html = `<div class="x-tooltip ${
-          bottom === 'true' ? 'x-tooltip-bottom' : ''
+        const html = `<div class="tooltip ${
+          bottom === 'true' ? 'tooltip-bottom' : ''
         }">${value}</div>`;
         v.innerHTML += html;
       }

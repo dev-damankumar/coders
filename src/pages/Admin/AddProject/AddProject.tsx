@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Form, { onChangeHandler } from '../../../components/Form/Form';
 import Steps from '../../../components/ui/Steps/Steps';
 import { loader } from '../../../utils/';
 import {
@@ -58,7 +57,7 @@ function AddProject() {
     }
 
     const prevDone = [...done];
-    prevDone.push(initialStep);
+    // prevDone.push(initialStep);
     setDone(prevDone);
     setStep(initialStep + 1);
     // const data = project.data;
@@ -94,7 +93,7 @@ function AddProject() {
       }
 
       const prevDone = [...done];
-      prevDone.push(initialStep);
+      // prevDone.push(initialStep);
       setDone(prevDone);
       setStep(initialStep + 1);
       resetHandler();
@@ -106,7 +105,7 @@ function AddProject() {
   };
 
   let onChangeHandle = (e, fieldName, state) => {
-    let formState = onChangeHandler(e, fieldName, state);
+    // let formState = onChangeHandler(e, fieldName, state);
     setFormConfig(formState);
   };
 
@@ -125,13 +124,13 @@ function AddProject() {
   const steps = [
     <div id={'step-1'} key={'step-1'}>
       <div className='col-md-12'>
-        <Form
+        {/* <Form
           style={{ padding: '10px 0' }}
           onSubmit={onSubmitHandler}
           config={formConfig}
           action={'#'}
           onChange={onChangeHandle}
-        />
+        /> */}
       </div>
     </div>,
     <div id={'step-2'} key={'step-2'}>
@@ -144,13 +143,13 @@ function AddProject() {
         </h2>
       </div>
       <div className='col-md-12'>
-        <Form
+        {/* <Form
           style={{ padding: '10px 0' }}
           onSubmit={onExeHandler}
           config={exeConfig}
           action={'#'}
           onChange={onChangeHandle}
-        />
+        /> */}
       </div>
     </div>,
     <div id={'step-3'} key={'step-3'}>

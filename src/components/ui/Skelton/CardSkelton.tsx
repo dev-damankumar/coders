@@ -35,9 +35,9 @@ const CardSkelton = ({ hideContext, count = 1 }: TypeCardRowsSkelton) => {
 
           <div className='dropdown-divider'></div>
           <div className={projectCardClasses.footer}>
-            <div data-table-tooltip='true' className='author-wrap'>
-              <div className='loading-img author-img loading'></div>
-              <p style={{ marginRight: '3px' }} className='author-name loading'>
+            <div data-table-tooltip='true' className='authorWrap'>
+              <div className='loading-img authorImg loading'></div>
+              <p style={{ marginRight: '3px' }} className='authorName loading'>
                 loreme
               </p>
             </div>

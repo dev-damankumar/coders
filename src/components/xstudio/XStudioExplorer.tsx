@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from 'react';
-import { getImageByExtension } from '../../utils';
+import { getImageByExtension } from '../../utils/helper';
 import FileLoader from './FileLoader';
 import fileIcon from '../../assets/images/add-project.png';
 import AddIcon from '../../assets/icons/AddIcon';
@@ -8,8 +8,8 @@ import CopyIcon from '../../assets/icons/CopyIcon';
 import pasteIcon from '../../assets/images/paste.png';
 import EditRowIcon from '../../assets/icons/EditRowIcon';
 import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';
-import { loader } from '../../utils';
-import { extensions } from '../../utils';
+import { loader } from '../../utils/loader';
+import { extensions } from '../../utils/extension';
 import If from '../hoc/If';
 import {
   copyFile,

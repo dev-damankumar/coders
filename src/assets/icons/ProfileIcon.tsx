@@ -1,9 +1,15 @@
-const ProfileIcon = () => {
+const ProfileIcon = ({
+  width = 10,
+  height = 10,
+}: {
+  width: number;
+  height: number;
+}) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='512'
-      height='512'
+      width={width}
+      height={height}
       viewBox='0 0 512 512'
     >
       <path

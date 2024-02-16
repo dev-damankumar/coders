@@ -9,8 +9,8 @@ import React, {
 } from 'react';
 import './Xcode.css';
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { loader } from '../../utils';
-import { extensions } from '../../utils/';
+import { loader } from '../../utils/loader';
+import { extensions } from '../../utils/helper';
 import CheckBox from '../../components/ui/Form/CheckBox/CheckBox';
 import TableRowSkelton from '../../components/ui/Skelton/TableRowSkelton';
 import Loading from '../../components/ui/Loading';
@@ -31,7 +31,7 @@ import {
 } from '../../services/files';
 import { ProjectDetailType } from '../ProjectDetail/ProjectDetail';
 import { useNotification } from '../../providers/Notification';
-import { goBackPaths, sortObjectByName } from '../../utils';
+import { goBackPaths, sortObjectByName } from '../../utils/helper';
 
 const ProjectConfig = lazy(
   () => import('../../components/project/ProjectConfig/ProjectConfig')
@@ -439,9 +439,7 @@ const Xcode = memo(() => {
                               className='header-btn add-header-btn'
                             >
                               <img src={addIcon} />
-                              <div className='x-tooltip x-tooltip-up'>
-                                Add File
-                              </div>
+                              <div className='tooltip tooltip-up'>Add File</div>
                             </a>
                           </div>
                         </div>
@@ -456,7 +454,7 @@ const Xcode = memo(() => {
                               className='header-btn upload-header-btn'
                             >
                               <i className='bx bx-upload' />
-                              <div className='x-tooltip x-tooltip-up'>
+                              <div className='tooltip tooltip-up'>
                                 Upload File
                               </div>
                             </a>
@@ -476,9 +474,7 @@ const Xcode = memo(() => {
                             data-toggle='dropdown'
                           >
                             <i className='bx bx-download' />
-                            <div className='x-tooltip x-tooltip-up'>
-                              Download
-                            </div>
+                            <div className='tooltip tooltip-up'>Download</div>
                           </a>
                           <div className='dropdown-menu dropdown-menu-right'>
                             <Suspense fallback={<Loading />}>
@@ -503,9 +499,7 @@ const Xcode = memo(() => {
                             data-toggle='dropdown'
                           >
                             <i className='bx bx-download' />
-                            <div className='x-tooltip x-tooltip-up'>
-                              Download
-                            </div>
+                            <div className='tooltip tooltip-up'>Download</div>
                           </a>
                           <div className='dropdown-menu dropdown-menu-right'>
                             <Suspense fallback={<Loading />}>
@@ -525,9 +519,7 @@ const Xcode = memo(() => {
                             className='view-x-studio header-btn'
                           >
                             <i className='bx bx-code-alt' />
-                            <div className='x-tooltip x-tooltip-up'>
-                              XStudio
-                            </div>
+                            <div className='tooltip tooltip-up'>XStudio</div>
                           </NavLink>
                         </div>
                       </div>
@@ -588,7 +580,7 @@ const Xcode = memo(() => {
                                         }}
                                       >
                                         <DeleteRowIcon />
-                                        <div className='x-tooltip '>
+                                        <div className='tooltip '>
                                           Delete Row
                                         </div>
                                       </a>

@@ -11,11 +11,10 @@ import Prism from 'prismjs';
 import Loading from '../../components/ui/Loading';
 import NoData from '../../components/ui/NoData/NoData';
 import IfPrimiumUser from '../../components/hoc/IfPrimiumUser';
-import { loader, joinURL } from '../../utils';
+import { copyToClipboard, joinURL } from '../../utils/helper';
 import If from '../../components/hoc/If';
 import { useAuth } from '../../providers/Auth';
 import { FileDetailsType, fetchFileContent } from '../../services/files';
-import { copyToClipboard } from '../../utils';
 import { useNotification } from '../../providers/Notification';
 const SearchFile = React.lazy(
   () => import('../../components/project/SearchFile/SearchFile')
@@ -24,6 +23,7 @@ const SearchFile = React.lazy(
 import '../../assets/css/prism.css';
 import './FilePreview.css';
 import { baseURL } from '../../constants';
+import { loader } from '../../utils/loader';
 
 const FilePreview = React.memo(() => {
   const params = useParams();

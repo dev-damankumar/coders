@@ -2,8 +2,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { SocialLinksType, setSocials } from '../../services/user';
 import { useNotification } from '../../providers/Notification';
 import { useAuth } from '../../providers/Auth';
-import { loader } from '../../utils';
-import { validateUrl } from '../../utils';
+import { loader } from '../../utils/loader';
+import { validateUrl } from '../../utils/helper';
 
 type TProfileLinksInputs = SocialLinksType;
 

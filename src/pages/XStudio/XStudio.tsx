@@ -39,7 +39,7 @@ import SearchIconWhite from '../../assets/icons/SearchIconWhite';
 const SearchFile = React.lazy(
   () => import('../../components/project/SearchFile/SearchFile')
 );
-const DropDown = React.lazy(() => import('../../components/ui/DropDown'));
+const DropDown = React.lazy(() => import('../../Dropdown/Dropdown1'));
 
 type ProjectListType = {
   name: string;

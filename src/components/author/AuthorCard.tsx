@@ -1,5 +1,6 @@
 import img from '../../assets/images/profile.svg';
 import Image from '../ui/Image';
+import classes from './index.module.css';
 
 type AuthorCardProps = {
   name: string;
@@ -16,11 +17,11 @@ const AuthorCard = ({ name, src, isOwner, id }: AuthorCardProps) => {
       href={`/profile/${!isOwner ? id : ''}`}
       target='_blank'
       data-table-tooltip='true'
-      className={`author-wrap ${isOwner ? 'author-self' : ''}`}
+      className={`${classes.authorWrap} ${isOwner ? classes.authorSelf : ''}`}
     >
-      <Image className='author-img' src={src + 'g'} defaultImg={img} />
-      <p className='author-name'>
-        <span className='x-tooltip x-tooltip-up'>{name || 'anonymous'}</span>
+      <Image className={classes.authorImg} src={src + 'g'} defaultImg={img} />
+      <p className={classes.authorName}>
+        <span className='tooltip tooltip-up'>{name || 'anonymous'}</span>
         {name || 'anonymous'}
       </p>
     </a>

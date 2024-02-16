@@ -54,12 +54,12 @@ const Roadmap = () => {
           </div>
           <div className='col-md-12'>
             <div className={classes.timeline}>
-              <div className={classes.phoneLine} />
-              <div className={classes.phoneLine} />
+              <div className={classes.phoneLine1} />
+              <div className={classes.phoneLine3} />
             </div>
           </div>
           <div className='col-md-12'>
-            <div className={`${classes.blocks} invert-warp`}>
+            <div className={`${classes.blocks} ${classes.invertWarp}`}>
               <div className={classes.serviceContent}>
                 <div
                   className='container '
@@ -97,8 +97,8 @@ const Roadmap = () => {
           </div>
           <div className='col-md-12'>
             <div className={classes.timeline}>
-              <div className={classes.phoneLine} />
-              <div className={classes.phoneLine} />
+              <div className={classes.phoneLine2} />
+              <div className={classes.phoneLine4} />
             </div>
           </div>
           <div className='col-md-12'>
@@ -141,12 +141,12 @@ const Roadmap = () => {
           </div>
           <div className='col-md-12'>
             <div className={classes.timeline}>
-              <div className={classes.phoneLine} />
-              <div className={classes.phoneLine} />
+              <div className={classes.phoneLine1} />
+              <div className={classes.phoneLine3} />
             </div>
           </div>
           <div className='col-md-12'>
-            <div className={`${classes.blocks} invert-warp`}>
+            <div className={`${classes.blocks} ${classes.invertWarp}`}>
               <div className={classes.serviceContent}>
                 <div
                   className='container '

@@ -23,7 +23,7 @@ if (token) {
   defaultHeaders.Authorization = `Bearer ${token}`;
 }
 
-export const http = axios.create({
+const http = axios.create({
   baseURL,
   timeout: 2000,
   headers: {
@@ -45,3 +45,5 @@ http.interceptors.request.use(
     Promise.reject(error);
   }
 );
+
+export default http;

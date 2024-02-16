@@ -20,7 +20,7 @@ const WhyChoose = () => {
                       <span className={classes.icon}>
                         <img src={securityImg} />
                       </span>
-                      <h3>100% Data Security</h3>
+                      <p>100% Data Security</p>
                     </div>
                   </li>
                   <li>
@@ -28,7 +28,7 @@ const WhyChoose = () => {
                       <span className={classes.icon}>
                         <img src={scaleImg} />
                       </span>
-                      <h3>Highly Scalable Solution</h3>
+                      <p>Highly Scalable Solution</p>
                     </div>
                   </li>
                   <li>
@@ -36,7 +36,7 @@ const WhyChoose = () => {
                       <span className={classes.icon}>
                         <img src={supportImg} />
                       </span>
-                      <h3>24X7 Customer Support</h3>
+                      <p>24X7 Customer Support</p>
                     </div>
                   </li>
                 </ul>

@@ -1,5 +1,5 @@
 import { AxiosResponse, isAxiosError } from 'axios';
-import { http } from '../utils';
+import http from '../utils/http';
 import { RegisterUserType } from '../models/onboard/registerForm';
 import { User } from '../providers/Auth';
 import { IRegisterFormInput } from '../pages/Register/Register';

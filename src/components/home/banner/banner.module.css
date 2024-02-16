@@ -1,0 +1,137 @@
+.heading45 h6 {
+  color: grey;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.floating-item {
+  width: auto;
+  height: 60px;
+  padding: 3px;
+  border-radius: 50%;
+  box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
+  z-index: 1;
+  border: 4px solid white;
+  position: absolute;
+  object-fit: contain;
+}
+.banner-content {
+  position: relative;
+}
+.banner-content > div {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.wrap-react {
+  background: aliceblue;
+  top: -45px;
+  left: 103px;
+}
+:root {
+  --border-width: 3px;
+  --border-color: #8399a5;
+}
+.wrap-react:before {
+  content: '';
+  width: 2px;
+  height: 67px;
+  border-right: var(--border-width) dashed var(--border-color);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.banner-content > div:before {
+  content: '';
+  position: absolute;
+}
+.banner-content > div:after {
+  content: '';
+  position: absolute;
+}
+.wrap-react:after {
+  content: '';
+  width: 100px;
+  height: 1px;
+  border-bottom: var(--border-width) dashed var(--border-color);
+  position: absolute;
+  top: 4px;
+  left: 40%;
+  transform: translateY(-50%) rotate(-30deg);
+}
+.wrap-html:before {
+  width: 84px;
+  height: 1px;
+  border-bottom: var(--border-width) dashed var(--border-color);
+  top: 11px;
+  left: -61px;
+  transform: translateY(-22%) rotate(30deg);
+}
+.wrap-html:after {
+  content: '';
+  width: 2px;
+  height: 67px;
+  border-right: var(--border-width) dashed var(--border-color);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.wrap-css {
+  top: 383px;
+  left: 180px;
+  background: #d0eaff;
+}
+.wrap-html {
+  background: #ffe4d9;
+  top: -57px;
+  left: 275px;
+}
+.wrap-js {
+  background: #fff8d6;
+  top: -12px;
+  left: 388px;
+}
+.wrap-json {
+  background: #fffaed;
+  top: 99px;
+  left: 12px;
+}
+.wrap-angular {
+  background: #ffeceb;
+  top: 99px;
+  left: 189px;
+}
+.wrap-vue {
+  background: #def3ea;
+  top: 44px;
+  left: 286px;
+}
+.wrap-php {
+  background: #ebeefb;
+  top: 242px;
+  left: 104px;
+}
+.wrap-photoshop {
+  background: #d9f3ff;
+  top: 245px;
+  left: 272px;
+}
+.wrap-python {
+  background: #e7f2f8;
+  top: 190px;
+  left: 371px;
+}
+.wrap-scss {
+  background: #ffecf3;
+  top: 379px;
+  left: 26px;
+}
+.wrap-typescript {
+  background: #e2effd;
+  top: 382px;
+  right: 80px;
+}

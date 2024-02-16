@@ -1,7 +1,7 @@
 import If from '../hoc/If';
 import IfStandardUser from '../hoc/IfStandardUser';
 import CheckBox from '../ui/Form/CheckBox/CheckBox';
-import { getImageByExtension } from '../../utils';
+import { getImageByExtension } from '../../utils/helper';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import EditRowIcon from '../../assets/icons/EditRowIcon';
 import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';

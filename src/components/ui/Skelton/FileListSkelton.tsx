@@ -1,4 +1,4 @@
-import { joinURL } from '../../../utils';
+import { joinURL } from '../../../utils/helper';
 import classes from './FileListSkelton.module.css';
 const FileListSkelton = (props: { dark?: boolean }) => {
   return (

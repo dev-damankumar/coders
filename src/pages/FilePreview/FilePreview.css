@@ -16,7 +16,6 @@ pre[class*='language-'] {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 16px !important;
-  font-family: 'Nunito SemiBold' !important;
 }
 .file-preview-page .x-search-wrap {
   width: 110px;
@@ -118,7 +117,6 @@ code[class*='language-'].line-numbers {
 
 .file-preview-page .code-preview-header h3 {
   font-size: 16px;
-  font-family: 'Nunito SemiBold';
   margin-bottom: 0;
   margin-bottom: 0;
   display: flex;
@@ -164,7 +162,6 @@ code[class*='language-'].line-numbers {
 
 .file-preview-page .code-preview-header span {
   font-size: 13px;
-  font-family: 'Nunito SemiBold';
   display: flex;
   align-items: center;
   margin-left: 5px;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import filePlaceholder from '../../assets/images/file-img.png';
-import { baseImageSrc } from '../../constants';
-import { isAbsoluteURL } from '../../utils';
+import { baseImageSrc } from '../../../constants';
+import { isAbsoluteURL } from '../../../utils/helper';
 const FileUpload = React.forwardRef(
   (
     {

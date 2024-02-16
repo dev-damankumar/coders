@@ -3,7 +3,7 @@ import classes from './index.module.css';
 import { NavLink } from 'react-router-dom';
 import img from '../../../assets/images/placeholder.png';
 import Switch from '../../ui/Form/Switch/Switch';
-import DropDown, { TypeList } from '../../ui/DropDown';
+// import DropDown, { TypeList } from '../../ui/Dropdown/DropDown';
 import BinIcon from '../../../assets/icons/BinIcon';
 import LinkIcon from '../../../assets/icons/LinkIcon';
 import ScriptIcon from '../../../assets/icons/ScriptIcon';
@@ -12,7 +12,7 @@ import ImportIcon from '../../../assets/icons/ImportIcon';
 import PreIcon from '../../../assets/icons/PreIcon';
 import IfPrimiumUser from '../../hoc/IfPrimiumUser';
 import AuthorCard from '../../author/AuthorCard';
-import { loader } from '../../../utils';
+import { loader } from '../../../utils/loader';
 import If from '../../hoc/If';
 import Tags from '../../ui/Tags';
 import { useAuth } from '../../../providers/Auth';
@@ -160,13 +160,13 @@ const ProjectCard = ({
                   }
                 />
                 <div className='divider-hr' />
-                <DropDown
+                {/* <DropDown
                   menuClass='dropdown-menu-right card-auth-menu'
                   direction='up'
                   list={projectActions as TypeList[]}
                   name=''
                   icon={<i className='bx bx-dots-vertical-rounded' />}
-                />
+                /> */}
               </IfPrimiumUser>
             </If>
           </div>

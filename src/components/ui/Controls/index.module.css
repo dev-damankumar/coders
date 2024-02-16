@@ -1,0 +1,16 @@
+.controls {
+  box-shadow: 0 1px 13px rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: auto;
+  padding: 5px;
+  border-radius: 10px;
+  background: #fff;
+  z-index: 99999;
+  left: 20px;
+  top: 145px;
+  position: fixed;
+  right: unset;
+}

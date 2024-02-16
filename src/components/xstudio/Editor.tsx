@@ -6,7 +6,7 @@ import 'ace-builds/src-noconflict/mode-html';
 import 'ace-builds/src-noconflict/mode-python';
 import 'ace-builds/src-noconflict/mode-jsx';
 import 'ace-builds/src-noconflict/mode-json';
-import { joinURL } from '../../utils';
+import { joinURL } from '../../utils/helper';
 import React from 'react';
 import { FileDetailsType } from '../../services/files';
 import { baseURL } from '../../constants';

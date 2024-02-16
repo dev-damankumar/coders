@@ -4,12 +4,12 @@ import { NavLink } from 'react-router-dom';
 import SiteLogo from '../../assets/icons/SiteLogo';
 import SaveRowIcon from '../../assets/icons/SaveRowIcon';
 import loginImg from '../../assets/images/3d-people-1.png';
-import { loader } from '../../utils';
+import { loader } from '../../utils/loader';
 import If from '../../components/hoc/If';
 import { forgotPassword } from '../../services/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNotification } from '../../providers/Notification';
-import { validateEmail } from '../../utils';
+import { validateEmail } from '../../utils/helper';
 
 type TForgotPasswordFormInputs = {
   email: string;

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import classes from './SearchFile.module.css';
 import FileListSkelton from '../../ui/Skelton/FileListSkelton';
 import SearchIcon from '../../../assets/icons/SearchIcon';
-import { getImageByExtension } from '../../../utils';
+import { getImageByExtension } from '../../../utils/helper';
 import { FileType } from '../../../pages/Xcode/Xcode';
-import { goBackPaths } from '../../../utils';
+import { goBackPaths } from '../../../utils/helper';
 import { useNavigate } from 'react-router-dom';
 import Image from '../../ui/Image';
 

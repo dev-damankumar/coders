@@ -1,7 +1,6 @@
 import ProfileIcon from '../../assets/icons/ProfileIcon';
 import EditRowIcon from '../../assets/icons/EditRowIcon';
 import If from '../hoc/If';
-import { env } from '../../utils';
 import { User, useAuth } from '../../providers/Auth';
 import { TUploadImageType } from '../../pages/Profile/Profile';
 import Image from '../ui/Image';

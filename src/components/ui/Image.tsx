@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import img from '../../assets/images/placeholder.png';
 import { baseURL } from '../../constants';
-import { isAbsoluteURL, joinURL } from '../../utils';
+import { isAbsoluteURL, joinURL } from '../../utils/helper';
 
 type ImageType = {
   defaultImg?: string;

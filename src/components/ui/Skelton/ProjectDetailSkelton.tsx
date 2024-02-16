@@ -1,5 +1,5 @@
 import classes from './ProjectDetailSkelton.module.css';
-import { joinURL } from '../../../utils';
+import { joinURL } from '../../../utils/helper';
 const ProjectDetailSkelton = () => {
   return (
     <div className='jumbotron bg-light project-detail-div'>

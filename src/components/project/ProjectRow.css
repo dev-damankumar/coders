@@ -1,0 +1,33 @@
+.img-grid-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 155px;
+  width: 155px;
+}
+.img-grid-wrap img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  box-shadow: 0 1px 13px rgb(0 0 0 / 10%);
+  padding: 2px;
+  background: white;
+  cursor: pointer;
+}
+
+
+
+.url-link a {
+  display: block;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.description {
+  width: 300px;
+  white-space: normal;
+}

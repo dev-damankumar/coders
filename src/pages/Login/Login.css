@@ -55,7 +55,6 @@ input:-webkit-autofill:hover {
   line-height: 26px;
   color: var(--primary-color);
   font-weight: 500;
-  font-family: 'Nunito Bold';
 }
 
 .login-page a.dashboard-color span {
@@ -81,7 +80,6 @@ input:-webkit-autofill:hover {
 .login-page .welcomeback {
   font-size: 24px;
   margin-bottom: 40px;
-  font-family: 'Montserrat Bold', sans-serif;
 }
 
 .login-page .inputtext:focus {
@@ -153,7 +151,6 @@ button.github-btn svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Nunito SemiBold', sans-serif;
   border-radius: 12px;
 }
 
@@ -228,7 +225,6 @@ button.show-password {
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  font-family: 'Nunito Bold', sans-serif;
   background: whitesmoke;
 }
 
@@ -343,7 +339,6 @@ p.r-para {
 .plan-info-wrap p.plan-desc {
   font-size: 14px;
   font-weight: 600;
-  font-family: 'Nunito Bold';
   margin-bottom: 0;
 }
 .plan-info-wrap p.r-para {

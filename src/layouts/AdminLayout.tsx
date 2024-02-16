@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import Controls from '../components/ui/Controls';
-import Menu from '../components/ui/Menu/Menu';
+import Controls from '../components/ui/Controls/Controls';
+import Menu from '../components/ui/Menu';
 import Footer from '../components/ui/Footer/Footer';
 
 const AdminLayout = () => {

@@ -1,7 +1,8 @@
-import { extensions } from './index';
 import img1 from '../assets/images/dollar.png';
 import img2 from '../assets/images/medal.png';
 import img3 from '../assets/images/trophy.png';
+import React, { cloneElement, isValidElement } from 'react';
+import { extensions } from './extension';
 
 export function getImageByExtension(extension: string) {
   if (extensions[extension]) {
@@ -172,4 +173,72 @@ export const showControls = (path: string) => {
     show = false;
   }
   return show;
+};
+
+interface Config {
+  [k: string]: any;
+}
+
+export const addPropsToChildren = (
+  children: React.ReactNode,
+  props: object,
+  prioritizeChildren = false,
+  config: Config | null = null
+) => {
+  return React.Children.map(children, (child) => {
+    if (isValidElement(child)) {
+      let tempChild = { ...child.props, ...props };
+      if (prioritizeChildren) {
+        tempChild = { ...props, ...child.props };
+      }
+      if (config) {
+        for (const key in config) {
+          if (
+            child.props?.originalType?.displayName === key ||
+            (child.type as React.FC)?.displayName === key
+          ) {
+            tempChild = { ...child.props, ...props, ...config[key] };
+            if (prioritizeChildren) {
+              tempChild = {
+                ...props,
+                ...config[key],
+                ...child.props,
+              };
+            }
+          }
+        }
+      }
+      return cloneElement(child, tempChild);
+    }
+    return child;
+  });
+};
+
+interface CSSClasses {
+  [x: string]: any;
+}
+export const getClassNames = (
+  from: CSSClasses,
+  ...classes: (string | boolean)[]
+) => {
+  const array = [...classes];
+  let classNames = '';
+  array.forEach((v) => {
+    if (v && typeof v === 'string') {
+      const item = v?.trim();
+      const innerClasses = item.split(/\s/g);
+      if (innerClasses.length > 1) {
+        innerClasses.forEach((innerClass) => {
+          const innerItem = innerClass?.trim();
+          if (from[innerItem]) {
+            classNames += `${from[innerItem]} `;
+          }
+        });
+      }
+      if (from[item]) {
+        classNames += `${from[item]} `;
+      }
+    }
+  });
+  return classNames;
 };

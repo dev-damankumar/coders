@@ -1,6 +1,7 @@
+import { env } from './../constants';
 import sign from 'jwt-encode';
-import { env } from '../utils';
-import { http } from '../utils';
+
+import http from '../utils/http';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { ProjectDetailType } from '../pages/ProjectDetail/ProjectDetail';
 import { FailedResponse } from './auth';

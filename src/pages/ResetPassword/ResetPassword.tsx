@@ -4,7 +4,7 @@ import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import Loading from '../../components/ui/Loading';
 import SiteLogo from '../../assets/icons/SiteLogo';
 import loginImg from '../../assets/images/3d-people-1.png';
-import { loader } from '../../utils';
+import { loader } from '../../utils/loader';
 import If from '../../components/hoc/If';
 import { useNotification } from '../../providers/Notification';
 import { SubmitHandler, useForm } from 'react-hook-form';

@@ -1,4 +1,4 @@
-import { getSubscriptionName } from '../../utils';
+import { getSubscriptionName } from '../../utils/helper';
 import If from '../hoc/If';
 import { User, useAuth } from '../../providers/Auth';
 

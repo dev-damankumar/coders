@@ -70,7 +70,7 @@ const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
             }}
           >
             <i className='bx bx-clipboard' />
-            <div className='x-tooltip'>Copy</div>
+            <div className='tooltip'>Copy</div>
           </button>
         </div>
         <p className='description'>

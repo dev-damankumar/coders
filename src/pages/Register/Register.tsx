@@ -12,7 +12,7 @@ import {
   registerProfile,
 } from '../../services/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { validateEmail } from '../../utils';
+import { validateEmail } from '../../utils/helper';
 import { useNotification } from '../../providers/Notification';
 
 export interface IRegisterFormInput {

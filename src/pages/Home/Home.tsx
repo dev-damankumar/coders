@@ -3,15 +3,15 @@ import { NavLink } from 'react-router-dom';
 
 import homeReducer from '../../reducers/homeReducer';
 import Loading from '../../components/ui/Loading';
-import BannerSection from '../../components/home/BannerSection';
-import SubscribeSection from '../../components/home/SubscribeSection';
+import BannerSection from '../../components/home/banner/banner';
+import SubscribeSection from '../../components/home/SubscribeSection/';
 import Heading from '../../components/ui/Heading';
 import If from '../../components/hoc/If';
 const Roadmap = lazy(() => import('../../components/home/Roadmap'));
 const WhyChoose = lazy(() => import('../../components/home/WhyChoose'));
 const Projects = lazy(() => import('../../components/project/Projects'));
 const RecentProjects = lazy(
-  () => import('../../components/home/RecentProjects')
+  () => import('../../components/home/RecentProjects/index')
 );
 import { getProjects } from '../../services/project';
 import { Project } from '../../types';
@@ -37,7 +37,7 @@ let initialState: HomeState = {
 const Home = memo(() => {
   const [state, dispatch] = useReducer(homeReducer<HomeState>, initialState);
   const projectRef = useRef(null);
-
+  console.log('state', state);
   useEffect(() => {
     (async () => {
       try {

@@ -43,7 +43,7 @@
   box-shadow: 0px 1px 13px rgba(0, 0, 0, 0.1);
   border-radius: 0;
 }
-.x-studio-page .x-tooltip.x-tooltip-dark {
+.x-studio-page .tooltip.tooltip-dark {
   background: var(--dark-background-1);
   color: #fff;
   backdrop-filter: blur(10px);
@@ -64,7 +64,6 @@
   font-weight: 600;
   color: var(--dark-2-text);
   z-index: 9;
-  font-family: SegoeUI Bold, sans-serif;
 }
 .x-studio-page a.menu-link.userMenu span {
   font-size: 13px;
@@ -190,7 +189,6 @@ img.x-studio-img-preview {
   color: var(--dark-2-text);
   z-index: 9;
   margin: 0;
-  font-family: SegoeUI Bold, sans-serif;
 }
 .x-studio-page ul,
 .x-studio-page #file-explorer {
@@ -244,14 +242,13 @@ a.side-icon.logo-x-studio-link svg {
   width: 28px;
   height: 28px;
 }
-.x-studio-page
-  .x-tooltip.x-tooltip-dark.x-tooltip-right.x-tooltip-up-right-sm:before {
+.x-studio-page .tooltip.tooltip-dark.tooltip-right.tooltip-up-right-sm:before {
   border-color: transparent var(--dark-background-1) transparent transparent !important;
 }
-.x-studio-page .x-tooltip-dark.x-tooltip.x-tooltip-right {
+.x-studio-page .tooltip-dark.tooltip.tooltip-right {
   transform: translateY(-50%) !important;
 }
-.x-studio-page .x-tooltip-dark.x-tooltip:before {
+.x-studio-page .tooltip-dark.tooltip:before {
   border-color: transparent white transparent transparent;
   top: 50%;
   left: -13px !important;
@@ -321,7 +318,6 @@ a.side-icon.logo-x-studio-link svg {
 
 .x-studio-page .project-div .select-div span.select-span span {
   color: #bebebe;
-  font-family: 'Nunito SemiBold', sans-serif;
   font-size: 13px;
 }
 
@@ -388,7 +384,6 @@ a.side-icon.logo-x-studio-link svg {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: 'Nunito SemiBold';
   color: #fff;
 }
 
@@ -494,7 +489,6 @@ a.side-icon.logo-x-studio-link svg {
 
 .x-studio-page .x-breadcrumb a {
   font-size: 13px;
-  font-family: 'SegoeUI SemiBold', sans-serif !important;
   padding: 5px 16px 5px 13px;
   border-radius: 10px;
   background: var(--dark-3);
@@ -886,11 +880,7 @@ button.x-tab-close {
   border-color: transparent !important;
   border-top-color: var(--dark-background-1) !important;
 }
-.x-studio-page
-  .menu-item.dropdown.side-icon.profile-sideicon.drop-up
-  .menu-link:hover {
-  background: none;
-}
+
 /*theme*/
 .x-studio-page .dark-preview .ace-eclipse {
   background-color: var(--dark-2);
@@ -987,7 +977,6 @@ button.x-tab-close {
   flex-direction: column;
   color: var(--dark-2-text);
   padding: 10px;
-  font-family: 'Nunito SemiBold', sans-serif !important;
 }
 .x-studio-body.x-studio-right-view {
   flex-direction: row-reverse;
@@ -999,12 +988,9 @@ button.x-tab-close {
   text-overflow: ellipsis;
 }
 .x-studio-page .editor .no-file-preview h1 {
-  font-family: 'Nunito SemiBold', sans-serif !important;
   font-size: 22px !important;
 }
-.x-studio-page .editor .no-file-preview p {
-  font-family: 'Nunito SemiBold', sans-serif !important;
-}
+
 @media screen and (max-width: 768px) {
   .x-studio-page .sidebar-open-icon {
     display: flex;
@@ -1071,7 +1057,7 @@ button.x-tab-close {
     width: 13px !important;
     height: 13px !important;
   }
- 
+
   .x-studio-page ul.file-expand:not(#file-explorer) li:not(.parent) {
     padding: 2px 5px;
     margin: 3px 0;

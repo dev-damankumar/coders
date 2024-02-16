@@ -1,5 +1,5 @@
 import classes from './Checkbox.module.css';
-import { UUID } from '../../../../utils';
+import { UUID } from '../../../../utils/helper';
 
 type CheckboxType = {
   name?: string;

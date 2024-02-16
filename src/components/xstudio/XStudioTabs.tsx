@@ -1,4 +1,4 @@
-import { getImageByExtension } from '../../utils';
+import { getImageByExtension } from '../../utils/helper';
 
 type XStudioTabsProps = {
   tabs: string[];

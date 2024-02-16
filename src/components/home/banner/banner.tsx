@@ -1,5 +1,6 @@
-import Heading from '../ui/Heading';
 import { NavLink } from 'react-router-dom';
+import classes from './banner.module.css';
+import Heading from '../../ui/Heading';
 
 const BannerSection = () => {
   return (
@@ -10,8 +11,10 @@ const BannerSection = () => {
       <div className='container'>
         <div className='row'>
           <div className='col-md-7 col-lg-6'>
-            <div className='main-heading-section'>
-              <h6>developer data and customized platform</h6>
+            <div>
+              <h6 className={classes.heading}>
+                developer data and customized platform
+              </h6>
               <Heading style={{ fontSize: '35px' }}>
                 Grow Your Project Easily With Coders
               </Heading>
@@ -23,10 +26,7 @@ const BannerSection = () => {
                 Code editor to easily edit your code on the go and see the
                 change live instantly.
               </p>
-              <div
-                className='footer-input-wrap main-footer'
-                style={{ marginTop: '45px' }}
-              >
+              <div className='footerWrap footer' style={{ marginTop: '45px' }}>
                 <NavLink to='/register'>
                   <button
                     style={{ padding: '10px 25px' }}

@@ -10,10 +10,10 @@ import SettingsIcon from '../../assets/icons/SettingsIcon';
 import ProfileIcon from '../../assets/icons/ProfileIcon';
 import UndoIcon from '../../assets/icons/UndoIcon';
 import { useAuth } from '../../providers/Auth';
-import { TypeList } from '../ui/DropDown';
+import { TypeList } from '../../Dropdown/Dropdown1';
 import { useStudio } from '../../providers/StudioProvider';
 import Image from '../ui/Image';
-const DropDown = React.lazy(() => import('../ui/DropDown'));
+const DropDown = React.lazy(() => import('../../Dropdown/Dropdown1'));
 type XStudioSidebarProps = {
   search: React.ReactNode;
 };
@@ -64,7 +64,7 @@ const XStudioSidebar = ({ search }: XStudioSidebarProps) => {
         data-table-tooltip='true'
       >
         <AddIcon />
-        <span className='x-tooltip x-tooltip-dark x-tooltip-right x-tooltip-up-right-sm'>
+        <span className='tooltip tooltip-dark tooltip-right tooltip-up-right-sm'>
           Add Project
         </span>
       </NavLink>
@@ -76,7 +76,7 @@ const XStudioSidebar = ({ search }: XStudioSidebarProps) => {
         className='side-icon'
         data-table-tooltip='true'
       >
-        <span className='x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm'>
+        <span className='tooltip tooltip-dark tooltip-right  tooltip-up-right-sm'>
           Search
         </span>
         {search}
@@ -86,14 +86,14 @@ const XStudioSidebar = ({ search }: XStudioSidebarProps) => {
         className='side-icon'
         data-table-tooltip='true'
       >
-        <span className='x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm'>
+        <span className='tooltip tooltip-dark tooltip-right  tooltip-up-right-sm'>
           Manage Projects
         </span>
         <ImportIcon />
       </NavLink>
       <a href='#' className='side-icon' data-table-tooltip='true'>
         <ThemeIcon />
-        <span className='x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm'>
+        <span className='tooltip tooltip-dark tooltip-right  tooltip-up-right-sm'>
           Customize
         </span>
       </a>
@@ -104,18 +104,18 @@ const XStudioSidebar = ({ search }: XStudioSidebarProps) => {
         data-table-tooltip='true'
       >
         <SettingsIcon />
-        <span className='x-tooltip x-tooltip-dark x-tooltip-right  x-tooltip-up-right-sm'>
+        <span className='tooltip tooltip-dark tooltip-right  tooltip-up-right-sm'>
           Settings
         </span>
       </NavLink>
       <Suspense fallback={''}>
-        <DropDown
+        {/* <DropDown
           list={profileMenu}
           icon={<ProfileIcon />}
           name={''}
           menuClass='dark-x-studio-menu x-studio-dropdown-menu'
           className='side-icon profile-sideicon drop-up'
-        />
+        /> */}
       </Suspense>
     </div>
   );

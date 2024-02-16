@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { FileDrop } from 'react-file-drop';
-import './index.css';
-import { loader } from '../../../utils';
+import classes from './index.module.css';
+import { loader } from '../../../utils/helper';
 import placeholder from '../../../assets/images/placeholder.png';
 import { useNotification } from '../../../providers/Notification';
 

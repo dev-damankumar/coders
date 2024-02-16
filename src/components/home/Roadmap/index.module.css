@@ -5,7 +5,7 @@
   align-items: center;
   flex-wrap: wrap;
 }
-.blocks.invert-warp .laptop {
+.blocks.invertWarp .laptop {
   margin-right: auto;
   margin-left: unset;
 }
@@ -41,7 +41,6 @@
 
 .serviceTab li {
   border-radius: 20px;
-  font-family: 'Nunito SemiBold', sans-serif;
   margin: 10px 0;
   align-items: center;
   display: flex;
@@ -105,7 +104,38 @@
   position: relative;
 }
 
-.phoneLine {
+.phoneLine1 {
+  width: 2px;
+  height: 65px;
+  background: var(--dark);
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 42px;
+}
+
+.phoneLine4 {
+  width: 2px;
+  height: 65px;
+  background: var(--dark);
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 42px;
+}
+
+.phoneLine2 {
+  width: 2px;
+  height: 65px;
+  background: var(--dark);
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 42px;
+  z-index: -1;
+}
+
+.phoneLine3 {
   width: 2px;
   height: 65px;
   background: var(--dark);
@@ -115,6 +145,7 @@
   left: 42px;
   z-index: -1;
 }
+
 .timeline:before {
   content: '';
   width: 25px;
@@ -205,7 +236,7 @@
 }
 
 @media screen and (max-width: 992px) {
-  .blocks.invert-warp .laptop {
+  .blocks.invertWarp .laptop {
     margin-bottom: 55px;
   }
 }

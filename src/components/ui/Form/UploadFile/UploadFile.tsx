@@ -39,7 +39,7 @@ const UploadFile = (props: UploadFileType) => {
           <img src={previewImg ? previewImg : coverImg} />
           <div className={`preview-info`} data-table-tooltip='Copy'>
             <h5 title={fileImg?.name}>{fileImg?.name}</h5>
-            <div className='x-tooltip x-tooltip-dark x-tooltip-up'>
+            <div className='tooltip tooltip-dark tooltip-up'>
               {fileImg?.name}
             </div>
             <span>{fileImg?.type}</span>

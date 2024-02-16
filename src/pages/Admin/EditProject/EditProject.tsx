@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './EditProject.css';
 import placeholder from '../../../assets/images/placeholder.png';
 import { WithContext as ReactTags } from 'react-tag-input';
-import { joinURL, loader } from '../../../utils/';
+import { joinURL } from '../../../utils/helper';
 import Radio from '../../../components/ui/Form/Radio/Radio';
 import { useNavigate } from 'react-router-dom';
 import Http from '../../../hooks/http';
 import Loading from '../../../components/ui/Loading';
-import { env } from '../../../utils';
-import { baseImageSrc, baseURL } from '../../../constants';
+import { baseImageSrc, baseURL, env } from '../../../constants';
+import { loader } from '../../../utils/loader';
 const KeyCodes = {
   comma: 188,
   enter: [10, 13],

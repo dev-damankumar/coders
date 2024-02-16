@@ -7,14 +7,14 @@ import ScriptIcon from '../../assets/icons/ScriptIcon';
 import CopyIcon from '../../assets/icons/CopyIcon';
 import ImportIcon from '../../assets/icons/ImportIcon';
 import PreIcon from '../../assets/icons/PreIcon';
-import { joinURL, loader } from '../../utils';
-
+import { loader } from '../../utils/loader';
 import { useAuth } from '../../providers/Auth';
 import { useNotification } from '../../providers/Notification';
 import { changeProjectVisibility } from '../../services/project';
 import { baseImageSrc } from '../../constants';
 import { Project } from '../../types';
 import Image from '../ui/Image';
+import { joinURL } from '../../utils/helper';
 
 export type TypeProjectRow = Project & {
   filterTags: string;
@@ -138,7 +138,7 @@ const ProjectRow = ({
       <td>
         <div className='description' data-table-tooltip='Edit Row'>
           {description.slice(0, 40)}
-          <div className='x-tooltip '>{description}</div>
+          <div className='tooltip '>{description}</div>
         </div>
       </td>
       <td>

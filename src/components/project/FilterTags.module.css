@@ -1,0 +1,25 @@
+ul.category-tabs {
+  margin-bottom: 50px;
+}
+
+ul.category-tabs li.nav-item a {
+  border: none;
+  background: rgb(241, 241, 241) !important;
+  margin-right: 10px !important;
+  border-radius: 30px !important;
+  margin-bottom: 10px;
+  color: rgb(98, 98, 98) !important;
+  font-size: 14px;
+  padding: 8px 20px;
+}
+
+ul.category-tabs li.nav-item a.active {
+  color: white !important;
+  background: var(--primary) !important;
+}
+
+@media screen and (max-width: 500px) {
+  ul.category-tabs li.nav-item a {
+    margin-right: 5px !important;
+  }
+}

@@ -1,0 +1,34 @@
+.authorWrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  border-radius: 50px !important;
+  background: #fff !important;
+  box-shadow: 0 1px 4px rgba(36, 99, 117, 0.1) !important;
+  padding: 5px !important;
+  margin-right: auto !important;
+}
+.authorSelf {
+  background: var(--primary) !important;
+  color: #fff !important;
+}
+
+.authorImg {
+  width: 23px !important;
+  height: 23px !important;
+  min-height: 23px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: none !important;
+}
+
+.authorName {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 0;
+  margin-left: 5px;
+  max-width: 85px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 5px;
+}
