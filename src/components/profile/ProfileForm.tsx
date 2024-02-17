@@ -2,7 +2,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { SocialLinksType, setSocials } from '../../services/user';
 import { useNotification } from '../../providers/Notification';
 import { useAuth } from '../../providers/Auth';
-import { loader } from '../../utils/loader';
 import { validateUrl } from '../../utils/helper';
 
 type TProfileLinksInputs = SocialLinksType;
@@ -26,7 +25,6 @@ const ProfileForm = ({ closeModal }: { closeModal: () => void }) => {
     },
   });
   const onSubmit: SubmitHandler<TProfileLinksInputs> = async (socials) => {
-    loader.show();
     try {
       const data = await setSocials(socials);
       if ('error' in data) {
@@ -53,7 +51,6 @@ const ProfileForm = ({ closeModal }: { closeModal: () => void }) => {
         });
       }
     } finally {
-      loader.hide();
     }
   };
   return (

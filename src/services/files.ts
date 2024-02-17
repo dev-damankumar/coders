@@ -92,7 +92,7 @@ export const createFile = async (
     isFolder,
   };
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
-  //   loader.show();
+  //
   try {
     const response = await http.post(
       `/api/new-file/?id=${projectId}`,
@@ -124,7 +124,7 @@ export const saveFile = async (
     fileName: file,
   };
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
-  //   loader.show();
+  //
   try {
     return await http.post(
       '/api/save-file',
@@ -191,7 +191,7 @@ export const copyFile = async (
     method,
   };
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
-  // loader.show();
+  //
   try {
     return await http.post(
       '/api/copy-file/',
@@ -285,7 +285,7 @@ export const deleteMultiFiles = async (
   };
   const jwt = sign(payload, env.REACT_APP_JWT_SECRET);
   try {
-    // loader.show();
+    //
     const response = await http.post(
       '/api/delete-files/',
       {

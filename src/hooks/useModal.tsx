@@ -2,7 +2,6 @@ import ReactDOM from 'react-dom/client';
 import Modal, { ModalTypes } from '../components/ui/Modal/Modal';
 
 const ModalFn = ({
-  show = true,
   size,
   dark,
   footer = 'default',

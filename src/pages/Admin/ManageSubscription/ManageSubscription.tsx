@@ -1,7 +1,7 @@
 import {
   getSubscriptionImageByType,
   getSubscriptionName,
-} from '../../../utils/';
+} from '../../../utils/helper';
 import { NavLink } from 'react-router-dom';
 import useModal from '../../../hooks/useModal';
 import { useAuth } from '../../../providers/Auth';

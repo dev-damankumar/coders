@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import SiteLogo from '../../assets/icons/SiteLogo';
 import SaveRowIcon from '../../assets/icons/SaveRowIcon';
 import loginImg from '../../assets/images/3d-people-1.png';
-import { loader } from '../../utils/loader';
 import If from '../../components/hoc/If';
 import { forgotPassword } from '../../services/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -26,7 +25,6 @@ function ForgotPassword() {
   const resetForgotHandler = () => {};
 
   const onSubmit: SubmitHandler<TForgotPasswordFormInputs> = async (user) => {
-    loader.show();
     try {
       const data = await forgotPassword(user.email);
       if ('error' in data) {
@@ -50,7 +48,6 @@ function ForgotPassword() {
         hold: true,
       });
     } finally {
-      loader.hide();
     }
   };
 

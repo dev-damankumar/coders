@@ -9,8 +9,6 @@ import React, {
 } from 'react';
 import './Xcode.css';
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { loader } from '../../utils/loader';
-import { extensions } from '../../utils/helper';
 import CheckBox from '../../components/ui/Form/CheckBox/CheckBox';
 import TableRowSkelton from '../../components/ui/Skelton/TableRowSkelton';
 import Loading from '../../components/ui/Loading';
@@ -32,6 +30,7 @@ import {
 import { ProjectDetailType } from '../ProjectDetail/ProjectDetail';
 import { useNotification } from '../../providers/Notification';
 import { goBackPaths, sortObjectByName } from '../../utils/helper';
+import { extensions } from '../../utils/extension';
 
 const ProjectConfig = lazy(
   () => import('../../components/project/ProjectConfig/ProjectConfig')
@@ -132,7 +131,7 @@ const Xcode = memo(() => {
     if (!isFolder) {
       return openFile(name, prevPath || filepath);
     }
-    loader.show();
+
     const details = await fetchFileContent<FileType[]>(
       name,
       projectId,
@@ -148,7 +147,6 @@ const Xcode = memo(() => {
       navigate(
         `/xcode/${projectId}?filepath=${encodeURIComponent(details.prevPath!)}`
       );
-      loader.hide();
     }
   };
 
@@ -217,7 +215,7 @@ const Xcode = memo(() => {
         message: 'Can not find filename.',
       });
     const file = `${filename.current.value}.${fileExtention}`;
-    loader.show();
+
     console.log('file, projectId, filepath', file, projectId, filepath);
     const details = await createFile(file, projectId, filepath);
     if ('error' in details)
@@ -238,12 +236,11 @@ const Xcode = memo(() => {
     setfiles(fileArray);
     notification.add({ type: 'success', message: details.message });
     setopenCreateFile(false);
-    loader.hide();
   };
 
   const uploadFileHandler = async (file: File) => {
     if (!files) return;
-    loader.show();
+
     const details = await uploadFile(file, projectId, filepath);
     if ('error' in details)
       return notification.add({
@@ -270,7 +267,6 @@ const Xcode = memo(() => {
       message: details.message,
     });
     setuploadFileOpen(false);
-    loader.hide();
   };
 
   const goBack = (e: React.MouseEvent) => {

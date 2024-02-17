@@ -7,7 +7,6 @@ import ScriptIcon from '../../assets/icons/ScriptIcon';
 import CopyIcon from '../../assets/icons/CopyIcon';
 import ImportIcon from '../../assets/icons/ImportIcon';
 import PreIcon from '../../assets/icons/PreIcon';
-import { loader } from '../../utils/loader';
 import { useAuth } from '../../providers/Auth';
 import { useNotification } from '../../providers/Notification';
 import { changeProjectVisibility } from '../../services/project';
@@ -56,7 +55,7 @@ const ProjectRow = ({
   ) => {
     const visibility = !!e.target.checked;
     setVisibility(visibility);
-    loader.show();
+
     try {
       const project = await changeProjectVisibility(id, visibility);
       if ('error' in project) return notification.error(project.message);
@@ -67,7 +66,6 @@ const ProjectRow = ({
       }
       console.error(e);
     } finally {
-      loader.hide();
     }
   };
   let projectActions;

@@ -91,8 +91,8 @@ const Home = memo(() => {
               <Suspense fallback={<CardSkelton count={4} hideContext />}>
                 <Projects
                   filterTags=''
-                  projects={state?.projects}
-                  nodata={state?.nodata}
+                  projects={state.projects}
+                  nodata={state.nodata}
                 />
               </Suspense>
             </If>

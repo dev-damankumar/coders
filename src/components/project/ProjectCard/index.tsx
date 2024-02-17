@@ -12,7 +12,6 @@ import ImportIcon from '../../../assets/icons/ImportIcon';
 import PreIcon from '../../../assets/icons/PreIcon';
 import IfPrimiumUser from '../../hoc/IfPrimiumUser';
 import AuthorCard from '../../author/AuthorCard';
-import { loader } from '../../../utils/loader';
 import If from '../../hoc/If';
 import Tags from '../../ui/Tags';
 import { useAuth } from '../../../providers/Auth';
@@ -60,7 +59,6 @@ const ProjectCard = ({
     const visibility = !!e.target.checked;
     setVisibility(visibility);
     try {
-      loader.show();
       const project = await changeProjectVisibility(id, visibility);
       if ('error' in project) return notification.error(project.message);
       notification.success(project.message);
@@ -70,7 +68,7 @@ const ProjectCard = ({
       }
       console.error(e);
     } finally {
-      loader.hide();
+      //
     }
   };
   let projectActions;

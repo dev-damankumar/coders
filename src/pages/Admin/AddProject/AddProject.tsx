@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Steps from '../../../components/ui/Steps/Steps';
-import { loader } from '../../../utils/';
 import {
   formStructure,
   executableStructure,
@@ -38,7 +37,6 @@ function AddProject() {
     const div = document.querySelector('#main-scroll');
     if (div) div.scrollIntoView({ behavior: 'smooth' });
 
-    loader.show();
     const form = new FormData(e.target!);
     form.append('executableFile', 'default');
     const tags = formConfig.tags.options.map((v: { text: string }) => {
@@ -47,7 +45,7 @@ function AddProject() {
     form.append('tags', tags);
 
     const project = await addProject(form);
-    loader.hide();
+
     if ('error' in project) {
       return notification.error(project.message);
     }
@@ -77,7 +75,6 @@ function AddProject() {
   };
 
   const onExeHandler = async (e: React.ChangeEvent<HTMLFormElement>) => {
-    loader.show();
     const div = document.querySelector('#main-scroll');
     if (div) div.scrollIntoView({ behavior: 'smooth' });
     e.preventDefault();
@@ -100,7 +97,6 @@ function AddProject() {
       return notification.success(project.message);
     } catch (error) {
     } finally {
-      loader.hide();
     }
   };
 

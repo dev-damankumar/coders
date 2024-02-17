@@ -151,6 +151,7 @@ const SearchFile = (props: SearchFileType) => {
                             alt='dg'
                             className='x-file-img'
                             src={getImageByExtension(extension)}
+                            useRelative
                           />
                         </div>
                         <div className={classes['file-info']}>

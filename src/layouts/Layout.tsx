@@ -3,6 +3,7 @@ import Menu from '../components/ui/Menu';
 import Controls from '../components/ui/Controls';
 import Footer from '../components/ui/Footer';
 import Topbar from '../components/auth/Topbar';
+import '../main.css';
 
 const Layout = () => {
   return (

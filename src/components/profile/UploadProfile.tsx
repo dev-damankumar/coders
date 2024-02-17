@@ -1,8 +1,6 @@
-import React, { Suspense, useState } from 'react';
-import Loading from '../ui/Loading';
+import { useState } from 'react';
 import { useNotification } from '../../providers/Notification';
 import { useAuth } from '../../providers/Auth';
-import { loader } from '../../utils/loader';
 import { updateProfile } from '../../services/user';
 import If from '../hoc/If';
 import { TUploadImageType } from '../../pages/Profile/Profile';
@@ -30,7 +28,6 @@ const UploadProfile = ({
     } else {
       form.append('profileImage', fileImg);
     }
-    loader.show();
     try {
       const data = await updateProfile(form);
       if ('error' in data) {
@@ -64,7 +61,6 @@ const UploadProfile = ({
           type: 'success',
         });
     } finally {
-      loader.hide();
     }
   };
 

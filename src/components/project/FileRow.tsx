@@ -113,6 +113,7 @@ const FileRow = ({
                 alt='dg'
                 className='x-file-img'
                 src={getImageByExtension(extension)}
+                useRelative
               />
               {v.name}
             </a>

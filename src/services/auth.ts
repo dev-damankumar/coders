@@ -32,7 +32,7 @@ export type FailedResponse = {
   message: string;
 };
 export const login = async (email: string, password: string) => {
-  //   loader.show();
+  //
   try {
     const response: AxiosResponse<LoginSuccessResponse | FailedResponse> =
       await http.post(
@@ -65,13 +65,13 @@ export const logout = async (options?: LogoutOptionsType) => {
     if (options?.redirect) {
       window.location.href = '/login';
     }
-    //   loader.show();
+    //
     //   setTimeout(() => {
     //     localStorage.removeItem("token");
     //     localStorage.removeItem("user");
     //     window.location.href = `/login`;
     //     setAuth(false);
-    //     loader.hide();
+    //
     //   }, 1000);
   } catch (error: unknown) {
     if (error instanceof Error)

@@ -326,7 +326,7 @@ function Register() {
                         <button
                           disabled={renderProps.disabled}
                           onClick={() => {
-                            loader.show();
+                            
                             renderProps.onClick();
                           }}
                           type="submit"
@@ -341,7 +341,7 @@ function Register() {
                       }}
                       onFailure={(r) => {
                         auth.socialSignUp(r, onSignUpSuccess);
-                        loader.hide();
+                        
                       }}
                       cookiePolicy={"single_host_origin"}
                     /> */}

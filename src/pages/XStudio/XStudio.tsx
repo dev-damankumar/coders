@@ -9,7 +9,6 @@ import './XStudio.css';
 import ThemeIcon from '../../assets/icons/ThemeIcon';
 import SettingsIcon from '../../assets/icons/SettingsIcon';
 import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';
-import { loader } from '../../utils/';
 import Image from '../../components/ui/Image';
 import ImgIcon from '../../assets/icons/ImgIcon';
 import Editor from '../../components/xstudio/Editor';
@@ -22,7 +21,7 @@ import XStudioTabs from '../../components/xstudio/XStudioTabs';
 import LinkIcon from '../../assets/icons/LinkIcon';
 import IfPrimiumUser from '../../components/hoc/IfPrimiumUser';
 import If from '../../components/hoc/If';
-import { env, joinURL } from '../../utils/';
+import { joinURL } from '../../utils/helper';
 import { useAuth } from '../../providers/Auth';
 import {
   FileDetailsType,
@@ -35,6 +34,7 @@ import { ProjectDetailType } from '../ProjectDetail/ProjectDetail';
 import { useNotification } from '../../providers/Notification';
 import { useStudio } from '../../providers/StudioProvider';
 import SearchIconWhite from '../../assets/icons/SearchIconWhite';
+import { env } from '../../constants';
 
 const SearchFile = React.lazy(
   () => import('../../components/project/SearchFile/SearchFile')
@@ -157,7 +157,7 @@ function XStudio() {
     isFolder?: boolean
   ) => {
     if (!files) return;
-    loader.show();
+
     try {
       const tempFile = [...files];
       const currentItem = tempFile.find((file) => {
@@ -201,7 +201,6 @@ function XStudio() {
     } catch (error) {
       if (error instanceof Error) return notification.error(error.message);
     } finally {
-      loader.hide();
     }
   };
 
@@ -210,10 +209,10 @@ function XStudio() {
     if (!projectId) return;
     const file = activeTab;
     if (!file) return;
-    loader.show();
+
     const data = tempdata.data;
     const details = await saveFile(file, projectId, filepath, data);
-    loader.hide();
+
     if (details.type === 'error') return notification.error(details.message);
     notification.success(details.message);
   };

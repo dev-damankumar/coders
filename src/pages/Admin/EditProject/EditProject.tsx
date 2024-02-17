@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import Http from '../../../hooks/http';
 import Loading from '../../../components/ui/Loading';
 import { baseImageSrc, baseURL, env } from '../../../constants';
-import { loader } from '../../../utils/loader';
 const KeyCodes = {
   comma: 188,
   enter: [10, 13],
@@ -85,7 +84,6 @@ const EditProject = (props: any) => {
   const saveHandler = async (e) => {
     e.preventDefault();
     if (isTouched) {
-      loader.show();
       let tags = projectDetail.tags.map((v) => {
         return v.text;
       });
@@ -106,7 +104,6 @@ const EditProject = (props: any) => {
       );
       if (project) {
         toast.success(project.message, 'Project Updated');
-        loader.hide();
       }
     }
   };

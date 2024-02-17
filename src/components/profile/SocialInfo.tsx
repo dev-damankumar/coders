@@ -1,4 +1,4 @@
-import { getSiteName } from '../../utils/';
+import { getSiteName } from '../../utils/helper';
 import { useAuth } from '../../providers/Auth';
 import { SocialLinksType } from '../../services/user';
 

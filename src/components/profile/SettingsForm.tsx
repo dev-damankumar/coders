@@ -2,7 +2,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { updateProfile } from '../../services/user';
 import { useNotification } from '../../providers/Notification';
 import { User, useAuth } from '../../providers/Auth';
-import { loader } from '../../utils/loader';
 import FileUpload from '../ui/FileUpload/FileUpload';
 
 export type TProfileInputs = Omit<
@@ -38,7 +37,6 @@ const SettingsForm = () => {
     },
   });
   const onSubmit: SubmitHandler<TProfileInputs> = async (user) => {
-    loader.show();
     try {
       if (user.cover) user.cover = user.cover[0];
       if (user.profileImage) user.profileImage = user.profileImage[0];
@@ -68,7 +66,6 @@ const SettingsForm = () => {
         });
       }
     } finally {
-      loader.hide();
     }
   };
   return (

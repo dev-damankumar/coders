@@ -1,7 +1,5 @@
 import React, { useRef } from 'react';
 import { FileDrop } from 'react-file-drop';
-import classes from './index.module.css';
-import { loader } from '../../../utils/helper';
 import placeholder from '../../../assets/images/placeholder.png';
 import { useNotification } from '../../../providers/Notification';
 
@@ -14,14 +12,13 @@ const FileInput = (props: FileInputProps) => {
   const notification = useNotification();
   var loadFile = function (file: File) {
     var reader = new FileReader();
-    loader.show();
+
     reader.onload = function () {
       if (!file.type.includes('image')) {
         props.onPreview(placeholder);
       } else {
         props.onPreview(reader.result as string);
       }
-      loader.hide();
     };
     reader.readAsDataURL(file);
   };

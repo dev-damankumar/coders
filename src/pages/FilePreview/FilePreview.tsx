@@ -23,7 +23,6 @@ const SearchFile = React.lazy(
 import '../../assets/css/prism.css';
 import './FilePreview.css';
 import { baseURL } from '../../constants';
-import { loader } from '../../utils/loader';
 
 const FilePreview = React.memo(() => {
   const params = useParams();
@@ -46,7 +45,6 @@ const FilePreview = React.memo(() => {
   const codeRef = useRef<HTMLElement>(null);
 
   const fetchFileContentHandler = async (name: string, prevPath?: string) => {
-    loader.show();
     if (!projectId) {
       notification.add({
         type: 'error',
@@ -74,7 +72,6 @@ const FilePreview = React.memo(() => {
     } else {
       setFiles(details.data);
     }
-    loader.hide();
   };
 
   useEffect(() => {

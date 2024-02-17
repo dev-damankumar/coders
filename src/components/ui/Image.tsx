@@ -5,16 +5,28 @@ import { isAbsoluteURL, joinURL } from '../../utils/helper';
 
 type ImageType = {
   defaultImg?: string;
+  useRelative?: boolean;
 } & React.DetailedHTMLProps<
   React.ImgHTMLAttributes<HTMLImageElement>,
   HTMLImageElement
 >;
 
-const Image = ({ src, defaultImg, ...rest }: ImageType) => {
+const Image = ({
+  src,
+  defaultImg,
+  useRelative = false,
+  ...rest
+}: ImageType) => {
   const imgSrc = baseURL;
   const defaultImgSrc = defaultImg || img;
   const isAbsUrl = isAbsoluteURL(src || '');
-  const source = src ? (isAbsUrl ? src : joinURL(imgSrc, src)) : defaultImgSrc;
+  console.log('isAbsUrl', isAbsUrl);
+  const source = src
+    ? isAbsUrl || useRelative
+      ? src
+      : joinURL(imgSrc, src)
+    : defaultImgSrc;
+  console.log('source', source);
   const ref = useRef<HTMLImageElement>(null);
   const setDefaultImage = () => {
     if (ref.current) {

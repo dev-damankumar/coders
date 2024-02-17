@@ -4,7 +4,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import NoData from '../../components/ui/NoData/NoData';
 import IfPrimiumUser from '../../components/hoc/IfPrimiumUser';
 import If from '../../components/hoc/If';
-import { joinURL } from '../../utils/';
+import { joinURL } from '../../utils/helper';
 import { baseURL } from '../../constants';
 import Tags from '../../components/ui/Tags';
 import GallaryGrid from '../../components/project/GallaryGrid';
@@ -71,10 +71,11 @@ const ProjectDetail = React.memo(() => {
 
   const previewURL = joinURL(
     baseURL,
-    projectDetail?.url,
-    projectDetail?.executableFile
+    projectDetail?.url || '',
+    projectDetail?.executableFile || ''
   );
   console.log('projectDetail', projectDetail);
+  if (!projectDetail) return <NoData />;
   return (
     <div className='project-details-page'>
       <div className='main-project-detail'>

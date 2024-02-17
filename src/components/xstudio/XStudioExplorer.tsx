@@ -8,7 +8,6 @@ import CopyIcon from '../../assets/icons/CopyIcon';
 import pasteIcon from '../../assets/images/paste.png';
 import EditRowIcon from '../../assets/icons/EditRowIcon';
 import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';
-import { loader } from '../../utils/loader';
 import { extensions } from '../../utils/extension';
 import If from '../hoc/If';
 import {
@@ -123,7 +122,7 @@ const XStudioExplorer = ({
       });
       fileArray.splice(currentDelItem, 1);
       setFiles(fileArray);
-      loader.show();
+
       const details = await deleteSingleFile(name, id, prevPath);
       if (details.type === 'error') {
         return notification.error(details.message);
@@ -131,7 +130,7 @@ const XStudioExplorer = ({
 
       if (details.type === 'success') {
         setFiles(fileArray);
-        loader.hide();
+
         notification.success(details.message);
       }
     }
@@ -225,7 +224,6 @@ const XStudioExplorer = ({
         method
       );
       if (details.type === 'error') {
-        loader.hide();
         return toast.error(details.message, 'Error Occured');
       }
 
@@ -279,7 +277,7 @@ const XStudioExplorer = ({
         }
         setFiles([...fileArray, tempcurrentActionFile]);
         setCurrentActionFile(null);
-        loader.hide();
+
         toast.success(details.message, 'File Copied');
       }
     }
@@ -438,10 +436,9 @@ const XStudioExplorer = ({
     if (projectDetail?.author === auth?.user._id) {
       closeContextMenu();
       let file = createFolder ? filename : `${filename}.${fileExtention}`;
-      loader.show();
+
       let details = await createFile(file, id, prevPath, createFolder);
       if (details.type === 'error') {
-        loader.hide();
         setopenCreateFile(false);
         return toast.error(details.message, 'Error Occured');
       }
@@ -475,7 +472,7 @@ const XStudioExplorer = ({
         setfilename('');
         setfileExtention('txt');
         setopenCreateFile(false);
-        loader.hide();
+
         toast.success(details.message, 'File Created');
       }
     }
@@ -508,7 +505,6 @@ const XStudioExplorer = ({
 
   let renameFileHandler = async () => {
     if (projectDetail?.author === auth?.user._id) {
-      loader.show();
       let fileArray = [...files];
       let { name, prevPath, type } = currentData;
 
@@ -541,7 +537,7 @@ const XStudioExplorer = ({
         setopenRenameFile(false);
         setrename('');
         setFiles([...tempFile]);
-        loader.hide();
+
         toast.success(details.message, 'File Created');
       }
     }

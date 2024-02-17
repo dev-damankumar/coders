@@ -81,7 +81,7 @@ export const cloneProject = async (
   projects: Project[],
   dispatch: Dispatch<HomeReducerActionType>
 ) => {
-  // loader.show();
+  //
   try {
     let project: ProjectResponseType = await http.post(`/api/project/${id}`, {
       method: 'POST',
@@ -117,7 +117,7 @@ export const deleteProject = async (
   projects: Project[],
   dispatch: Dispatch<HomeReducerActionType>
 ) => {
-  // loader.show();
+  //
   try {
     let project: ProjectResponseType = await http.delete(`/api/project/${id}`);
 
