@@ -34,6 +34,9 @@ export function joinURL(...args: string[]) {
   return args.join('/');
 }
 
+export function joinClasses(...args: string[]) {
+  return args.join(' ');
+}
 export function UUID() {
   // Public Domain/MIT
   var d = new Date().getTime(); //Timestamp

@@ -1,10 +1,24 @@
-.project-img-loader{
-	width: 100%;
-	height: 90px;
+.project-img-loader {
+  width: 100%;
+  height: 90px;
+}
+.project-detail-div {
+  height: 100%;
+}
+.heading {
+  width: 200px !important;
+  height: 40px;
+  margin-bottom: 15px;
 }
 
-.heading{
-	width: 200px !important;
-	height: 40px;
-	margin-bottom: 15px;
+@media screen and (max-width: 992px) {
+  .heading {
+    width: 200px !important;
+    height: 22px;
+    margin-bottom: 10px;
+  }
+  .project-img-loader {
+    width: 100%;
+    height: 50px;
+  }
 }

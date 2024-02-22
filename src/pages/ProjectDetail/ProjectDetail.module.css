@@ -1,0 +1,240 @@
+.container-fluid {
+  padding: 0;
+  height: 100%;
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 0 !important;
+  border: none;
+}
+.project-details-page {
+  height: calc(100vh - 92px);
+  overflow: auto;
+}
+.tag {
+  background: #efefef;
+  font-weight: 500;
+  margin-right: 10px;
+  padding: 1px 8px;
+  border-radius: 5px;
+  margin-bottom: 5px !important;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.container-fluid .row {
+  margin: 0;
+  height: 100%;
+}
+.info-footer > *:first-child {
+  margin-right: 10px;
+}
+.container-fluid .row > div {
+  padding: 0;
+  height: 100%;
+}
+.preview-div {
+  width: 100%;
+  border: none;
+  height: 100%;
+}
+.main-project-detail {
+  height: calc(100vh - 100px);
+  overflow: auto;
+}
+
+.project-detail-div {
+  height: 100%;
+  border-radius: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 0;
+}
+
+.project-content {
+  height: calc(100% - 45px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.shrink-box {
+  display: none;
+  font-size: 25px;
+  line-height: 0;
+  background: #efefef;
+  border-radius: 50%;
+  border: 1px solid #efefef;
+}
+a.shrink-box:hover {
+  background: white;
+}
+.info-body {
+  height: calc(100% - 60px);
+}
+
+.site-div {
+  height: 100%;
+  overflow: auto;
+  align-items: center;
+  display: flex;
+}
+
+.shrink-box {
+  margin-left: auto;
+}
+.web-url {
+  margin-top: 10px;
+}
+.web-url b {
+  text-transform: uppercase;
+  text-wrap: nowrap;
+}
+.web-url a {
+  color: #2d48db;
+}
+
+@media screen and (max-width: 992px) {
+  .shrink-box {
+    display: block;
+  }
+  .info-body-shrink .info-body {
+    height: 0;
+    overflow: hidden;
+    margin-top: 0px;
+  }
+  .info-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0px;
+  }
+  .info-header h1 {
+    margin-bottom: 0px;
+  }
+  .container-fluid .row {
+    position: relative;
+  }
+  .info-col {
+    position: fixed;
+    width: 400px;
+    max-height: 300px !important;
+    height: auto !important;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.19);
+  }
+  .project-detail-div {
+    padding: 10px 15px;
+    margin-bottom: 0;
+  }
+  .info-body-shrink.info-col .project-detail-div {
+    padding: 8px 13px;
+  }
+  .project-detail-div h1 {
+    font-size: 18px;
+    padding-right: 10px;
+  }
+  .info-body-shrink.info-col .project-detail-div h1 {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .project-content {
+    font-size: 14px;
+    height: calc(160px);
+  }
+  .info-body-shrink .project-content {
+    height: 0;
+  }
+  .info-body-shrink .info-footer {
+    margin: 0 !important;
+    height: 0px;
+    overflow: hidden;
+  }
+
+  .info-footer button,
+  .info-footer a {
+    padding: 5px 13px;
+    font-size: 14px;
+  }
+  .info-footer {
+    margin-top: 10px !important;
+  }
+  .info-body {
+    height: calc(100% - 40px);
+    margin-top: 8px;
+  }
+}
+
+@keyframes shrink {
+  0% {
+    width: auto;
+  }
+  100% {
+    width: 43px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .web-url a {
+    display: block;
+  }
+  .main-project-detail {
+    height: calc(100vh - 128px);
+  }
+  .site-div {
+    overflow: hidden;
+  }
+  .info-body-shrink .info-header h1 {
+    display: none;
+  }
+  .info-col {
+    width: auto;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+  }
+  .info-body-shrink.info-col .project-detail-div {
+    padding: 8px 7px;
+  }
+  .info-col.info-body-shrink {
+    right: 10px;
+    left: unset;
+    width: 43px;
+    animation: shrink 1s ease;
+  }
+
+  .info-footer button,
+  .info-footer a {
+    padding: 5px 10px !important;
+    font-size: 13px !important;
+    margin-right: 5px;
+  }
+  .project-detail-div {
+    padding: 10px 10px 8px;
+  }
+  .tag {
+    font-size: 12px;
+  }
+
+  .info-footer {
+    margin-top: 8px !important;
+  }
+  .project-detail-div h1 {
+    font-size: 16px;
+  }
+  .project-content {
+    font-size: 13px;
+    height: calc(150px);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .info-col {
+    bottom: 60px;
+  }
+}

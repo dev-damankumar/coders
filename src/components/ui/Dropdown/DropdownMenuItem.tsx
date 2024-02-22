@@ -4,7 +4,7 @@ import classes from './Dropdown.module.css';
 import { IMenuItemProps } from './Dropdown.type';
 
 export const DropdownMenuItem: React.FC<
-  IMenuItemProps & React.AllHTMLAttributes<HTMLAnchorElement>
+  IMenuItemProps & React.AllHTMLAttributes<HTMLDivElement>
 > = ({
   active,
   onSelect,
@@ -16,7 +16,7 @@ export const DropdownMenuItem: React.FC<
   ...rest
 }) => {
   return (
-    <a
+    <div
       {...rest}
       style={style}
       onClick={(e) => {
@@ -33,7 +33,7 @@ export const DropdownMenuItem: React.FC<
       )} ${className}`}
     >
       {children}
-    </a>
+    </div>
   );
 };
 DropdownMenuItem.displayName = 'DropdownMenuItem';

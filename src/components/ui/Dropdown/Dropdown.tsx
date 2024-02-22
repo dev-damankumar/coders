@@ -43,12 +43,16 @@ export const Dropdown: React.FC<
 
   const classes = getClassNames(
     styles,
+    'dropdown',
     fullwidth ? 'dropdown-fullwidth' : '',
     position !== 'bottom' ? `drop-${position}` : '',
     openMenu ? 'dropdown-open' : ''
   );
   return (
     <>
+      {openMenu && (
+        <div onClick={handleCloseMenu} className={styles.dropdownOverlay} />
+      )}
       <div
         {...rest}
         style={style}

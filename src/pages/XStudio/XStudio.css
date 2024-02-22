@@ -65,10 +65,7 @@
   color: var(--dark-2-text);
   z-index: 9;
 }
-.x-studio-page a.menu-link.userMenu span {
-  font-size: 13px;
-  color: var(--dark-3-text);
-}
+
 .x-studio-page ul#file-explorer li.parent:not(:last-child) {
   overflow: visible !important;
 }
@@ -981,12 +978,7 @@ button.x-tab-close {
 .x-studio-body.x-studio-right-view {
   flex-direction: row-reverse;
 }
-.x-studio-editor-header-item.project-div a.menu-link.userMenu span {
-  white-space: nowrap;
-  max-width: 300px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+
 .x-studio-page .editor .no-file-preview h1 {
   font-size: 22px !important;
 }
@@ -1045,9 +1037,7 @@ button.x-tab-close {
   .x-tabs button.x-tab span {
     max-width: 60px;
   }
-  .x-studio-editor-header-item.project-div a.menu-link.userMenu span {
-    max-width: 100px;
-  }
+
   .x-studio-dark-theme .x-studio-dropdown-menu a.dropdown-item {
     padding: 4px 8px;
     font-size: 11px;
@@ -1092,10 +1082,7 @@ button.x-tab-close {
     padding: 5px 8px 5px 5px;
     margin-right: 5px;
   }
-  .x-studio-page a.menu-link.userMenu span {
-    font-size: 11px;
-    color: #fff;
-  }
+
   .x-studio-page .editor-view .header-btn {
     margin-left: 5px;
     width: 25px !important;

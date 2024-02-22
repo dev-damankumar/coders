@@ -4,13 +4,22 @@ import classes from './index.module.css';
 import IfAdmin from '../../hoc/IfAdmin';
 // import DropDown, { TypeList } from '../Dropdown/DropDown';
 import SiteLogo from '../../../assets/icons/SiteLogo';
-
+import placeholderProfileImage from '../../../assets/images/placeholder.png';
 import ScriptIcon from '../../../assets/icons/ScriptIcon';
 import ImportIcon from '../../../assets/icons/ImportIcon';
 import ImgIcon from '../../../assets/icons/ImgIcon';
 import IfPrimiumUser from '../../hoc/IfPrimiumUser';
 import { useAuth } from '../../../providers/Auth';
 import { showMenu } from '../../../utils/helper';
+import Dropdown from '../Dropdown/Dropdown';
+import DropdownToggle from '../Dropdown/DropdownToggle';
+import DropdownMenu from '../Dropdown/DropdownMenu';
+import DropdownMenuItem from '../Dropdown/DropdownMenuItem';
+import Divider from '../Divider';
+import Image from '../Image';
+import ProfileIcon from '../../../assets/icons/ProfileIcon';
+import SettingsIcon from '../../../assets/icons/SettingsIcon';
+import UndoIcon from '../../../assets/icons/UndoIcon';
 
 const Menu = () => {
   const path = useLocation().pathname;
@@ -77,11 +86,10 @@ const Menu = () => {
                         </li>
                       </>
                     ) : (
-                      <>
-                        {/* <DropDown
-                          list={profileMenu}
-                          icon={
-                            auth.user?.image ? (
+                      <Dropdown>
+                        <DropdownToggle>
+                          {auth.user?.image ? (
+                            <div className={classes.userButton}>
                               <Image
                                 className={classes.userImage}
                                 width={22}
@@ -89,56 +97,91 @@ const Menu = () => {
                                 src={auth.user?.image}
                                 defaultImg={placeholderProfileImage}
                               />
-                            ) : (
-                              <ProfileIcon />
-                            )
-                          }
-                          name={auth.user?.username}
-                        /> */}
-                      </>
+                              <span>{auth.user.username}</span>
+                            </div>
+                          ) : (
+                            <ProfileIcon />
+                          )}
+                        </DropdownToggle>
+                        <DropdownMenu position='after'>
+                          <DropdownMenuItem>
+                            <NavLink to='/profile' className={classes.menuItem}>
+                              {auth?.user?.image ? (
+                                <Image
+                                  width={20}
+                                  height={20}
+                                  src={auth.user?.image}
+                                  defaultImg={placeholderProfileImage}
+                                  className={classes.userImage}
+                                />
+                              ) : (
+                                <ProfileIcon width={20} height={20} />
+                              )}
+                              My Profile
+                            </NavLink>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <NavLink
+                              to='/my-settings'
+                              className={classes.menuItem}
+                            >
+                              <SettingsIcon width={20} height={20} />
+                              My Settings
+                            </NavLink>
+                          </DropdownMenuItem>
+                          <Divider />
+                          <DropdownMenuItem>
+                            <button
+                              className={classes.menuItem}
+                              onClick={() => {
+                                auth.logout();
+                              }}
+                            >
+                              <UndoIcon width={20} height={20} />
+                              Logout
+                            </button>
+                          </DropdownMenuItem>
+                        </DropdownMenu>
+                      </Dropdown>
                     )}
 
                     <IfAdmin>
-                      <li className='menu-item dropdown'>
-                        <a
-                          className='menu-link themeSettings'
-                          href='#moreActsion'
-                          id='moreActsion'
-                          data-toggle='dropdown'
-                        >
-                          <i className='bx bx-dots-vertical-rounded' />
-                        </a>
-                        <div className='dropdown-menu more-action-dropdown dropdown-menu-right'>
-                          <NavLink
-                            className='dropdown-item'
-                            to='/admin/add-project'
-                          >
-                            <div className='action-div'>
-                              <ImgIcon />
-                              <span>Add Projects</span>
-                            </div>
-                          </NavLink>
-
-                          <NavLink
-                            className='dropdown-item'
-                            to='/admin/manage-project'
-                          >
-                            <div className='action-div'>
-                              <ImportIcon />
-                              <span>Manage Projects</span>
-                            </div>
-                          </NavLink>
-                          <IfPrimiumUser>
-                            <div className='dropdown-divider' />
-                            <NavLink className='dropdown-item' to='/x-studio'>
-                              <div className='action-div script-edit'>
-                                <ScriptIcon />
-                                <span>Script editor</span>
+                      <Dropdown>
+                        <DropdownToggle>
+                          <button className={classes.userButton}>
+                            <i className='bx bx-dots-vertical-rounded' />
+                          </button>
+                        </DropdownToggle>
+                        <DropdownMenu position='after'>
+                          <DropdownMenuItem>
+                            <NavLink to='/admin/add-project'>
+                              <div className={classes.menuItem}>
+                                <ImgIcon width={20} height={20} />
+                                <span>Add Projects</span>
                               </div>
                             </NavLink>
-                          </IfPrimiumUser>
-                        </div>
-                      </li>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <NavLink to='/admin/manage-project'>
+                              <div className={classes.menuItem}>
+                                <ImportIcon width={20} height={20} />
+                                <span>Manage Projects</span>
+                              </div>
+                            </NavLink>
+                          </DropdownMenuItem>
+                          <Divider />
+                          <DropdownMenuItem>
+                            <IfPrimiumUser>
+                              <NavLink to='/x-studio'>
+                                <div className={classes.menuItem}>
+                                  <ScriptIcon width={20} height={20} />
+                                  <span>Script editor</span>
+                                </div>
+                              </NavLink>
+                            </IfPrimiumUser>
+                          </DropdownMenuItem>
+                        </DropdownMenu>
+                      </Dropdown>
                     </IfAdmin>
                   </ul>
                 </div>

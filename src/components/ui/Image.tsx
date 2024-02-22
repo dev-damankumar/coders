@@ -20,13 +20,11 @@ const Image = ({
   const imgSrc = baseURL;
   const defaultImgSrc = defaultImg || img;
   const isAbsUrl = isAbsoluteURL(src || '');
-  console.log('isAbsUrl', isAbsUrl);
   const source = src
     ? isAbsUrl || useRelative
       ? src
       : joinURL(imgSrc, src)
     : defaultImgSrc;
-  console.log('source', source);
   const ref = useRef<HTMLImageElement>(null);
   const setDefaultImage = () => {
     if (ref.current) {

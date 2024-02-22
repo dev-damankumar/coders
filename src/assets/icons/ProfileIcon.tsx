@@ -2,8 +2,8 @@ const ProfileIcon = ({
   width = 10,
   height = 10,
 }: {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }) => {
   return (
     <svg

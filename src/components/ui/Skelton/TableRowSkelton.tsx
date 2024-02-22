@@ -1,4 +1,4 @@
-import { joinURL } from '../../../utils/helper';
+import { joinClasses } from '../../../utils/helper';
 import classes from './TableRowSkelton.module.css';
 
 const TableRowSkelton = (props: { rows?: number; cols?: number }) => {
@@ -13,7 +13,7 @@ const TableRowSkelton = (props: { rows?: number; cols?: number }) => {
               return (
                 <td key={`${col}_${i}`}>
                   <div
-                    className={joinURL('loading', classes['field-loader'])}
+                    className={joinClasses('loading', classes['field-loader'])}
                   ></div>
                 </td>
               );

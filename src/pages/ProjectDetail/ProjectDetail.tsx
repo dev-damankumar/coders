@@ -1,5 +1,4 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import './ProjectDetail.css';
 import { NavLink, useParams } from 'react-router-dom';
 import NoData from '../../components/ui/NoData/NoData';
 import IfPrimiumUser from '../../components/hoc/IfPrimiumUser';
@@ -7,12 +6,13 @@ import If from '../../components/hoc/If';
 import { joinURL } from '../../utils/helper';
 import { baseURL } from '../../constants';
 import Tags from '../../components/ui/Tags';
-import GallaryGrid from '../../components/project/GallaryGrid';
+import GallaryGrid from '../../components/project/GallaryGrid/GallaryGrid';
 import { User, useAuth } from '../../providers/Auth';
 import { getProject } from '../../services/project';
 import { useNotification } from '../../providers/Notification';
 import IframeSkelton from '../../components/ui/Skelton/IframeSkelton';
 import ProjectDetailSkelton from '../../components/ui/Skelton/ProjectDetailSkelton';
+import classes from './ProjectDetail.module.css';
 
 const AuthorCard = React.lazy(
   () => import('../../components/author/AuthorCard')
@@ -74,98 +74,103 @@ const ProjectDetail = React.memo(() => {
     projectDetail?.url || '',
     projectDetail?.executableFile || ''
   );
-  console.log('projectDetail', projectDetail);
-  if (!projectDetail) return <NoData />;
   return (
-    <div className='project-details-page'>
-      <div className='main-project-detail'>
-        <div className='container-fluid'>
-          <div className='row'>
-            <NoData
-              if={projectDetail && Object.keys(projectDetail).length === 0}
-            />
-            <div className='col-lg-7 site-div'>
-              <If cond={!!projectDetail} else={<IframeSkelton />}>
-                <iframe title='site' className='iframe-img' src={previewURL} />
-              </If>
-            </div>
-            <div
-              className={`col-lg-5 info-col ${
-                isExpand ? '' : 'info-body-shrink'
-              }`}
+    <div className={classes['project-details-page']}>
+      <div className={`container-fluid ${classes['container-fluid']}`}>
+        <div className={`${classes.row} row`}>
+          <NoData
+            if={projectDetail && Object.keys(projectDetail).length === 0}
+          />
+          <div className={`col-lg-7 ${classes['site-div']}`}>
+            <If cond={!!projectDetail} else={<IframeSkelton />}>
+              <iframe
+                title='site'
+                className={classes.iframe}
+                src={previewURL}
+              />
+            </If>
+          </div>
+          <div
+            className={`col-lg-5 ${classes['info-col']} ${
+              isExpand ? '' : classes['info-body-shrink']
+            }`}
+          >
+            <If
+              cond={projectDetail && Object.keys(projectDetail).length > 0}
+              else={<ProjectDetailSkelton />}
             >
-              <If
-                cond={projectDetail && Object.keys(projectDetail).length > 0}
-                else={<ProjectDetailSkelton />}
+              <div
+                className={`jumbotron bg-light ${classes['project-detail-div']}`}
               >
-                <div className='jumbotron bg-light project-detail-div'>
-                  <div className='info-header'>
-                    <h1>{projectDetail?.title}</h1>
-                    <a href='#' onClick={shrinkBox} className='shrink-box'>
-                      <i className='bx bx-chevron-down' />
-                    </a>
-                  </div>
-                  <div className='info-body '>
-                    <div className='project-content'>
-                      <p>{projectDetail?.description}</p>
-                      <div className='main-author-div'>
-                        {projectDetail?.author && (
-                          <Suspense fallback=''>
-                            <AuthorCard
-                              id={projectDetail.author._id}
-                              name={projectDetail.author.username}
-                              src={projectDetail.author.image}
-                              isOwner={
-                                projectDetail.author._id === auth?.user?._id
-                              }
-                            />
-                          </Suspense>
-                        )}
-                      </div>
-                      <p className='web-url'>
-                        <b>Website Url:</b>
-                        <a href={previewURL} target='_blank' rel='noreferrer'>
-                          {previewURL}
-                        </a>
-                      </p>
-                      <Tags tags={projectDetail?.tags} />
-                      <GallaryGrid images={projectDetail?.imageGrid || []} />
-                    </div>
-
-                    <div className='info-footer' style={{ marginTop: '15px' }}>
-                      <a
-                        href={previewURL}
-                        target='_blank'
-                        rel='noreferrer'
-                        className='btn btn-primary'
-                      >
-                        Live Preview
+                <div className={classes['info-header']}>
+                  <h1>{projectDetail?.title}</h1>
+                  <a
+                    href='#'
+                    onClick={shrinkBox}
+                    className={classes['shrink-box']}
+                  >
+                    <i className='bx bx-chevron-down' />
+                  </a>
+                </div>
+                <div className={classes['info-body']}>
+                  <div className={classes['project-content']}>
+                    <p>{projectDetail?.description}</p>
+                    {projectDetail?.author && (
+                      <Suspense fallback=''>
+                        <AuthorCard
+                          id={projectDetail.author._id}
+                          name={projectDetail.author.username}
+                          src={projectDetail.author.image}
+                          isOwner={projectDetail.author._id === auth?.user?._id}
+                        />
+                      </Suspense>
+                    )}
+                    <p className={classes['web-url']}>
+                      <b>Website Url: </b>
+                      <a href={previewURL} target='_blank' rel='noreferrer'>
+                        {previewURL}
                       </a>
-                      <If
-                        cond={isAuthor || isStandardAndAbove}
-                        else={
-                          <IfPrimiumUser>
-                            <NavLink
-                              className='btn btn-dark'
-                              to={`/xcode/${projectDetail?._id}`}
-                            >
-                              View X Code
-                            </NavLink>
-                          </IfPrimiumUser>
-                        }
+                    </p>
+                    <Tags tags={projectDetail?.tags || []} />
+                    <GallaryGrid images={projectDetail?.imageGrid || []} />
+                  </div>
+
+                  <div
+                    className={classes['info-footer']}
+                    style={{ marginTop: '15px' }}
+                  >
+                    <a
+                      href={previewURL}
+                      target='_blank'
+                      rel='noreferrer'
+                      className='btn btn-primary'
+                    >
+                      Live Preview
+                    </a>
+                    <If
+                      cond={isAuthor || isStandardAndAbove}
+                      else={
+                        <IfPrimiumUser>
+                          <NavLink
+                            className='btn btn-dark'
+                            to={`/xcode/${projectDetail?._id}`}
+                          >
+                            View X Code
+                          </NavLink>
+                        </IfPrimiumUser>
+                      }
+                    >
+                      <NavLink
+                        className='btn btn-dark'
+                        to={`/xcode/${projectDetail?._id}`}
                       >
-                        <NavLink
-                          className='btn btn-dark'
-                          to={`/xcode/${projectDetail?._id}`}
-                        >
-                          View X Code
-                        </NavLink>
-                      </If>
-                    </div>
+                        View X Code
+                      </NavLink>
+                    </If>
                   </div>
                 </div>
-              </If>
-            </div>
+              </div>
+            </If>
           </div>
         </div>
       </div>

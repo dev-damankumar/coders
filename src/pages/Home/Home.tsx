@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import homeReducer from '../../reducers/homeReducer';
 import Loading from '../../components/ui/Loading';
-import BannerSection from '../../components/home/banner/banner';
+import BannerSection from '../../components/home/Banner/Banner';
 import SubscribeSection from '../../components/home/SubscribeSection/';
 import Heading from '../../components/ui/Heading';
 import If from '../../components/hoc/If';
@@ -16,6 +16,11 @@ const RecentProjects = lazy(
 import { getProjects } from '../../services/project';
 import { Project } from '../../types';
 import CardSkelton from '../../components/ui/Skelton/CardSkelton';
+import DropdownMenu from '../../components/ui/Dropdown/DropdownMenu';
+import DropdownToggle from '../../components/ui/Dropdown/DropdownToggle';
+import DropdownMenuItem from '../../components/ui/Dropdown/DropdownMenuItem';
+import Dropdown from '../../components/ui/Dropdown/Dropdown';
+import Divider from '../../components/ui/Divider';
 
 type HomeState = {
   projects: Project[];

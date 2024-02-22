@@ -1,18 +1,17 @@
 import classes from './ProjectDetailSkelton.module.css';
-import { joinURL } from '../../../utils/helper';
+import projectDetailsClasses from '../../../pages/ProjectDetail/ProjectDetail.module.css';
+import galleryClasses from '../../project/GallaryGrid/GallaryGrid.module.css';
+import { joinClasses } from '../../../utils/helper';
 const ProjectDetailSkelton = () => {
   return (
-    <div className='jumbotron bg-light project-detail-div'>
+    <div className={`jumbotron bg-light ${classes['project-detail-div']}`}>
       <div className='info-header'>
-        <h1 className={joinURL('loading', classes.heading)}>Popup Chat</h1>
-        <a className='shrink-box'>
-          <i className='bx bx-chevron-down' />
-        </a>
+        <h1 className={joinClasses('loading', classes.heading)}>Popup Chat</h1>
       </div>
-      <div className='info-body '>
-        <div className='project-content'>
+      <div className={projectDetailsClasses['info-body']}>
+        <div className={projectDetailsClasses['project-content']}>
           <p className={'loading'}>Pa$$w0rd!</p>
-          <p className='web-url loading'>
+          <p className={`${projectDetailsClasses['web-url']} loading`}>
             <b>Website Url:</b>
             <a target='_blank' rel='noreferrer'>
               http://localhost:5000/webapp/popup-chat
@@ -24,20 +23,29 @@ const ProjectDetailSkelton = () => {
             <div className='tag loading'>React</div>
             <div className='tag loading'>Angular</div>
           </div>
-          <div className='gallery-grid'>
-            <div className='gallery-item'>
+          <div className={galleryClasses['gallery-grid']}>
+            <div className={galleryClasses['gallery-item']}>
               <div
-                className={joinURL('loading', classes['project-img-loader'])}
+                className={joinClasses(
+                  'loading',
+                  classes['project-img-loader']
+                )}
               />
             </div>
-            <div className='gallery-item'>
+            <div className={galleryClasses['gallery-item']}>
               <div
-                className={joinURL('loading', classes['project-img-loader'])}
+                className={joinClasses(
+                  'loading',
+                  classes['project-img-loader']
+                )}
               />
             </div>
-            <div className='gallery-item'>
+            <div className={galleryClasses['gallery-item']}>
               <div
-                className={joinURL('loading', classes['project-img-loader'])}
+                className={joinClasses(
+                  'loading',
+                  classes['project-img-loader']
+                )}
               />
             </div>
           </div>
