@@ -8,8 +8,8 @@
 }
 
 .divider-vertical {
-  width: 2px;
-  height: 100%;
+  width: 1px;
+  height: auto;
   margin: 0 4px;
   border: none;
   background: #e9ecef;

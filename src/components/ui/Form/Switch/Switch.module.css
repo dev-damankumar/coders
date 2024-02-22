@@ -1,0 +1,77 @@
+.customSwitch {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+}
+.customSwitch {
+  padding-left: 2.25rem;
+}
+.customControl {
+  min-height: 1.5rem;
+  padding-left: 25px;
+  position: relative;
+}
+
+.customControlInput {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.customLabel {
+  font-size: 14px;
+  position: relative;
+  margin-bottom: 0;
+}
+
+.customLabel::before {
+  border: #d3d3d3 solid 1px;
+  transform: translateY(-50%);
+  height: 1rem;
+  content: '';
+  position: absolute;
+  top: 50%;
+  display: block;
+}
+.customSwitch .customLabel::before {
+  left: -2.25rem;
+  width: 1.75rem;
+  pointer-events: all;
+  border-radius: 0.5rem;
+}
+
+.customControlInput:checked ~ .customLabel:before {
+  background: var(--primary) !important;
+  border-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+.customSwitch .customControlInput:checked ~ .customLabel::after {
+  background: #fff;
+  -webkit-transform: translateX(0.75rem) translateY(-50%);
+  transform: translateX(0.75rem) translateY(-50%);
+}
+.customSwitch .customLabel::after {
+  top: 50%;
+  left: calc(-2.25rem + 2px);
+  width: calc(1rem - 4px);
+  height: calc(1rem - 4px);
+  background: #dcdcdc;
+  border-radius: 0.5rem;
+  transition: background 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out;
+  transition: transform 0.15s ease-in-out, background 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: transform 0.15s ease-in-out, background 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    -webkit-transform 0.15s ease-in-out;
+  position: absolute;
+  display: block;
+  content: '';
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+  transform: translateY(-50%);
+  border: none;
+}

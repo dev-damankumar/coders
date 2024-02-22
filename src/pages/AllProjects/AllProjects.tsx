@@ -2,7 +2,7 @@ import React, { useEffect, useRef, Suspense, useReducer } from 'react';
 import homeReducer from '../../reducers/homeReducer';
 import Loading from '../../components/ui/Loading';
 import ImportIcon from '../../assets/icons/ImportIcon';
-import FilterTags from '../../components/project/FilterTags';
+import FilterTags from '../../components/project/FilterTags/FilterTags';
 import { useLocation } from 'react-router';
 import If from '../../components/hoc/If';
 import Heading from '../../components/ui/Heading';

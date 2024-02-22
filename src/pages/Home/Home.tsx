@@ -16,11 +16,6 @@ const RecentProjects = lazy(
 import { getProjects } from '../../services/project';
 import { Project } from '../../types';
 import CardSkelton from '../../components/ui/Skelton/CardSkelton';
-import DropdownMenu from '../../components/ui/Dropdown/DropdownMenu';
-import DropdownToggle from '../../components/ui/Dropdown/DropdownToggle';
-import DropdownMenuItem from '../../components/ui/Dropdown/DropdownMenuItem';
-import Dropdown from '../../components/ui/Dropdown/Dropdown';
-import Divider from '../../components/ui/Divider';
 
 type HomeState = {
   projects: Project[];
@@ -42,7 +37,6 @@ let initialState: HomeState = {
 const Home = memo(() => {
   const [state, dispatch] = useReducer(homeReducer<HomeState>, initialState);
   const projectRef = useRef(null);
-  console.log('state', state);
   useEffect(() => {
     (async () => {
       try {

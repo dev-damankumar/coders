@@ -1,8 +1,14 @@
 ul.category-tabs {
   margin-bottom: 50px;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-ul.category-tabs li.nav-item a {
+ul.category-tabs li a {
   border: none;
   background: rgb(241, 241, 241) !important;
   margin-right: 10px !important;
@@ -11,15 +17,16 @@ ul.category-tabs li.nav-item a {
   color: rgb(98, 98, 98) !important;
   font-size: 14px;
   padding: 8px 20px;
+  font-weight: 600;
 }
 
-ul.category-tabs li.nav-item a.active {
+ul.category-tabs li a.active {
   color: white !important;
   background: var(--primary) !important;
 }
 
 @media screen and (max-width: 500px) {
-  ul.category-tabs li.nav-item a {
+  ul.category-tabs li a {
     margin-right: 5px !important;
   }
 }

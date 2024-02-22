@@ -1,3 +1,10 @@
+.customControl {
+  min-height: 1.5rem;
+  padding-left: 25px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
 .customLabel {
   width: 16px;
   height: 16px;
@@ -22,4 +29,68 @@
 }
 .label {
   padding-left: 20px;
+}
+
+.customLabel {
+  position: relative;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+.custom-checkbox .customLabel::before {
+  border-radius: 0.25rem;
+}
+.customLabel::before {
+  transition: background 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+.customLabel::before {
+  position: absolute;
+  top: 50%;
+  left: -1.5rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+  content: '';
+  background: #fff;
+  border: #d3d3d3 solid 1px;
+  transform: translateY(-50%);
+}
+
+.customLabel::after {
+  position: absolute;
+  top: 46%;
+  left: 3px;
+  width: 10px;
+  height: 5px;
+  content: '';
+  border: 2px solid #fff;
+  border-top: 0;
+  border-right: 0;
+  transform: translateY(-50%) rotate(-45deg);
+  display: none;
+}
+
+.customControlInput {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.customControlInput:checked ~ .customLabel::after {
+  display: block;
+}
+
+.customControlInput:checked ~ .customLabel:before {
+  background: var(--primary) !important;
+  border-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+.customControlInput::before {
+  transition: background 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.customLabel::before {
+  border-radius: 0.25rem;
 }

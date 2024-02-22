@@ -1,4 +1,5 @@
-import { HomeReducerActionType } from '../../reducers/homeReducer';
+import { HomeReducerActionType } from '../../../reducers/homeReducer';
+import classes from './FilterTags.module.css';
 
 const FilterTags = ({
   tags,
@@ -12,68 +13,68 @@ const FilterTags = ({
   };
   return (
     <div className='col-md-12'>
-      <ul className='nav nav-pills category-tabs'>
-        <li className='nav-item'>
+      <ul className={classes['category-tabs']}>
+        <li>
           <a
             onClick={() => {
               filterHandler('');
             }}
-            className={`nav-link ${!tags ? 'active' : ''}`}
+            className={`${!tags ? classes.active : ''}`}
             href='#all'
           >
             All
           </a>
         </li>
-        <li className='nav-item'>
+        <li>
           <a
             onClick={() => {
               filterHandler('html');
             }}
-            className={`nav-link ${tags === 'html' ? 'active' : ''}`}
+            className={`${tags === 'html' ? classes.active : ''}`}
             href='#html'
           >
             HTML
           </a>
         </li>
-        <li className='nav-item'>
+        <li>
           <a
             onClick={() => {
               filterHandler('css');
             }}
-            className={`nav-link ${tags === 'css' ? 'active' : ''}`}
+            className={`${tags === 'css' ? classes.active : ''}`}
             href='#css'
           >
             CSS
           </a>
         </li>
-        <li className='nav-item'>
+        <li>
           <a
             onClick={() => {
               filterHandler('js');
             }}
-            className={`nav-link ${tags === 'js' ? 'active' : ''}`}
+            className={`${tags === 'js' ? classes.active : ''}`}
             href='#js'
           >
             Javascript
           </a>
         </li>
-        <li className='nav-item'>
+        <li>
           <a
             onClick={() => {
               filterHandler('python');
             }}
-            className={`nav-link ${tags === 'python' ? 'active' : ''}`}
+            className={`${tags === 'python' ? classes.active : ''}`}
             href='#python'
           >
             Python
           </a>
         </li>
-        <li className='nav-item'>
+        <li>
           <a
             onClick={() => {
               filterHandler('others');
             }}
-            className={`nav-link ${tags === 'others' ? 'active' : ''}`}
+            className={`${tags === 'others' ? classes.active : ''}`}
             href='#others'
           >
             Others

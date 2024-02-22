@@ -13,19 +13,16 @@ const CheckBox = (props: CheckboxType) => {
   const uid = UUID();
   const change = (e: React.ChangeEvent) => {};
   return (
-    <div className={`custom-control custom-checkbox ${classes.customCheckbox}`}>
+    <div className={`${classes.customControl} ${classes.customCheckbox}`}>
       <input
         type='checkbox'
         name={props.name || uid}
         id={props.id || uid}
-        className='custom-control-input'
+        className={classes.customControlInput}
         onChange={props.onChange || change}
         checked={!!props.checked}
       />
-      <label
-        className={`custom-control-label input-warning ${classes.customLabel}`}
-        htmlFor={props.id || uid}
-      >
+      <label className={`${classes.customLabel}`} htmlFor={props.id || uid}>
         {props.label && <span className={classes.label}>{props.label}</span>}
       </label>
     </div>

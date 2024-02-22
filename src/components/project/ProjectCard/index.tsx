@@ -3,7 +3,6 @@ import classes from './index.module.css';
 import { NavLink } from 'react-router-dom';
 import img from '../../../assets/images/placeholder.png';
 import Switch from '../../ui/Form/Switch/Switch';
-// import DropDown, { TypeList } from '../../ui/Dropdown/DropDown';
 import BinIcon from '../../../assets/icons/BinIcon';
 import LinkIcon from '../../../assets/icons/LinkIcon';
 import ScriptIcon from '../../../assets/icons/ScriptIcon';
@@ -20,25 +19,23 @@ import { useNotification } from '../../../providers/Notification';
 import { Project } from '../../../types';
 import { changeProjectVisibility } from '../../../services/project';
 import Image from '../../ui/Image';
+import Dropdown from '../../ui/Dropdown/Dropdown';
+import DropdownToggle from '../../ui/Dropdown/DropdownToggle';
+import DropdownMenu from '../../ui/Dropdown/DropdownMenu';
+import DropdownMenuItem from '../../ui/Dropdown/DropdownMenuItem';
+import Divider from '../../ui/Divider';
 
 export type TypeProjectCard = Project & {
   filterTags: string;
   index: number;
-  hideContext: true;
-};
-
-type ExtraProjectsProps = Project & {
-  filterTags: string;
-  index: number;
-  hideContext: false;
   configHandler: (...args: any[]) => void;
   confirmHandler: (...args: any[]) => void;
   downloadProjectHandler: (...args: any[]) => void;
 };
+
 const ProjectCard = ({
   author,
   filterTags,
-  hideContext,
   visibility,
   description,
   tags,
@@ -48,7 +45,7 @@ const ProjectCard = ({
   index,
   _id,
   ...props
-}: TypeProjectCard | ExtraProjectsProps) => {
+}: TypeProjectCard) => {
   const notification = useNotification();
   const [visible, setVisibility] = useState(visibility);
   const auth = useAuth();
@@ -71,48 +68,6 @@ const ProjectCard = ({
       //
     }
   };
-  let projectActions;
-  if (!hideContext) {
-    projectActions = [
-      {
-        name: 'Make a Copy',
-        onClick: () =>
-          (props as ExtraProjectsProps).confirmHandler(_id, `clone`),
-        icon: <CopyIcon />,
-      },
-      'divider',
-      {
-        name: 'Get pre-filled link',
-        onClick: () => (props as ExtraProjectsProps).configHandler(_id),
-        icon: <LinkIcon />,
-      },
-      {
-        name: 'Codx editor',
-        link: `/x-studio/${_id}`,
-        icon: <ScriptIcon />,
-      },
-      'divider',
-      {
-        name: 'Download',
-        onClick: () =>
-          (props as ExtraProjectsProps).downloadProjectHandler(_id),
-        icon: <ImportIcon />,
-      },
-      {
-        name: 'Preferences',
-        link: `/admin/edit-project/${_id}`,
-        icon: <PreIcon />,
-      },
-    ];
-    if (author?._id === auth?.user?._id) {
-      projectActions.splice(1, 0, {
-        name: 'Move to bin',
-        onClick: () =>
-          (props as ExtraProjectsProps).confirmHandler(_id, `delete`),
-        icon: <BinIcon />,
-      });
-    }
-  }
 
   const projectCard = (
     <div
@@ -146,25 +101,77 @@ const ProjectCard = ({
               src={author.image}
               isOwner={author?._id === auth.user?._id}
             />
-            <If cond={!hideContext}>
+            <If cond={author._id === auth.user?._id}>
               <IfPrimiumUser>
                 <Switch
-                  id={'req' + _id}
-                  name='example1'
+                  id={'privacy' + _id}
+                  name='privacy'
                   value={visible}
                   checked={visible}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setProjectPrivacy(e, _id)
                   }
                 />
-                <div className='divider-hr' />
-                {/* <DropDown
-                  menuClass='dropdown-menu-right card-auth-menu'
-                  direction='up'
-                  list={projectActions as TypeList[]}
-                  name=''
-                  icon={<i className='bx bx-dots-vertical-rounded' />}
-                /> */}
+                <Divider direction='vertical' />
+                <Dropdown position='top'>
+                  <DropdownToggle>
+                    <button className={classes.moreBtn}>
+                      <i className='bx bx-dots-vertical-rounded' />
+                    </button>
+                  </DropdownToggle>
+                  <DropdownMenu position='after'>
+                    <DropdownMenuItem
+                      onClick={() => props.confirmHandler(_id, 'clone')}
+                    >
+                      <div className={classes.menuItem}>
+                        <CopyIcon width={20} height={20} />
+                        <span>Make a Copy</span>
+                      </div>
+                    </DropdownMenuItem>
+                    <Divider />
+                    <DropdownMenuItem onClick={() => props.configHandler(_id)}>
+                      <div className={classes.menuItem}>
+                        <LinkIcon width={20} height={20} />
+                        <span>Get pre-filled link</span>
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <NavLink to={`/x-studio/${_id}`}>
+                        <div className={classes.menuItem}>
+                          <ScriptIcon width={20} height={20} />
+                          <span>Coders editor</span>
+                        </div>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <Divider />
+                    <DropdownMenuItem
+                      onClick={() => props.downloadProjectHandler(_id)}
+                    >
+                      <div className={classes.menuItem}>
+                        <ImportIcon width={20} height={20} />
+                        <span>Download</span>
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <NavLink to={`/admin/edit-project/${_id}`}>
+                        <div className={classes.menuItem}>
+                          <PreIcon width={20} height={20} />
+                          <span>Preferences</span>
+                        </div>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    {author?._id === auth?.user?._id && (
+                      <DropdownMenuItem
+                        onClick={() => props.confirmHandler(_id, 'delete')}
+                      >
+                        <div className={classes.menuItem}>
+                          <BinIcon width={20} height={20} />
+                          <span>Move to bin</span>
+                        </div>
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
               </IfPrimiumUser>
             </If>
           </div>

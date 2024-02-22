@@ -7,8 +7,8 @@
   --dropdown-min-width: 200px;
   --dropdown-max-height: 200px;
   --dropdown-border-width: 2px;
-  --dropdown-background: var(--bg);
-  --dropdown-background-color: var(--bg);
+  --dropdown-background: #ffffffd4;
+  --dropdown-background-color: #ffffffd4;
   --dropdown-text: inherit;
 }
 
@@ -320,7 +320,7 @@
   right: unset;
   top: 15px;
   left: -14px;
-  border-color: transparent var(--bg) transparent #9c27b000;
+  border-color: transparent #ffffffd4 transparent #9c27b000;
 }
 
 .dropdown-drawer.drop-right.dropdown-open .dropdown-toggle {
@@ -345,7 +345,7 @@
   left: unset;
   top: 15px;
   right: -14px;
-  border-color: transparent transparent transparent var(--bg);
+  border-color: transparent transparent transparent #ffffffd4;
 }
 
 .dropdown-drawer.drop-left.dropdown-open .dropdown-toggle {
@@ -372,8 +372,8 @@
 .drop-top .dropdown-menu:before {
   top: unset;
   left: 20px;
-  bottom: -14px;
-  border-color: var(--bg) transparent transparent transparent;
+  bottom: -12px;
+  border-color: #ffffffd4 transparent transparent transparent;
 }
 
 .drop-top .dropdown-menu.dropdown-menu-right:before {
