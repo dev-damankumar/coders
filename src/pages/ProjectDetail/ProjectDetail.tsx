@@ -121,7 +121,9 @@ const ProjectDetail = React.memo(() => {
                           id={projectDetail.author._id}
                           name={projectDetail.author.username}
                           src={projectDetail.author.image}
-                          isOwner={projectDetail.author._id === auth?.user?._id}
+                          isAuthor={
+                            projectDetail.author._id === auth?.user?._id
+                          }
                         />
                       </Suspense>
                     )}

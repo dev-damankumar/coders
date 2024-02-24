@@ -1,7 +1,7 @@
 import { Notification, useNotification } from '../../../providers/Notification';
 import ToastCloseIcon from './ToastCloseIcon';
 import ToastIcon from './ToastIcon';
-
+import classes from './Toast.module.css';
 const Toast = ({ type = 'warning', message, id }: Notification) => {
   const notification = useNotification();
   return (
@@ -10,17 +10,17 @@ const Toast = ({ type = 'warning', message, id }: Notification) => {
       onMouseUp={() => {
         notification.remove(id);
       }}
-      className='c-toast-body'
+      className={classes['c-toast-body']}
       role='alert'
     >
       <ToastIcon type={type} />
-      <div className='c-toast-message'>{message}</div>
+      <div className={classes['c-toast-message']}>{message}</div>
       <button
         onClick={() => {
           notification.remove(id);
         }}
         type='button'
-        className='c-toast-close-btn'
+        className={classes['c-toast-close-btn']}
         data-dismiss-target='#toast-success'
         aria-label='Close'
       >

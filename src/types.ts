@@ -14,7 +14,7 @@ export type FailedResponse = {
 
 export type TypeAuthor = {
   _id: string;
-  name: string;
+  username: string;
   image: string;
 };
 

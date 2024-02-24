@@ -31,6 +31,10 @@ import { ProjectDetailType } from '../ProjectDetail/ProjectDetail';
 import { useNotification } from '../../providers/Notification';
 import { goBackPaths, sortObjectByName } from '../../utils/helper';
 import { extensions } from '../../utils/extension';
+import Dropdown from '../../components/ui/Dropdown/Dropdown';
+import DropdownToggle from '../../components/ui/Dropdown/DropdownToggle';
+import DropdownMenu from '../../components/ui/Dropdown/DropdownMenu';
+import DropdownMenuItem from '../../components/ui/Dropdown/DropdownMenuItem';
 
 const ProjectConfig = lazy(
   () => import('../../components/project/ProjectConfig/ProjectConfig')
@@ -485,27 +489,26 @@ const Xcode = memo(() => {
                     </If>
                     <IfPrimiumUser>
                       <div className='x-filter-item'>
-                        <div
-                          data-no-close={true}
-                          className=' s-dropdown download-dropdown dropdown'
-                        >
-                          <a
-                            data-table-tooltip='true'
-                            className='menu-link header-btn bg-success'
-                            data-toggle='dropdown'
-                          >
-                            <i className='bx bx-download' />
-                            <div className='tooltip tooltip-up'>Download</div>
-                          </a>
-                          <div className='dropdown-menu dropdown-menu-right'>
+                        <Dropdown>
+                          <DropdownToggle>
+                            <a
+                              data-table-tooltip='true'
+                              className='menu-link header-btn bg-success'
+                              data-toggle='dropdown'
+                            >
+                              <i className='bx bx-download' />
+                              <div className='tooltip tooltip-up'>Download</div>
+                            </a>
+                          </DropdownToggle>
+                          <DropdownMenu position='after'>
                             <Suspense fallback={<Loading />}>
                               <ProjectConfig
                                 isAuthor={isAuthor}
                                 dispatch={dispatch}
                               />
                             </Suspense>
-                          </div>
-                        </div>
+                          </DropdownMenu>
+                        </Dropdown>
                       </div>
                       <div className='x-filter-item'>
                         <div className='s-dropdown dropdown'>

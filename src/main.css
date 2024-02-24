@@ -251,3 +251,13 @@ p.error {
   color: #fff;
   margin-right: 0 !important;
 }
+
+.message-wrapper {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+}

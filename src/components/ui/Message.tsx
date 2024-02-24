@@ -4,7 +4,7 @@ import React from 'react';
 
 const Message = ({ list }: { list: Notification[] }) => {
   return (
-    <div className='fixed bottom-2 right-2 flex gap-2 flex-col z-50'>
+    <div className='message-wrapper'>
       {list.map((l) => {
         return <Toast key={l.id} {...l} />;
       })}

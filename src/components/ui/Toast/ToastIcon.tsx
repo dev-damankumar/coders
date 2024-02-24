@@ -1,17 +1,17 @@
 import { NotificationTypes } from '../../../providers/Notification';
-
+import classes from './Toast.module.css';
 const ToastIcon = ({ type }: { type: NotificationTypes }) => {
   const className =
     type === 'success'
-      ? 'c-toast-icon-success'
+      ? classes['c-toast-icon-success']
       : type === 'error'
-      ? 'c-toast-icon-error'
-      : 'c-toast-icon-warning';
+      ? classes['c-toast-icon-error']
+      : classes['c-toast-icon-warning'];
   const altIconText =
     type === 'success' ? 'Check' : type === 'error' ? 'Error' : 'Warning';
   let icon = (
     <svg
-      className='c-toast-svg'
+      className={classes['c-toast-svg']}
       aria-hidden='true'
       xmlns='http://www.w3.org/2000/svg'
       fill='currentColor'
@@ -23,7 +23,7 @@ const ToastIcon = ({ type }: { type: NotificationTypes }) => {
   if (type === 'success') {
     icon = (
       <svg
-        className='c-toast-svg'
+        className={classes['c-toast-svg']}
         aria-hidden='true'
         xmlns='http://www.w3.org/2000/svg'
         fill='currentColor'
@@ -36,7 +36,7 @@ const ToastIcon = ({ type }: { type: NotificationTypes }) => {
   if (type === 'error') {
     icon = (
       <svg
-        className='c-toast-svg'
+        className={classes['c-toast-svg']}
         aria-hidden='true'
         xmlns='http://www.w3.org/2000/svg'
         fill='currentColor'
@@ -48,7 +48,7 @@ const ToastIcon = ({ type }: { type: NotificationTypes }) => {
   }
 
   return (
-    <div className={`c-icon-wrapper ${className}`}>
+    <div className={`${classes['c-icon-wrapper']} ${className}`}>
       {icon}
       <span className='sr-only'>${altIconText} icon</span>
     </div>

@@ -5,19 +5,20 @@ import classes from './index.module.css';
 type AuthorCardProps = {
   name: string;
   src: string;
-  isOwner: boolean;
+  isAuthor: boolean;
   id: string;
 };
-const AuthorCard = ({ name, src, isOwner, id }: AuthorCardProps) => {
-  if (isOwner) {
+const AuthorCard = ({ name, src, isAuthor, id }: AuthorCardProps) => {
+  console.log('name', name);
+  if (isAuthor) {
     name = 'You';
   }
   return (
     <a
-      href={`/profile/${!isOwner ? id : ''}`}
+      href={`/profile/${!isAuthor ? id : ''}`}
       target='_blank'
       data-table-tooltip='true'
-      className={`${classes.authorWrap} ${isOwner ? classes.authorSelf : ''}`}
+      className={`${classes.authorWrap} ${isAuthor ? classes.authorSelf : ''}`}
     >
       <Image className={classes.authorImg} src={src + 'g'} defaultImg={img} />
       <p className={classes.authorName}>

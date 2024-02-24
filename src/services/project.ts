@@ -77,29 +77,11 @@ export const downloadProject = (
 };
 
 export const cloneProject = async (
-  id: string,
-  projects: Project[],
-  dispatch: Dispatch<HomeReducerActionType>
-) => {
-  //
+  id: string
+): Promise<SuccessResponse<Project> | FailedResponse> => {
   try {
-    let project: ProjectResponseType = await http.post(`/api/project/${id}`, {
-      method: 'POST',
-    });
-
-    if (project.type === 'error') {
-      return { error: true, message: project.message };
-    }
-    if (project.type === 'success') {
-      let newProjects = [...projects];
-      newProjects.push(project.data);
-      dispatch({ type: 'SET_PROJECTS', data: newProjects });
-      return {
-        project,
-        success: true,
-        message: 'Successfully Cloned',
-      };
-    }
+    const response: ProjectResponseType = await http.post(`/api/project/${id}`);
+    return response.data as SuccessResponse<Project>;
   } catch (error) {
     if (isAxiosError(error)) {
       return { type: 'error', error: true, ...error.response!.data };
@@ -113,29 +95,13 @@ export const cloneProject = async (
 };
 
 export const deleteProject = async (
-  id: string,
-  projects: Project[],
-  dispatch: Dispatch<HomeReducerActionType>
-) => {
-  //
+  id: string
+): Promise<SuccessResponse<{}> | FailedResponse> => {
   try {
-    let project: ProjectResponseType = await http.delete(`/api/project/${id}`);
-
-    if (project.type === 'error') {
-      return { error: true, message: project.message };
-    }
-    if (project.type === 'success') {
-      let newProjects = [...projects];
-      newProjects = newProjects.filter((v) => {
-        if (v._id !== id) return v;
-      });
-      dispatch({ type: 'SET_PROJECTS', data: newProjects });
-      return {
-        project,
-        success: true,
-        message: 'Successfully Deleted',
-      };
-    }
+    const response: ProjectResponseType = await http.delete(
+      `/api/project/${id}`
+    );
+    return response.data as SuccessResponse<{}>;
   } catch (error) {
     if (isAxiosError(error)) {
       return { type: 'error', error: true, ...error.response!.data };
