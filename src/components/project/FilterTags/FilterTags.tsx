@@ -1,16 +1,12 @@
-import { HomeReducerActionType } from '../../../reducers/homeReducer';
 import classes from './FilterTags.module.css';
 
 const FilterTags = ({
   tags,
-  dispatch,
+  filterHandler,
 }: {
   tags: string;
-  dispatch: React.Dispatch<HomeReducerActionType>;
+  filterHandler: (tag: string) => void;
 }) => {
-  const filterHandler = (tag: string) => {
-    dispatch({ type: 'SET_FILTER_TAG', data: tag });
-  };
   return (
     <div className='col-md-12'>
       <ul className={classes['category-tabs']}>

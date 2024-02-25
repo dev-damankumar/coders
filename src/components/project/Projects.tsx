@@ -1,15 +1,14 @@
 import { lazy, Suspense } from 'react';
-import { Project } from '../../types';
 import TableRowSkelton from '../ui/Skelton/TableRowSkelton';
 import CardSkelton from '../ui/Skelton/CardSkelton';
-import { useAuth } from '../../providers/Auth';
+import { ExtentedProject } from '../../providers/ProjectProvider';
 const ProjectCard = lazy(() => import('./ProjectCard'));
 const ProjectRow = lazy(() => import('./ProjectRow/ProjectRow'));
 const NoData = lazy(() => import('../ui/NoData/NoData'));
 
 let rowLoader = <TableRowSkelton rows={5} cols={7} />;
 type TypeProjects = {
-  projects: Project[];
+  projects: ExtentedProject[];
   nodata: boolean;
   filterTags: string;
   layout?: 'card' | 'list' | 'row';
@@ -21,7 +20,7 @@ const Projects = ({
   layout = 'card',
 }: TypeProjects) => {
   const Component = layout === 'card' ? ProjectCard : ProjectRow;
-  const auth = useAuth();
+  console.log('mu', projects);
   return (
     <>
       <NoData if={projects?.length <= 0 && nodata} />
@@ -37,21 +36,26 @@ const Projects = ({
               )
             }
           >
-            <Component
-              filterTags={filterTags}
-              author={v.author}
-              image={v.image}
-              index={i}
-              description={v.description}
-              visibility={v.visibility}
-              destination={v.destination}
-              executableFile={v.executableFile}
-              tags={v.tags}
-              title={v.title}
-              imageGrid={v.imageGrid || []}
-              url={'/project-detail/' + v._id}
-              _id={v._id}
-            />
+            {v.loading ? (
+              <CardSkelton count={1} hideContext={true} />
+            ) : (
+              <Component
+                filterTags={filterTags}
+                loading={!!v.loading}
+                author={v.author}
+                image={v.image}
+                index={i}
+                description={v.description}
+                visibility={v.visibility}
+                destination={v.destination}
+                executableFile={v.executableFile}
+                tags={v.tags}
+                title={v.title}
+                imageGrid={v.imageGrid || []}
+                url={'/project-detail/' + v._id}
+                _id={v._id}
+              />
+            )}
           </Suspense>
         );
       })}

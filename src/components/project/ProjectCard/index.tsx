@@ -9,18 +9,15 @@ import If from '../../hoc/If';
 import Tags from '../../ui/Tags';
 import { useAuth } from '../../../providers/Auth';
 import { useNotification } from '../../../providers/Notification';
-import { Project } from '../../../types';
 import { changeProjectVisibility } from '../../../services/project';
 import Image from '../../ui/Image';
 import Divider from '../../ui/Divider';
 import ProjectActions from '../ProjectActions';
+import { ExtentedProject } from '../../../providers/ProjectProvider';
 
-export type TypeProjectCard = Project & {
+export type TypeProjectCard = ExtentedProject & {
   filterTags: string;
   index: number;
-  configHandler: (...args: any[]) => void;
-  confirmHandler: (...args: any[]) => void;
-  downloadProjectHandler: (...args: any[]) => void;
 };
 
 const ProjectCard = ({

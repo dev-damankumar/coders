@@ -3,15 +3,18 @@ import ErrorBoundry from './providers/ErrorBoundry';
 import { NotificationProvider } from './providers/Notification';
 import { StudioProvider } from './providers/StudioProvider';
 import Layout from './layouts/Layout';
+import { ProjectProvider } from './providers/ProjectProvider';
 
 const App = () => {
   return (
     <ErrorBoundry>
       <NotificationProvider>
         <AuthProvider>
-          <StudioProvider>
-            <Layout />
-          </StudioProvider>
+          <ProjectProvider>
+            <StudioProvider>
+              <Layout />
+            </StudioProvider>
+          </ProjectProvider>
         </AuthProvider>
       </NotificationProvider>
     </ErrorBoundry>

@@ -1,3 +1,5 @@
+import { ExecutableFileType } from './pages/ProjectDetail/ProjectDetail';
+
 export type SuccessResponse<Data> = {
   data: Data;
   type: 'success';
@@ -39,7 +41,10 @@ export type Project = {
   imageGrid?: string[];
   title: string;
   url: string;
-  author: TypeAuthor;
+  author?: TypeAuthor;
   visibility: boolean;
   _id: string;
+  executables?: ExecutableFileType[];
+  project?: string;
+  user?: { _id: string; name: string; image: string };
 };

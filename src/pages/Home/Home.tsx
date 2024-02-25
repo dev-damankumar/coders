@@ -1,7 +1,6 @@
-import { useEffect, useRef, Suspense, useReducer, lazy, memo } from 'react';
+import { useEffect, useRef, Suspense, lazy, memo } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import homeReducer from '../../reducers/homeReducer';
 import Loading from '../../components/ui/Loading';
 import BannerSection from '../../components/home/Banner/Banner';
 import SubscribeSection from '../../components/home/SubscribeSection/';
@@ -14,50 +13,31 @@ const RecentProjects = lazy(
   () => import('../../components/home/RecentProjects/index')
 );
 import { getProjects } from '../../services/project';
-import { Project } from '../../types';
 import CardSkelton from '../../components/ui/Skelton/CardSkelton';
+import { useProject } from '../../providers/ProjectProvider';
+import { useNotification } from '../../providers/Notification';
 
-type HomeState = {
-  projects: Project[];
-  pageNo: number;
-  limit: number;
-  totalProjects: number;
-  nodata: boolean;
-  loading: boolean;
-};
-
-let initialState: HomeState = {
-  projects: [],
-  pageNo: 1,
-  limit: 6,
-  totalProjects: 0,
-  nodata: false,
-  loading: true,
-};
 const Home = memo(() => {
-  const [state, dispatch] = useReducer(homeReducer<HomeState>, initialState);
+  const projects = useProject();
+  const notification = useNotification();
   const projectRef = useRef(null);
+
   useEffect(() => {
     (async () => {
+      projects.projects.setLoading();
       try {
         const result = await getProjects({
-          pageNo: state.pageNo,
-          limit: state.limit,
+          pageNo: 1,
+          limit: 6,
         });
-        const projects = result.data;
-        if (projects && projects?.length > 0) {
-          dispatch({
-            type: 'SET_TOTAL_PROJECTS',
-            data: result.totalCount,
-          });
-          dispatch({ type: 'SET_PROJECTS', data: projects });
-        } else {
-          dispatch({ type: 'SET_NO_DATA', data: true });
+        if ('error' in result) {
+          return notification.error(result.message);
         }
+        const data = result.data;
+        projects.projects.setTotal(result.totalCount);
+        projects.projects.set(data);
       } catch (e) {
-        dispatch({ type: 'SET_NO_DATA', data: true });
-      } finally {
-        dispatch({ type: 'SET_LOADING', data: false });
+        if (e instanceof Error) return notification.error(e.message);
       }
     })();
   }, []);
@@ -80,18 +60,15 @@ const Home = memo(() => {
             </div>
             <If
               cond={
-                !(
-                  (state.projects.length === 0 && !state.nodata) ||
-                  state.loading
-                )
+                !(projects.projects.count === 0 || projects.projects.loading)
               }
               else={<CardSkelton count={4} hideContext />}
             >
               <Suspense fallback={<CardSkelton count={4} hideContext />}>
                 <Projects
                   filterTags=''
-                  projects={state.projects}
-                  nodata={state.nodata}
+                  projects={projects.projects.list}
+                  nodata={projects.projects.count === 0}
                 />
               </Suspense>
             </If>
@@ -106,7 +83,7 @@ const Home = memo(() => {
         </div>
       </section>
       <Suspense fallback={<Loading />}>
-        <RecentProjects projects={state?.projects} />
+        <RecentProjects projects={projects.projects.list} />
       </Suspense>
       <Suspense fallback=''>
         <WhyChoose />

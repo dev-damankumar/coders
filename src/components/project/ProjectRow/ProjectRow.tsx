@@ -1,34 +1,19 @@
 import React, { useState } from 'react';
 import placeholder from '../../assets/images/placeholder.png';
 import Switch from '../../ui/Form/Switch/Switch';
-import BinIcon from '../../../assets/icons/BinIcon';
-import LinkIcon from '../../../assets/icons/LinkIcon';
-import ScriptIcon from '../../../assets/icons/ScriptIcon';
-import CopyIcon from '../../../assets/icons/CopyIcon';
-import ImportIcon from '../../../assets/icons/ImportIcon';
-import PreIcon from '../../../assets/icons/PreIcon';
 import { useAuth } from '../../../providers/Auth';
 import { useNotification } from '../../../providers/Notification';
 import { changeProjectVisibility } from '../../../services/project';
 import { baseImageSrc } from '../../../constants';
-import { Project } from '../../../types';
 import Image from '../../ui/Image';
 import { joinURL } from '../../../utils/helper';
 import If from '../../hoc/If';
-import Dropdown from '../../ui/Dropdown/Dropdown';
-import DropdownToggle from '../../ui/Dropdown/DropdownToggle';
-import DropdownMenu from '../../ui/Dropdown/DropdownMenu';
-import DropdownMenuItem from '../../ui/Dropdown/DropdownMenuItem';
-import Divider from '../../ui/Divider';
-import { NavLink } from 'react-router-dom';
-import classes from './ProjectRow.module.css';
+import { ExtentedProject } from '../../../providers/ProjectProvider';
+import ProjectActions from '../ProjectActions';
 
-export type TypeProjectRow = Project & {
+export type TypeProjectRow = ExtentedProject & {
   filterTags: string;
   index: number;
-  configHandler: (...args: any[]) => void;
-  confirmHandler: (...args: any[]) => void;
-  downloadProjectHandler: (...args: any[]) => void;
 };
 
 const ProjectRow = ({
@@ -161,63 +146,7 @@ const ProjectRow = ({
         </div>
       </td>
       <If cond={author._id === auth.user?._id}>
-        <Dropdown position='top'>
-          <DropdownToggle>
-            <button className={classes.moreBtn}>
-              <i className='bx bx-dots-vertical-rounded' />
-            </button>
-          </DropdownToggle>
-          <DropdownMenu position='after'>
-            <DropdownMenuItem
-              onClick={() => props.confirmHandler(_id, 'clone')}
-            >
-              <div className={classes.menuItem}>
-                <CopyIcon width={20} height={20} />
-                <span>Make a Copy</span>
-              </div>
-            </DropdownMenuItem>
-            <Divider />
-            <DropdownMenuItem onClick={() => props.configHandler(_id)}>
-              <div className={classes.menuItem}>
-                <LinkIcon width={20} height={20} />
-                <span>Get pre-filled link</span>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <NavLink to={`/x-studio/${_id}`}>
-                <div className={classes.menuItem}>
-                  <ScriptIcon width={20} height={20} />
-                  <span>Coders editor</span>
-                </div>
-              </NavLink>
-            </DropdownMenuItem>
-            <Divider />
-            <DropdownMenuItem onClick={() => props.downloadProjectHandler(_id)}>
-              <div className={classes.menuItem}>
-                <ImportIcon width={20} height={20} />
-                <span>Download</span>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <NavLink to={`/admin/edit-project/${_id}`}>
-                <div className={classes.menuItem}>
-                  <PreIcon width={20} height={20} />
-                  <span>Preferences</span>
-                </div>
-              </NavLink>
-            </DropdownMenuItem>
-            {author?._id === auth?.user?._id && (
-              <DropdownMenuItem
-                onClick={() => props.confirmHandler(_id, 'delete')}
-              >
-                <div className={classes.menuItem}>
-                  <BinIcon width={20} height={20} />
-                  <span>Move to bin</span>
-                </div>
-              </DropdownMenuItem>
-            )}
-          </DropdownMenu>
-        </Dropdown>
+        <ProjectActions id={_id} isAuthor={author._id === auth.user?._id} />
       </If>
     </tr>
   );

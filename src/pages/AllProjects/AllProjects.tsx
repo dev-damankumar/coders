@@ -1,49 +1,34 @@
-import React, { useEffect, useRef, Suspense, useReducer } from 'react';
-import homeReducer from '../../reducers/homeReducer';
-import Loading from '../../components/ui/Loading';
-import ImportIcon from '../../assets/icons/ImportIcon';
+import React, { useEffect, useRef, Suspense, useState } from 'react';
 import FilterTags from '../../components/project/FilterTags/FilterTags';
 import { useLocation } from 'react-router';
 import If from '../../components/hoc/If';
 import Heading from '../../components/ui/Heading';
 import { getProjects } from '../../services/project';
 import Projects from '../../components/project/Projects';
-import { Project } from '../../types';
+import { useProject } from '../../providers/ProjectProvider';
+import { useNotification } from '../../providers/Notification';
 
 const Modal = React.lazy(() => import('../../components/ui/Modal/Modal'));
 const Pagination = React.lazy(() => import('../../components/ui/Pagination'));
 
 export type ProjectsState = {
-  projects: Project[] | [];
   pageNo: number;
   limit: number;
-  totalProjects: number;
-  nodata: boolean;
   filterTags: string;
   filterCount: number;
-  showDownload: boolean;
-  progress: number;
-  loading: boolean;
 };
 
 const initialState: ProjectsState = {
-  projects: [],
   pageNo: 1,
   filterTags: '',
   filterCount: 1,
   limit: 5,
-  totalProjects: 0,
-  nodata: false,
-  showDownload: false,
-  progress: 0,
-  loading: true,
 };
 
 const AllProjects = React.memo(() => {
-  const [state, dispatch] = useReducer(
-    homeReducer<ProjectsState>,
-    initialState
-  );
+  const [state, setState] = useState(initialState);
+  const projects = useProject();
+  const notification = useNotification();
   const projectRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -53,14 +38,19 @@ const AllProjects = React.memo(() => {
       if (tag === 'all') {
         tag = '';
       }
-      const projects = [...state.projects];
       if (tag) {
-        const projectCount = projects.filter((v) => {
+        const projectCount = projects.projects.list.filter((v) => {
           return v.tags.includes(tag);
         });
-        dispatch({ type: 'SET_FILTER_COUNT', data: projectCount.length });
+        setState({
+          ...state,
+          filterCount: projectCount.length,
+        });
       }
-      dispatch({ type: 'SET_FILTER_TAG', data: tag });
+      setState({
+        ...state,
+        filterTags: tag,
+      });
     }
   }, [location.hash]);
 
@@ -75,25 +65,21 @@ const AllProjects = React.memo(() => {
 
   useEffect(() => {
     (async () => {
+      projects.projects.setLoading();
       try {
         const result = await getProjects({
           pageNo: state.pageNo,
           limit: state.limit,
         });
-        const projects = result.data;
-        if (projects && projects?.length > 0) {
-          dispatch({
-            type: 'SET_TOTAL_PROJECTS',
-            data: result.totalCount,
-          });
-          dispatch({ type: 'SET_PROJECTS', data: projects });
-        } else {
-          dispatch({ type: 'SET_NO_DATA', data: true });
+        if ('error' in result) {
+          return notification.error(result.message);
         }
+        const data = result.data;
+        projects.projects.setTotal(result.totalCount);
+        projects.projects.set(data);
       } catch (e) {
-        dispatch({ type: 'SET_NO_DATA', data: true });
+        if (e instanceof Error) return notification.error(e.message);
       } finally {
-        dispatch({ type: 'SET_LOADING', data: false });
         if (projectRef && projectRef.current) {
           projectRef.current.scrollIntoView({ behavior: 'smooth' });
         }
@@ -109,22 +95,32 @@ const AllProjects = React.memo(() => {
     const { receivedLength, length } = payload;
     const value = Number(((receivedLength / length) * 100).toFixed(2));
     if (!isNaN(value)) {
-      dispatch({ type: 'SET_PROGRESS', data: value });
+      // dispatch({ type: 'SET_PROGRESS', data: value });
       return value;
     }
   };
 
   const onPagination = (pageNo: number) => {
-    dispatch({ type: 'SET_LOADING', data: true });
-    dispatch({ type: 'SET_PAGE_NO', data: pageNo });
+    projects.projects.setLoading();
+    setState({
+      ...state,
+      pageNo,
+    });
     if (projectRef && projectRef.current) {
       projectRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  const filterHandler = (tag: string) => {
+    setState({
+      ...state,
+      filterTags: tag,
+    });
+  };
+
   return (
     <>
-      <Suspense fallback={<Loading />}>
+      {/* <Suspense fallback={<Loading />}>
         <Modal
           heading={`Downloading...`}
           headerIcon={<i className='bx bx-cloud-download' />}
@@ -149,7 +145,7 @@ const AllProjects = React.memo(() => {
             </div>
           }
         />
-      </Suspense>
+      </Suspense> */}
       <section
         className='section'
         style={{ paddingTop: '10px', marginTop: '-100px' }}
@@ -166,22 +162,25 @@ const AllProjects = React.memo(() => {
                 Collaborative Projects
               </Heading>
             </div>
-            <FilterTags tags={state?.filterTags} dispatch={dispatch} />
+            <FilterTags
+              tags={state?.filterTags}
+              filterHandler={filterHandler}
+            />
             <Projects
-              projects={state.projects}
+              projects={projects.projects.list}
               filterTags={state.filterTags}
-              nodata={state.nodata}
+              nodata={projects.projects.count === 0}
             />
           </div>
-          <If cond={state?.totalProjects > state?.projects?.length}>
+          <If cond={projects.projects.total > projects.projects.count}>
             <div className='row'>
               <div className='col-md-12' style={{ textAlign: 'right' }}>
-                <If cond={state.projects.length > 0}>
+                <If cond={projects.projects.count > 0}>
                   <Suspense fallback={''}>
                     <Pagination
                       pageNo={state.pageNo}
                       limit={state.limit}
-                      total={state.totalProjects}
+                      total={projects.projects.total}
                       onPagination={onPagination}
                     />
                   </Suspense>

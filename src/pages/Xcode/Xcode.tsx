@@ -18,7 +18,6 @@ import addIcon from '../../assets/images/add.png';
 import If from '../../components/hoc/If';
 import IfPrimiumUser from '../../components/hoc/IfPrimiumUser';
 import IfStandardUser from '../../components/hoc/IfStandardUser';
-import xcodeReducer from '../../reducers/xcodeReducer';
 import FileRow from '../../components/project/FileRow';
 import { useAuth } from '../../providers/Auth';
 import {
@@ -52,7 +51,7 @@ type XcodeIntialState = {
   showDownload: boolean;
   progress: number;
 };
-const initialState = {
+const initialState: XcodeIntialState = {
   showDownload: false,
   progress: 0,
 };
@@ -77,10 +76,7 @@ const Xcode = memo(() => {
   const queryFilepath = decodeURIComponent(query.get('filepath') || '');
   const projectId = params.id!;
   const auth = useAuth();
-  const [state, dispatch] = useReducer(
-    xcodeReducer<XcodeIntialState>,
-    initialState
-  );
+  const [state, setState] = useState(initialState);
   const [files, setfiles] = useState<FileType[] | null>(null);
   const [projectDetail, setProjectDetail] = useState<ProjectDetailType>(null);
   const [filepath, setFilePath] = useState(queryFilepath || '/');
@@ -163,7 +159,10 @@ const Xcode = memo(() => {
     const { receivedLength, length } = payload;
     const value = Number(((receivedLength / length) * 100).toFixed(2));
     if (isNaN(value)) return;
-    dispatch({ type: 'SET_PROGRESS', data: value });
+    setState({
+      ...state,
+      progress: value,
+    });
     return value;
   };
 
@@ -317,9 +316,12 @@ const Xcode = memo(() => {
           <Modal
             heading={`Downloading...`}
             headerIcon={<i className='bx bx-cloud-download'></i>}
-            show={state?.showDownload}
+            show={state?.showDownload || true}
             onClose={() => {
-              dispatch({ type: 'SET_DOWNLOAD', data: false });
+              setState({
+                ...state,
+                showDownload: false,
+              });
             }}
             body={
               <div className={`download-wrap`}>
@@ -478,10 +480,7 @@ const Xcode = memo(() => {
                           </a>
                           <div className='dropdown-menu dropdown-menu-right'>
                             <Suspense fallback={<Loading />}>
-                              <ProjectConfig
-                                isAuthor={isAuthor}
-                                dispatch={dispatch}
-                              />
+                              <ProjectConfig isAuthor={isAuthor} />
                             </Suspense>
                           </div>
                         </div>
@@ -502,10 +501,7 @@ const Xcode = memo(() => {
                           </DropdownToggle>
                           <DropdownMenu position='after'>
                             <Suspense fallback={<Loading />}>
-                              <ProjectConfig
-                                isAuthor={isAuthor}
-                                dispatch={dispatch}
-                              />
+                              <ProjectConfig isAuthor={isAuthor} />
                             </Suspense>
                           </DropdownMenu>
                         </Dropdown>

@@ -5,15 +5,13 @@ import { useParams } from 'react-router-dom';
 import { downloadProject } from '../../../services/project';
 import { useAuth } from '../../../providers/Auth';
 import { useNotification } from '../../../providers/Notification';
-import { XcodeReducerActionType } from '../../../reducers/xcodeReducer';
 import { siteUrl } from '../../../constants';
 import QRCode from '../../ui/QRCode';
 
 type ProjectConfigType = {
   isAuthor: boolean;
-  dispatch: React.Dispatch<XcodeReducerActionType>;
 };
-const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
+const ProjectConfig = ({ isAuthor }: ProjectConfigType) => {
   const { modal } = useModal();
   const params = useParams();
   const auth = useAuth();
@@ -23,7 +21,7 @@ const ProjectConfig = ({ isAuthor, dispatch }: ProjectConfigType) => {
 
   const downloadHandler = async (id: string) => {
     if (!(isAuthor || auth?.user?.type === 1)) return;
-    let data = await downloadProject(id, dispatch);
+    let data = await downloadProject(id);
     if (data?.type === 'error')
       return notification.add({
         type: 'error',

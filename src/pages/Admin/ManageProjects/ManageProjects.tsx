@@ -1,55 +1,57 @@
-import React, { Suspense, useEffect, useReducer, useRef } from 'react';
+import React, {
+  Suspense,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import Projects from '../../../components/project/Projects';
 import If from '../../../components/hoc/If';
-import homeReducer from '../../../reducers/homeReducer';
-import { ProjectsState } from '../../AllProjects/AllProjects';
 import { getProjects } from '../../../services/project';
+import { useProject } from '../../../providers/ProjectProvider';
+import { useNotification } from '../../../providers/Notification';
 
 const Pagination = React.lazy(
   () => import('../../../components/ui/Pagination')
 );
 
-type ManagePropjectState = Omit<ProjectsState, 'filterTags' | 'filterCount'>;
+export type ProjectsState = {
+  pageNo: number;
+  limit: number;
+  filterTags: string;
+  filterCount: number;
+};
 
-const initialState: ManagePropjectState = {
-  projects: [],
+const initialState: ProjectsState = {
   pageNo: 1,
-  limit: 10,
-  totalProjects: 0,
-  nodata: false,
-  showDownload: false,
-  progress: 0,
-  loading: true,
+  filterTags: '',
+  filterCount: 1,
+  limit: 5,
 };
 
 const ManageProjects = () => {
+  const projects = useProject();
+  const notification = useNotification();
   const projectRef = useRef<HTMLDivElement>(null);
-  const [state, dispatch] = useReducer(
-    homeReducer<ManagePropjectState>,
-    initialState
-  );
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
     (async () => {
+      projects.projects.setLoading();
       try {
         const result = await getProjects({
           pageNo: state.pageNo,
           limit: state.limit,
         });
-        const projects = result.data;
-        if (projects && projects?.length > 0) {
-          dispatch({
-            type: 'SET_TOTAL_PROJECTS',
-            data: result.totalCount,
-          });
-          dispatch({ type: 'SET_PROJECTS', data: projects });
-        } else {
-          dispatch({ type: 'SET_NO_DATA', data: true });
+        if ('error' in result) {
+          return notification.error(result.message);
         }
+        const data = result.data;
+        projects.projects.setTotal(result.totalCount);
+        projects.projects.set(data);
       } catch (e) {
-        dispatch({ type: 'SET_NO_DATA', data: true });
+        if (e instanceof Error) return notification.error(e.message);
       } finally {
-        dispatch({ type: 'SET_LOADING', data: false });
         if (projectRef && projectRef.current) {
           projectRef.current.scrollIntoView({ behavior: 'smooth' });
         }
@@ -58,8 +60,11 @@ const ManageProjects = () => {
   }, [state.pageNo, state.limit]);
 
   const onPagination = (pageNo: number) => {
-    dispatch({ type: 'SET_LOADING', data: true });
-    dispatch({ type: 'SET_PAGE_NO', data: pageNo });
+    projects.projects.setLoading();
+    setState({
+      ...state,
+      pageNo,
+    });
     if (projectRef && projectRef.current) {
       projectRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -98,21 +103,21 @@ const ManageProjects = () => {
             <Projects
               layout='row'
               filterTags=''
-              projects={state?.projects}
-              nodata={state?.nodata}
+              projects={projects.projects.list}
+              nodata={projects.projects.count === 0}
             />
           </tbody>
         </table>
       </div>
-      <If cond={state?.totalProjects > state?.projects?.length}>
+      <If cond={projects.projects.total > projects.projects.count}>
         <div className='row'>
           <div className='col-md-12' style={{ textAlign: 'right' }}>
-            <If cond={state.projects.length > 0}>
+            <If cond={projects.projects.count > 0}>
               <Suspense fallback={''}>
                 <Pagination
                   pageNo={state.pageNo}
                   limit={state.limit}
-                  total={state.totalProjects}
+                  total={projects.projects.total}
                   onPagination={onPagination}
                 />
               </Suspense>

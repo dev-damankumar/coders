@@ -1,8 +1,5 @@
 import downloadjs from 'downloadjs';
-import { Dispatch } from 'react';
-import { HomeReducerActionType } from '../reducers/homeReducer';
 import { AxiosResponse, isAxiosError } from 'axios';
-import { XcodeReducerActionType } from '../reducers/xcodeReducer';
 import {
   FailedResponse,
   Project,
@@ -16,13 +13,10 @@ import http from '../utils/http';
 
 const token = localStorage.getItem('token');
 
-export const downloadProject = (
-  id: string,
-  dispatch: Dispatch<XcodeReducerActionType>
-) => {
+export const downloadProject = (id: string) => {
   let filename: string;
-  dispatch({ type: 'SET_PROGRESS', data: 0 });
-  dispatch({ type: 'SET_DOWNLOAD', data: true });
+  // dispatch({ type: 'SET_PROGRESS', data: 0 });
+  // dispatch({ type: 'SET_DOWNLOAD', data: true });
   return fetch(`${baseURL}/api/download-project/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -40,8 +34,8 @@ export const downloadProject = (
       while (true) {
         const { done, value } = await reader.read();
         if (done) {
-          dispatch({ type: 'SET_PROGRESS', data: 100 });
-          dispatch({ type: 'SET_DOWNLOAD', data: false });
+          // dispatch({ type: 'SET_PROGRESS', data: 100 });
+          // dispatch({ type: 'SET_DOWNLOAD', data: false });
           break;
         }
         const payload = { detail: { receivedLength, length, done } };
@@ -168,12 +162,14 @@ export const getProjects = async ({
 }: {
   pageNo: number;
   limit: number;
-}) => {
+}): Promise<
+  (SuccessResponse<Project[]> & { totalCount: number }) | FailedResponse
+> => {
   try {
     const response: AxiosResponse<
-      SuccessResponse<ProjectDetailType[]> | FailedResponse
+      (SuccessResponse<Project[]> & { totalCount: number }) | FailedResponse
     > = await http.get(`/api/projects?pageNo=${pageNo}&limit=${limit}`);
-    return response.data as SuccessResponse<ProjectDetailType[]>;
+    return response.data as SuccessResponse<Project[]> & { totalCount: number };
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       return {
