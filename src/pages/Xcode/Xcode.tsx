@@ -1,7 +1,6 @@
 import React, {
   Suspense,
   useEffect,
-  useReducer,
   useState,
   lazy,
   memo,
@@ -12,7 +11,6 @@ import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import CheckBox from '../../components/ui/Form/CheckBox/CheckBox';
 import TableRowSkelton from '../../components/ui/Skelton/TableRowSkelton';
 import Loading from '../../components/ui/Loading';
-import ImportIcon from '../../assets/icons/ImportIcon';
 import DeleteRowIcon from '../../assets/icons/DeleteRowIcon';
 import addIcon from '../../assets/images/add.png';
 import If from '../../components/hoc/If';
@@ -33,7 +31,6 @@ import { extensions } from '../../utils/extension';
 import Dropdown from '../../components/ui/Dropdown/Dropdown';
 import DropdownToggle from '../../components/ui/Dropdown/DropdownToggle';
 import DropdownMenu from '../../components/ui/Dropdown/DropdownMenu';
-import DropdownMenuItem from '../../components/ui/Dropdown/DropdownMenuItem';
 
 const ProjectConfig = lazy(
   () => import('../../components/project/ProjectConfig/ProjectConfig')
@@ -311,39 +308,6 @@ const Xcode = memo(() => {
           />
         </Suspense>
       </If>
-      <If cond={isStandardAndAbove}>
-        <Suspense fallback={<Loading />}>
-          <Modal
-            heading={`Downloading...`}
-            headerIcon={<i className='bx bx-cloud-download'></i>}
-            show={state?.showDownload || true}
-            onClose={() => {
-              setState({
-                ...state,
-                showDownload: false,
-              });
-            }}
-            body={
-              <div className={`download-wrap`}>
-                <p className={`confirm-msg`}>
-                  Your file is downloading. It will take some time please
-                  wait...
-                </p>
-                <ImportIcon />
-                <div className='progress'>
-                  <div
-                    className='progress-bar'
-                    style={{ width: state?.progress + `%` }}
-                  >
-                    {state?.progress}%
-                  </div>
-                </div>
-              </div>
-            }
-          />
-        </Suspense>
-      </If>
-
       <If cond={isStandardAndAbove && openCreateFile}>
         <Modal
           onClose={() => {
@@ -480,7 +444,7 @@ const Xcode = memo(() => {
                           </a>
                           <div className='dropdown-menu dropdown-menu-right'>
                             <Suspense fallback={<Loading />}>
-                              <ProjectConfig isAuthor={isAuthor} />
+                              <ProjectConfig />
                             </Suspense>
                           </div>
                         </div>
@@ -501,7 +465,7 @@ const Xcode = memo(() => {
                           </DropdownToggle>
                           <DropdownMenu position='after'>
                             <Suspense fallback={<Loading />}>
-                              <ProjectConfig isAuthor={isAuthor} />
+                              <ProjectConfig />
                             </Suspense>
                           </DropdownMenu>
                         </Dropdown>

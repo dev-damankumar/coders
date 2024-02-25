@@ -308,6 +308,11 @@ a:hover {
   transition: none;
 }
 
+span.progress-span {
+  padding-left: 10px;
+  text-shadow: 0 0 3px black;
+}
+
 .main-file-wrap p {
   font-size: 15px;
   margin-top: 6px;

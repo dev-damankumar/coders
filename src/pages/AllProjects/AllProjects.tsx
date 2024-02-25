@@ -8,7 +8,6 @@ import Projects from '../../components/project/Projects';
 import { useProject } from '../../providers/ProjectProvider';
 import { useNotification } from '../../providers/Notification';
 
-const Modal = React.lazy(() => import('../../components/ui/Modal/Modal'));
 const Pagination = React.lazy(() => import('../../components/ui/Pagination'));
 
 export type ProjectsState = {
@@ -58,9 +57,6 @@ const AllProjects = React.memo(() => {
     if (projectRef && projectRef.current) {
       projectRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-    window.addEventListener('fetch-progress', (e: any) => {
-      setProgressbarValue(e.detail);
-    });
   }, []);
 
   useEffect(() => {
@@ -87,19 +83,6 @@ const AllProjects = React.memo(() => {
     })();
   }, [state.pageNo, state.limit]);
 
-  const setProgressbarValue = (payload: {
-    receivedLength: number;
-    length: number;
-    done: boolean;
-  }) => {
-    const { receivedLength, length } = payload;
-    const value = Number(((receivedLength / length) * 100).toFixed(2));
-    if (!isNaN(value)) {
-      // dispatch({ type: 'SET_PROGRESS', data: value });
-      return value;
-    }
-  };
-
   const onPagination = (pageNo: number) => {
     projects.projects.setLoading();
     setState({
@@ -120,32 +103,6 @@ const AllProjects = React.memo(() => {
 
   return (
     <>
-      {/* <Suspense fallback={<Loading />}>
-        <Modal
-          heading={`Downloading...`}
-          headerIcon={<i className='bx bx-cloud-download' />}
-          show={state.showDownload}
-          onClose={() => {
-            dispatch({ type: 'SET_DOWNLOAD', data: false });
-          }}
-          body={
-            <div className={`download-wrap`}>
-              <p className={`confirm-msg`}>
-                Your file is downloading. It will take some time please wait...
-              </p>
-              <ImportIcon />
-              <div className='progress'>
-                <div
-                  className='progress-bar'
-                  style={{ width: state.progress + `%` }}
-                >
-                  <span className={`progress-span`}>{state.progress}%</span>
-                </div>
-              </div>
-            </div>
-          }
-        />
-      </Suspense> */}
       <section
         className='section'
         style={{ paddingTop: '10px', marginTop: '-100px' }}

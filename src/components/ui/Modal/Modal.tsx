@@ -14,6 +14,7 @@ export type ModalTypes = {
   body: React.ReactNode;
   cancelButtonText?: string;
   successButtonText?: string;
+  hideSuccessButton?: boolean;
 };
 
 const Modal = ({
@@ -29,6 +30,7 @@ const Modal = ({
   body,
   cancelButtonText,
   successButtonText,
+  hideSuccessButton = false,
 }: ModalTypes) => {
   const [showModal, setShowModal] = useState(show);
   const closeHandler = () => {
@@ -72,13 +74,16 @@ const Modal = ({
               cond={footer !== 'default'}
               else={
                 <div className={classes.footerWrapper}>
-                  <button
-                    type='button'
-                    onClick={successHandler}
-                    className='btn btn-small btn-primary'
-                  >
-                    {successButtonText ? successButtonText : 'Submit'}
-                  </button>
+                  {!hideSuccessButton && (
+                    <button
+                      type='button'
+                      onClick={successHandler}
+                      className='btn btn-small btn-primary'
+                    >
+                      {successButtonText ? successButtonText : 'Submit'}
+                    </button>
+                  )}
+
                   <button
                     className='btn btn-small btn-dark'
                     type='reset'

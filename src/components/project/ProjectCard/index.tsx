@@ -35,7 +35,7 @@ const ProjectCard = ({
   const notification = useNotification();
   const [visible, setVisibility] = useState(visibility);
   const auth = useAuth();
-  const isAuthor = author._id === auth.user?._id;
+  const isAuthor = author?._id === auth.user?._id;
 
   const setProjectPrivacy = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -82,12 +82,14 @@ const ProjectCard = ({
         </div>
         <div className='dropdown-divider' />
         <div className={classes.footer}>
-          <AuthorCard
-            id={author._id}
-            name={author.username}
-            src={author.image}
-            isAuthor={isAuthor}
-          />
+          {author && (
+            <AuthorCard
+              id={author._id}
+              name={author.username}
+              src={author.image}
+              isAuthor={isAuthor}
+            />
+          )}
           <If cond={isAuthor}>
             <IfPrimiumUser>
               <Switch

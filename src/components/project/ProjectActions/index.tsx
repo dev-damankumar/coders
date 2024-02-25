@@ -14,6 +14,8 @@ import CopyIcon from '../../../assets/icons/CopyIcon';
 import useModal from '../../../hooks/useModal';
 import { cloneProject, deleteProject } from '../../../services/project';
 import { useNotification } from '../../../providers/Notification';
+import Download from '../Download';
+import { useState } from 'react';
 
 const ProjectActions = ({
   id,
@@ -22,6 +24,7 @@ const ProjectActions = ({
   id: string;
   isAuthor: boolean;
 }) => {
+  const [startDownload, setStartDownload] = useState(false);
   const { modal } = useModal();
   const notification = useNotification();
   const cloneProjectHandler = async () => {
@@ -29,7 +32,6 @@ const ProjectActions = ({
     if ('error' in data) {
       return notification.error(data.message);
     }
-    console.log('data', data);
     notification.success(data.message);
   };
 
@@ -41,6 +43,7 @@ const ProjectActions = ({
     console.log('data', data);
     notification.success(data.message);
   };
+
   const confirmHandler = (type: 'delete' | 'clone') => {
     modal({
       heading: type === 'delete' ? 'Delete Project' : 'Clone Project',
@@ -67,69 +70,76 @@ const ProjectActions = ({
       },
     });
   };
+
+  const downloadHandler = () => {
+    setStartDownload(true);
+  };
+
   return (
-    <Dropdown position='top'>
-      <DropdownToggle>
-        <button className={classes.moreBtn}>
-          <i className='bx bx-dots-vertical-rounded' />
-        </button>
-      </DropdownToggle>
-      <DropdownMenu position='after'>
-        <DropdownMenuItem
-          onClick={() => {
-            console.log('ok');
-            confirmHandler('clone');
-          }}
-        >
-          <div className={classes.menuItem}>
-            <CopyIcon width={20} height={20} />
-            <span>Make a Copy</span>
-          </div>
-        </DropdownMenuItem>
-        <Divider />
-        <DropdownMenuItem>
-          <div className={classes.menuItem}>
-            <LinkIcon width={20} height={20} />
-            <span>Get pre-filled link</span>
-          </div>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <NavLink to={`/x-studio/${id}`}>
-            <div className={classes.menuItem}>
-              <ScriptIcon width={20} height={20} />
-              <span>Coders editor</span>
-            </div>
-          </NavLink>
-        </DropdownMenuItem>
-        <Divider />
-        <DropdownMenuItem>
-          <div className={classes.menuItem}>
-            <ImportIcon width={20} height={20} />
-            <span>Download</span>
-          </div>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <NavLink to={`/admin/edit-project/${id}`}>
-            <div className={classes.menuItem}>
-              <PreIcon width={20} height={20} />
-              <span>Preferences</span>
-            </div>
-          </NavLink>
-        </DropdownMenuItem>
-        {isAuthor && (
+    <>
+      <Download id={id} start={startDownload} />
+      <Dropdown position='top'>
+        <DropdownToggle>
+          <button className={classes.moreBtn}>
+            <i className='bx bx-dots-vertical-rounded' />
+          </button>
+        </DropdownToggle>
+        <DropdownMenu position='after'>
           <DropdownMenuItem
             onClick={() => {
-              confirmHandler('delete');
+              confirmHandler('clone');
             }}
           >
             <div className={classes.menuItem}>
-              <BinIcon width={20} height={20} />
-              <span>Move to bin</span>
+              <CopyIcon width={20} height={20} />
+              <span>Make a Copy</span>
             </div>
           </DropdownMenuItem>
-        )}
-      </DropdownMenu>
-    </Dropdown>
+          <Divider />
+          <DropdownMenuItem>
+            <div className={classes.menuItem}>
+              <LinkIcon width={20} height={20} />
+              <span>Get pre-filled link</span>
+            </div>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <NavLink to={`/x-studio/${id}`}>
+              <div className={classes.menuItem}>
+                <ScriptIcon width={20} height={20} />
+                <span>Coders editor</span>
+              </div>
+            </NavLink>
+          </DropdownMenuItem>
+          <Divider />
+          <DropdownMenuItem onClick={downloadHandler}>
+            <div className={classes.menuItem}>
+              <ImportIcon width={20} height={20} />
+              <span>Download</span>
+            </div>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <NavLink to={`/admin/edit-project/${id}`}>
+              <div className={classes.menuItem}>
+                <PreIcon width={20} height={20} />
+                <span>Preferences</span>
+              </div>
+            </NavLink>
+          </DropdownMenuItem>
+          {isAuthor && (
+            <DropdownMenuItem
+              onClick={() => {
+                confirmHandler('delete');
+              }}
+            >
+              <div className={classes.menuItem}>
+                <BinIcon width={20} height={20} />
+                <span>Move to bin</span>
+              </div>
+            </DropdownMenuItem>
+          )}
+        </DropdownMenu>
+      </Dropdown>
+    </>
   );
 };
 

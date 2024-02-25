@@ -2,35 +2,19 @@ import { useState } from 'react';
 import classes from './ProjectConfig.module.css';
 import useModal from '../../../hooks/useModal';
 import { useParams } from 'react-router-dom';
-import { downloadProject } from '../../../services/project';
-import { useAuth } from '../../../providers/Auth';
-import { useNotification } from '../../../providers/Notification';
 import { siteUrl } from '../../../constants';
 import QRCode from '../../ui/QRCode';
+import Download from '../Download';
 
-type ProjectConfigType = {
-  isAuthor: boolean;
-};
-const ProjectConfig = ({ isAuthor }: ProjectConfigType) => {
+const ProjectConfig = () => {
   const { modal } = useModal();
   const params = useParams();
-  const auth = useAuth();
-  const notification = useNotification();
   const projectId = params.id!;
-  let [isCopy, setCopy] = useState(false);
+  const [isCopy, setCopy] = useState(false);
+  const [startDownload, setStartDownload] = useState(false);
 
-  const downloadHandler = async (id: string) => {
-    if (!(isAuthor || auth?.user?.type === 1)) return;
-    let data = await downloadProject(id);
-    if (data?.type === 'error')
-      return notification.add({
-        type: 'error',
-        message: data.message,
-      });
-    notification.add({
-      type: 'error',
-      message: data.message,
-    });
+  const downloadHandler = async () => {
+    setStartDownload(true);
   };
 
   const scanQr = () => {
@@ -42,7 +26,8 @@ const ProjectConfig = ({ isAuthor }: ProjectConfigType) => {
     });
   };
   return (
-    <div className='project-congfig-div'>
+    <div className='project-config-div'>
+      <Download id={projectId} start={startDownload} />
       <div className={`download-div ${classes['download-div']}`}>
         <p>
           <i className='bx bx-code-block' /> Clone
@@ -78,7 +63,7 @@ const ProjectConfig = ({ isAuthor }: ProjectConfigType) => {
       <div className='dropdown-divider' />
       <a
         href='#'
-        onClick={() => downloadHandler(projectId)}
+        onClick={() => downloadHandler()}
         className={classes['download-item']}
       >
         <i className='bx bxs-download' />
